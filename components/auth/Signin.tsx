@@ -8,12 +8,15 @@ import { Label } from "@/components/ui/label";
 import { signInSchema } from "@/schemas/formSchemas";
 import { z } from "zod";
 import Link from "next/link";
+import { signin } from "@/app/actions";
+import { redirect } from 'next/navigation'
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
 export function Signin() {
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
 
     const {
         register,
@@ -23,15 +26,21 @@ export function Signin() {
         resolver: zodResolver(signInSchema), // Connects Zod schema to React Hook Form
     });
 
-    const onSubmit = (data: SignInFormData) => {
-        console.log(data);
+    const onSubmit = async (data: SignInFormData) => {
         setIsSubmitting(true);
+        const response = await signin(data);
+        setIsSubmitting(false);
+        if (response.success) {
+            redirect('/dashboard');
+        } else {
+            setMessage(response.msg.message);
+        }
     }
 
     return (
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
-
+                {message && <span className="err text-sm">{message}</span>}
                 <div className="grid gap-3">
                     <Label htmlFor="email">Email</Label>
                     <Input {...register("email")}

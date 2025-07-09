@@ -121,4 +121,14 @@
   }
 }
 
-.err{color:#c21313;}
+body {
+  font-family: Figtree, ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+}
+
+.err {
+  color: #c21313;
+}
+.act {
+  background: #23477d !important;
+}
