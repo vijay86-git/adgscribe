@@ -1,22 +1,28 @@
 'use client';
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signInSchema } from "@/schemas/formSchemas";
+import { z } from "zod";
+
+type SignInFormData = z.infer<typeof signInSchema>;
 
 export function Signin() {
+
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({
+    } = useForm<SignInFormData>({
         resolver: zodResolver(signInSchema), // Connects Zod schema to React Hook Form
     });
 
-    const onSubmit = (data: any) => console.log(data);
+    const onSubmit = (data: SignInFormData) => console.log(data);
 
     return (
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
@@ -55,7 +61,7 @@ export function Signin() {
                         type="submit"
                         className={`w-full`}
                     >
-                        Lets get started
+                        Submit
                     </Button>
                     <Button variant="outline" className="w-full">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
