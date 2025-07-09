@@ -1,5 +1,5 @@
 'use client';
-//import { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -7,12 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signInSchema } from "@/schemas/formSchemas";
 import { z } from "zod";
+import Link from "next/link";
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
 export function Signin() {
 
-    //const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const {
         register,
@@ -22,7 +23,10 @@ export function Signin() {
         resolver: zodResolver(signInSchema), // Connects Zod schema to React Hook Form
     });
 
-    const onSubmit = (data: SignInFormData) => console.log(data);
+    const onSubmit = (data: SignInFormData) => {
+        console.log(data);
+        setIsSubmitting(true);
+    }
 
     return (
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
@@ -35,23 +39,25 @@ export function Signin() {
                         type="email"
                         placeholder=""
                         defaultValue="vijay.singh@adgonline.in"
+                        disabled={isSubmitting}
                     />
                     {errors.email && <span className="err text-sm">{errors.email.message}</span>}
                 </div>
                 <div className="grid gap-3">
                     <div className="flex items-center">
                         <Label htmlFor="password">Password</Label>
-                        <a
-                            href="/forgot-password"
+                        <Link
+                            href={'/forgot-password'}
                             className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                         >
                             Forgot your password?
-                        </a>
+                        </Link>
                     </div>
                     <Input
                         id="password"
                         type="password"
                         defaultValue="12345678"
+                        disabled={isSubmitting}
                         {...register("password")}
                     />
                     {errors.password && <span className="err text-sm">{errors.password.message}</span>}
@@ -60,8 +66,9 @@ export function Signin() {
                     <Button
                         type="submit"
                         className={`w-full`}
+                        disabled={isSubmitting}
                     >
-                        Submit
+                        {isSubmitting ? "Just a moment" : "Submit"}
                     </Button>
                     <Button variant="outline" className="w-full">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -76,10 +83,10 @@ export function Signin() {
             </div>
             <div className="mt-4 text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="/signup" className="underline underline-offset-4">
+                <Link href="/signup" className="underline underline-offset-4">
                     Sign up
-                </a>
+                </Link>
             </div>
-        </form>
+        </form >
     );
 }
