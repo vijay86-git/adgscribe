@@ -45,14 +45,6 @@ const iconMapping = {
 
 type IconName = keyof typeof iconMapping;
 
-interface Item {
-    icon: IconName;
-    className?: string;
-    title: string;
-    url: string;
-    isActive: boolean;
-}
-
 // This is sample data.
 const data = {
     versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],

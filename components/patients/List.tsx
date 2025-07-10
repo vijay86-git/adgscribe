@@ -1,6 +1,5 @@
 'use client'
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { Table, TableHeader, TableHead, TableBody, TableRow } from "@/components/ui/table"
 import Paging from '@/components/patients/Paging'
 import PatientRow from '@/components/patients/PatientRow'
