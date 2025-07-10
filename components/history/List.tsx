@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { Table, TableHeader, TableHead, TableBody, TableRow } from "@/components/ui/table"
 import Paging from '@/components/history/Paging'
-import List from '@/components/history/List'
+import HistoryRow from '@/components/history/HistoryRow'
 import Search from '@/components/history/Search'
-import { History, Pagination } from '@/components/history/Types'
+import { History, Pagination, SearchRequestBody } from '@/components/history/Types'
 
-export default function Histories() {
+import { getHistories } from "@/app/actions";
+
+export default function List() {
 
     const [search, setSearch] = useState<string>('');
     const [debouncedQuery, setDebouncedQuery] = useState("");
@@ -22,11 +24,18 @@ export default function Histories() {
             },
             body: JSON.stringify({ page, q: encodeURIComponent(debouncedQuery) }),
         });
-        const response = await res.json();
+
+        const requestBody: SearchRequestBody = {
+            page,
+            q: encodeURIComponent(debouncedQuery),
+        };
+
+        const response = await getHistories(requestBody);
+
         if (response.success) {
             setLoading(false);
-            setHistories(response.data.histories.data);
-            setPagination(response.data.histories);
+            setHistories(response.res.histories.data);
+            setPagination(response.res.histories);
         }
     };
 
@@ -79,12 +88,9 @@ export default function Histories() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-
-                        <List histories={histories} pagination={pagination} loading={loading} />
-
+                        <HistoryRow histories={histories} pagination={pagination} loading={loading} />
                     </TableBody>
                 </Table>
-
             </div>
             <div className="mt-5">
                 <Paging histories={histories} pagination={pagination} changePage={changePage} />

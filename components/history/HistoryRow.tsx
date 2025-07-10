@@ -3,7 +3,7 @@ import { Edit, Trash } from "lucide-react";
 import Skeleton from '@/components/history/Skeleton'
 import { ListProps } from '@/components/history/Types'
 
-const List = ({ loading, histories, pagination }: ListProps) => {
+const HistoryRow = ({ loading, histories, pagination }: ListProps) => {
 
     if (loading) return <Skeleton />;
 
@@ -25,4 +25,4 @@ const List = ({ loading, histories, pagination }: ListProps) => {
             </TableRow>)))
 }
 
-export default List;
+export default HistoryRow;

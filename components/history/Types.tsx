@@ -41,6 +41,11 @@ export interface ChangePageFn {
     (page: number): void;
 }
 
+export type SearchRequestBody = {
+    page: number;
+    q: string;
+};
+
 export interface PagingProps {
     histories: History[];
     pagination: Pagination;
