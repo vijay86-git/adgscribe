@@ -68,6 +68,25 @@ export async function getDoctors(body: SearchRequestBody) {
     } catch (err) {
         return { success: false, msg: { message: "Something went wrong! Try again" } };
     }
+}
+
+export async function getPatients(body: SearchRequestBody) {
+    try {
+        const resp: Response = await apiFetch(`/patients`, {
+            method: 'POST',
+            body: JSON.stringify(body)
+        });
+        if (resp.ok) {
+            const data = await resp.json();
+            return { success: true, res: data };
+        } else {
+            const msg = await resp.json();
+            return { success: false, msg: "Something went wrong! Try again" };
+        }
+    } catch (err) {
+        return { success: false, msg: { message: "Something went wrong! Try again" } };
+    }
 
 
 }
+

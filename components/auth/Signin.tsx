@@ -28,6 +28,7 @@ export function Signin() {
 
     const onSubmit = async (data: SignInFormData) => {
         setIsSubmitting(true);
+        setMessage("");
         const response = await signin(data);
         setIsSubmitting(false);
         if (response.success) {

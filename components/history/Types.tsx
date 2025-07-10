@@ -1,21 +1,20 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export interface Doctor {
-    id: number;
-    name: string;
-    email: string;
+export interface History {
+    personal_health_number: string;
+    patient_id: string;
+    patient_name: string;
     created_at: string;
+    uuid: string;
+    contact_number: string;
 }
-export type SearchRequestBody = {
-    page: number;
-    q: string;
-};
 
 export interface Link {
     url: string | null;
     label: string;
     active: boolean;
 }
+
 
 export interface Pagination {
     current_page: number;
@@ -33,8 +32,8 @@ export interface Pagination {
 }
 
 export interface ListProps {
-    initial: boolean
-    doctors: Doctor[];
+    loading: boolean;
+    histories: History[];
     pagination: Pagination;
 }
 
@@ -43,7 +42,7 @@ export interface ChangePageFn {
 }
 
 export interface PagingProps {
-    doctors: Doctor[];
+    histories: History[];
     pagination: Pagination;
     changePage: ChangePageFn
 }
@@ -52,5 +51,5 @@ export type SetSearchFn = Dispatch<SetStateAction<string>>;
 
 export interface SearchProps {
     search: string;
-    setSearch: SetSearchFn;
+    setSearch: SetSearchFn
 }
