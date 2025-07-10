@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from "@/components/ui/table"
-import { Edit, Trash } from "lucide-react";
+import { Edit, Trash, Eye } from "lucide-react";
 import Skeleton from '@/components/history/Skeleton'
 import { ListProps } from '@/components/history/Types'
 
@@ -18,8 +18,7 @@ const HistoryRow = ({ loading, histories, pagination }: ListProps) => {
                 <TableCell className="text-center font-medium">{history.created_at} </TableCell>
                 <TableCell className="text-center">
                     <div className="flex justify-center items-center gap-2 md:flex-row">
-                        <Edit size={18} className="w-5 h-5 text-green-700 cursor-pointer" />
-                        <Trash size={18} className="w-5 h-5 text-red-700 cursor-pointer" />
+                        <Eye size={18} className="w-5 h-5 text-green-700 cursor-pointer" />
                     </div>
                 </TableCell>
             </TableRow>)))
