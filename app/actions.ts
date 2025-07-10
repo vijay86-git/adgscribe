@@ -103,7 +103,7 @@ export async function getHistories(body: SearchRequestBody) {
     }
 }
 
-export async function logs(body: SearchRequestBody) {
+export async function getLogs(body: SearchRequestBody) {
     try {
         const resp: Response = await apiFetch(`/logs`, {
             method: 'POST',

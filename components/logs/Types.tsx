@@ -50,6 +50,11 @@ export interface PagingProps {
     changePage: ChangePageFn
 }
 
+export type SearchRequestBody = {
+    page: number;
+    q: string;
+};
+
 export type SetSearchFn = Dispatch<SetStateAction<string>>;
 
 export interface SearchProps {

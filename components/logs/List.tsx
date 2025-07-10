@@ -4,7 +4,8 @@ import { Table, TableHeader, TableHead, TableBody, TableRow } from "@/components
 import Paging from '@/components/logs/Paging'
 import LogRow from '@/components/logs/LogRow'
 import Search from '@/components/logs/Search'
-import { Log, Pagination } from '@/components/logs/Types'
+import { Log, Pagination, SearchRequestBody } from '@/components/logs/Types'
+import { getLogs } from "@/app/actions";
 
 export default function Logs() {
 
@@ -15,18 +16,17 @@ export default function Logs() {
     const [pagination, setPagination] = useState<Pagination>({ current_page: 1, first_page_url: null, from: 0, last_page: 1, last_page_url: null, links: [], next_page_url: null, path: null, per_page: 10, prev_page_url: null, to: 0, total: 0 });
 
     const fetchLogs = async (page = 1, debouncedQuery = '') => {
-        const res = await fetch(`/api/logs`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ page, q: encodeURIComponent(debouncedQuery) }),
-        });
-        const response = await res.json();
+
+        const requestBody: SearchRequestBody = {
+            page,
+            q: encodeURIComponent(debouncedQuery),
+        };
+
+        const response = await getLogs(requestBody);
         if (response.success) {
             setLoading(false);
-            setLogs(response.data.logs.data);
-            setPagination(response.data.logs);
+            setLogs(response.res.logs.data);
+            setPagination(response.res.logs);
         }
     };
 
