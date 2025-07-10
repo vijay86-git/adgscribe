@@ -101,11 +101,25 @@ export async function getHistories(body: SearchRequestBody) {
     } catch {
         return { success: false, msg: { message: "Something went wrong! Try again" } };
     }
-
-
-
-
-
 }
+
+export async function logs(body: SearchRequestBody) {
+    try {
+        const resp: Response = await apiFetch(`/logs`, {
+            method: 'POST',
+            body: JSON.stringify(body)
+        });
+        if (resp.ok) {
+            const data = await resp.json();
+            return { success: true, res: data };
+        } else {
+            return { success: false, msg: "Something went wrong! Try again" };
+        }
+    } catch {
+        return { success: false, msg: { message: "Something went wrong! Try again" } };
+    }
+}
+
+
 
 
