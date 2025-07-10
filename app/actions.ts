@@ -46,7 +46,7 @@ export async function signin(formData: SignInFormData) {
             const msg = await resp.json();
             return { success: false, msg };
         }
-    } catch (err) {
+    } catch {
         return { success: false, msg: { message: "Something went wrong! Try again" } };
     }
 }
@@ -62,10 +62,9 @@ export async function getDoctors(body: SearchRequestBody) {
             const data = await resp.json();
             return { success: true, res: data };
         } else {
-            const msg = await resp.json();
             return { success: false, msg: "Something went wrong! Try again" };
         }
-    } catch (err) {
+    } catch {
         return { success: false, msg: { message: "Something went wrong! Try again" } };
     }
 }
@@ -80,10 +79,9 @@ export async function getPatients(body: SearchRequestBody) {
             const data = await resp.json();
             return { success: true, res: data };
         } else {
-            const msg = await resp.json();
             return { success: false, msg: "Something went wrong! Try again" };
         }
-    } catch (err) {
+    } catch {
         return { success: false, msg: { message: "Something went wrong! Try again" } };
     }
 

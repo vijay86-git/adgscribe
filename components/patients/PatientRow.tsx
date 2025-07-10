@@ -1,4 +1,4 @@
-import { Table, TableHeader, TableHead, TableBody, TableCell, TableRow } from "@/components/ui/table"
+import { TableCell, TableRow } from "@/components/ui/table"
 import { Badge } from '@/components/ui/badge'
 import { Edit, Trash } from "lucide-react";
 import Skeleton from '@/components/patients/Skeleton'

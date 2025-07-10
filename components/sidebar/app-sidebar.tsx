@@ -1,13 +1,6 @@
 import * as React from "react"
 import {
-    Bell,
-    CircleUser,
     Home,
-    LineChart,
-    Menu,
-    Package,
-    Package2,
-    ShoppingCart,
     Users,
     Settings,
     List,
@@ -164,8 +157,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <Sidebar {...props}>
             <SidebarHeader>
                 <VersionSwitcher
-                    versions={data.versions}
-                    defaultVersion={data.versions[0]}
                 />
             </SidebarHeader>
             <SidebarContent>

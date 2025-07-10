@@ -1,9 +1,7 @@
-import { Table, TableHeader, TableHead, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import { Badge } from '@/components/ui/badge'
+import { TableCell, TableRow } from "@/components/ui/table"
 import { Edit, Trash } from "lucide-react";
-import Skeleton from '@/components/history/skeleton'
-
-import { ListProps } from '@/components/history/types'
+import Skeleton from '@/components/history/Skeleton'
+import { ListProps } from '@/components/history/Types'
 
 const List = ({ loading, histories, pagination }: ListProps) => {
 
