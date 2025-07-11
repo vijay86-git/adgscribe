@@ -1,12 +1,9 @@
 import Header from "@/components/header"
 import {
-    SidebarInset,
-    SidebarProvider,
-    SidebarTrigger,
+    SidebarInset
 } from "@/components/ui/sidebar"
 
 import Profile from '@/components/user/profile'
-
 import labels from '@/lib/labels'
 
 export default async function Page() {

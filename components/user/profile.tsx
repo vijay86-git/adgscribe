@@ -1,66 +1,43 @@
 'use client'
 import React, { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { z } from "zod";
-import { userProfileFormSchema } from "@/schemas/userProfileSchema";
-import { Loader2 } from "lucide-react";
-type FormData = z.infer<typeof userProfileFormSchema>;
-type FormErrors = Partial<Record<keyof FormData, string[]>>;
-type FormValidationErrors = {
-    [field: string]: string[];
-};
+import { userProfileFormSchema, UserProfileFormSchema } from "@/schemas/userProfileSchema";
+import { Loader2, Check } from "lucide-react";
+import { updateProfile, getUserDetail } from "@/app/actions";
 
-export default function Profile({
-    className,
-    ...props
-}: React.ComponentProps<"div">) {
+export default function Profile() {
 
-    const [formError, setFormErrors] = useState<FormValidationErrors>({});
-    const [errors, setErrors] = useState<FormErrors>({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isloading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState("");
-    const [updateMsg, setUpdateMsg] = useState(false);
-    const [formData, setFormData] = useState<FormData>({ name: '', email: '', password: '', confirm_password: '' });
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isloading, setIsLoading] = useState<boolean>(false);
+    const [serverMessage, setServerMessage] = useState<string>("");
+    const [updateMsg, setUpdateMsg] = useState<boolean>(false);
 
-    const validateForm = (data: FormData): FormErrors => {
-        try {
-            userProfileFormSchema.parse(data);
-            return {};
-        } catch (error) {
-            if (error instanceof z.ZodError) {
-                return error.flatten().fieldErrors;
-            }
-            return {};
-        }
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
+    const {
+        handleSubmit,
+        control,
+        setValue,
+        formState: { errors },
+    } = useForm<UserProfileFormSchema>({
+        resolver: zodResolver(userProfileFormSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+            confirm_password: ""
+        },// Connects Zod schema to React Hook Form
+    });
 
     const getUserInfo = async () => {
-        const res = await fetch(`/api/user`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const response = await res.json();
+        const response = await getUserDetail();
         if (response.success) {
-            const { name, email } = response.data;
-            setFormData((prev) => ({ ...prev, name, email }));
+            const { name, email } = response.data.user;
+            setValue("name", name, { shouldValidate: true });
+            setValue("email", email, { shouldValidate: true });
             setIsLoading(false);
-        }
-
-        if (response?.form_validation) {
-            setErrors(response.form_validation);
         }
     };
 
@@ -69,151 +46,75 @@ export default function Profile({
         getUserInfo();
     }, []);
 
-    async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-
-        const newErrors = validateForm(formData);
-        setErrors(newErrors);
-        if (Object.keys(newErrors).length === 0) {
-
-            setFormErrors({});
-
-            try {
-                setServerMessage('');
-                setIsSubmitting(true);
-                const res = await fetch(`/api/user`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formData),
-                });
-
-                const data = await res.json();
-                setIsSubmitting(false);
-                if (data.success) {
-                    setUpdateMsg(true);
-                    setFormData((prev) => ({ ...prev, password: '', conform_password: '' }));
-                }
-
-                if (data?.msg?.errors) {
-                    setFormErrors(data.msg.errors);
-                }
-
-                if (data?.msg?.message) {
-                    setServerMessage(data.msg.message);
-                }
-
-                // else {
-                // 	if (typeof data?.form_validation != "undefined") {
-                // 		setFormErrors(data.form_validation);
-                // 	} else {
-                // 		setServerMessage(data.msg.message);
-                // 	}
-
-                //}
-            } catch (err: unknown) {
-                setIsSubmitting(false);
-                if (err instanceof Error) {
-                    setServerMessage(err.message); // // works, `e` narrowed to string
-                } else if (e instanceof Error) {
-                    setServerMessage("Oops! Something went wrong"); // works, `e` narrowed to Error
-                }
-            }
+    const onSubmit = async (data: UserProfileFormSchema) => {
+        setIsSubmitting(true);
+        setUpdateMsg('');
+        setServerMessage('');
+        const response = await updateProfile(data);
+        setIsSubmitting(false);
+        if (response.success) {
+            setUpdateMsg(true);
+        } else {
+            setServerMessage("Something went wrong! Try again");
         }
     }
 
     return (
-        <form onSubmit={handleSubmit} className="border border-gray-100 rounded-lg p-4">
-            {updateMsg && (<p className="flex w-full sucBox mb-5 text-sm">Your Profile has been updated successfully!</p>)}
-            {isSubmitting && (<p className="flex w-full mb-5 text-sm"><Loader2 className="h-4 w-4 animate-spin text-gray-500 size-4" /></p>)}
-            <div className="mb-5">
-                {Object.entries(formError).map(([field, messages]) => (
-                    <div key={field}>
-                        <ul>
-                            {messages.map((msg, index) => (
-                                <li className="err text-sm" key={index}>{msg}</li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
-            </div>
-
+        <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-100 rounded-lg p-4">
+            {updateMsg && (<p className="flex w-full mb-5 text-sm font-bold vBox sucBox"><Check className="mt-1 mr-1 w-6 h-6" color="green" /> Your Profile has been updated successfully!</p>)}
+            {serverMessage && (<p className="flex w-full mb-5 text-sm font-bold vBox errBox">Something went wrong!</p>)}
+            {(isSubmitting || isloading) && (<p className="flex w-full mb-5 text-sm"><Loader2 className="h-4 w-4 animate-spin text-gray-500 size-4" /></p>)}
             <div className="flex gap-6 mb-6">
                 <div className="flex-1 w-full items-center gap-2.5">
                     <Label htmlFor="name">
                         Name<sup>*</sup>
                     </Label>
-                    <Input
-                        type="text"
-                        id="name"
-                        placeholder="Name"
-                        className="mt-2"
-                        disabled={isSubmitting}
+                    <Controller
                         name="name"
-                        autoComplete="off"
-                        value={formData.name}
-                        onChange={handleChange}
+                        control={control}
+                        render={({ field }) => (
+                            <Input {...field} placeholder="Name" />
+                        )}
                     />
-                    {errors.name && (
-                        <p className="text-red-500 text-xs">{errors.name[0]}</p>
-                    )}
+                    {errors.name && <span className="err text-sm">{errors.name.message}</span>}
                 </div>
-
                 <div className="flex-1 w-full items-center gap-2.5">
                     <Label htmlFor="email">
                         Email Address<sup>*</sup>
                     </Label>
-                    <Input
+                    <Controller
                         name="email"
-                        type="text"
-                        id="email"
-                        placeholder="Email Address"
-                        className="mt-2"
-                        disabled={isSubmitting}
-                        autoComplete="off"
-                        value={formData.email}
-                        onChange={handleChange}
+                        control={control}
+                        render={({ field }) => (
+                            <Input {...field} placeholder="Email" />
+                        )}
                     />
-                    {errors.email && (
-                        <p className="text-red-500 text-xs">{errors.email[0]}</p>
-                    )}
+                    {errors.email && <span className="err text-sm">{errors.email.message}</span>}
                 </div>
             </div>
 
             <div className="flex flex-wrap gap-6 mb-6">
                 <div className="flex-1  w-full items-center gap-1.5">
                     <Label htmlFor="password">Password</Label>
-                    <Input
-                        type="password"
-                        id="password"
-                        placeholder="Password"
-                        className="mt-2"
-                        disabled={isSubmitting}
+                    <Controller
                         name="password"
-                        autoComplete="off"
-                        onChange={handleChange}
+                        control={control}
+                        render={({ field }) => (
+                            <Input {...field} type="password" placeholder="Password" />
+                        )}
                     />
-                    {errors.password && (
-                        <p className="text-red-500 text-xs">{errors.password[0]}</p>
-                    )}
+                    {errors.password && <span className="err text-sm">{errors.password.message}</span>}
                 </div>
-
                 <div className="flex-1  w-full items-center gap-1.5">
                     <Label htmlFor="confirm_password">Confirm Password</Label>
-                    <Input
-                        type="password"
-                        id="confirm_password"
-                        placeholder="Confirm Password"
-                        className="mt-2"
-                        disabled={isSubmitting}
+                    <Controller
                         name="confirm_password"
-                        autoComplete="off"
-                        onChange={handleChange}
+                        control={control}
+                        render={({ field }) => (
+                            <Input {...field} type="password" placeholder="Confirm Password" />
+                        )}
                     />
-                    {errors.confirm_password && (
-                        <p className="text-red-500 text-xs">{errors.confirm_password[0]}</p>
-                    )}
+                    {errors.confirm_password && <span className="err text-sm">{errors.confirm_password.message}</span>}
                 </div>
             </div>
             <Button

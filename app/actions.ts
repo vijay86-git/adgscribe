@@ -1,9 +1,8 @@
 'use server'
-import { signInSchema } from "@/schemas/formSchemas";
-type SignInFormData = z.infer<typeof signInSchema>;
-import { z } from "zod";
+import { SignInFormData } from "@/schemas/formSchemas";
 import { createSession } from '@/lib/session'
 import { SearchRequestBody } from '@/components/doctors/Types';
+import { UserProfileFormSchema } from "@/schemas/userProfileSchema";
 
 export async function apiFetch<T>(
     endpoint: string,
@@ -133,4 +132,38 @@ export async function metaData() {
     } catch {
         //return { success: false, msg: { message: "Something went wrong! Try again" } };
     }
+}
+
+export async function updateProfile(formData: UserProfileFormSchema) {
+    try {
+        const resp: Response = await apiFetch(`/user/profile`, {
+            method: 'POST',
+            body: JSON.stringify(formData)
+        });
+        if (resp.ok) {
+            const data = await resp.json();
+            return { success: true, data }
+        } else {
+            console.log(await resp.json());
+            return { success: false, msg: "Something went wrong! Try again" };
+        }
+    } catch {
+        return { success: false, msg: "Something went wrong! Try again" }
+    };
+}
+
+export async function getUserDetail() {
+    try {
+        const resp: Response = await apiFetch(`/user/profile`, {
+            method: 'GET'
+        });
+        if (resp.ok) {
+            const data = await resp.json();
+            return { success: true, data };
+        } else {
+            return { success: false, msg: "Something went wrong! Try again" };
+        }
+    } catch {
+        return { success: false, msg: "Something went wrong! Try again" }
+    };
 }

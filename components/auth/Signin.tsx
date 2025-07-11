@@ -5,13 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signInSchema } from "@/schemas/formSchemas";
-import { z } from "zod";
+import { signInSchema, SignInFormData } from "@/schemas/formSchemas";
 import Link from "next/link";
 import { signin } from "@/app/actions";
 import { redirect } from 'next/navigation'
-
-type SignInFormData = z.infer<typeof signInSchema>;
 
 export function Signin() {
 
