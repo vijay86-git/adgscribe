@@ -120,6 +120,17 @@ export async function getLogs(body: SearchRequestBody) {
     }
 }
 
-
-
-
+export async function metaData() {
+    try {
+        const resp: Response = await apiFetch(`/metadata`, {
+            method: 'GET'
+        });
+        if (resp.ok) {
+            return await resp.json();
+        } else {
+            //return { success: false, msg: "Something went wrong! Try again" };
+        }
+    } catch {
+        //return { success: false, msg: { message: "Something went wrong! Try again" } };
+    }
+}
