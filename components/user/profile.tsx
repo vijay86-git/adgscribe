@@ -48,7 +48,7 @@ export default function Profile() {
 
     const onSubmit = async (data: UserProfileFormSchema) => {
         setIsSubmitting(true);
-        setUpdateMsg('');
+        setUpdateMsg(false);
         setServerMessage('');
         const response = await updateProfile(data);
         setIsSubmitting(false);
