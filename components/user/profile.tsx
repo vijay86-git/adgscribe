@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { userProfileFormSchema, UserProfileFormSchema } from "@/schemas/userProfileSchema";
-import { Loader2, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { updateProfile, getUserDetail } from "@/app/actions";
 
 export default function Profile() {
@@ -63,30 +63,30 @@ export default function Profile() {
         <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-100 rounded-lg p-4">
             {updateMsg && (<p className="flex w-full mb-5 text-sm font-bold vBox sucBox"><Check className="mt-1 mr-1 w-6 h-6" color="green" /> Your Profile has been updated successfully!</p>)}
             {serverMessage && (<p className="flex w-full mb-5 text-sm font-bold vBox errBox">Something went wrong!</p>)}
-            {(isSubmitting || isloading) && (<p className="flex w-full mb-5 text-sm"><Loader2 className="h-4 w-4 animate-spin text-gray-500 size-4" /></p>)}
+
             <div className="flex gap-6 mb-6">
                 <div className="flex-1 w-full items-center gap-2.5">
-                    <Label htmlFor="name">
+                    <Label htmlFor="name" className="mb-1">
                         Name<sup>*</sup>
                     </Label>
                     <Controller
                         name="name"
                         control={control}
                         render={({ field }) => (
-                            <Input {...field} placeholder="Name" />
+                            <Input {...field} placeholder="Name" disabled={isloading || isSubmitting} />
                         )}
                     />
                     {errors.name && <span className="err text-sm">{errors.name.message}</span>}
                 </div>
                 <div className="flex-1 w-full items-center gap-2.5">
-                    <Label htmlFor="email">
+                    <Label htmlFor="email" className="mb-1">
                         Email Address<sup>*</sup>
                     </Label>
                     <Controller
                         name="email"
                         control={control}
                         render={({ field }) => (
-                            <Input {...field} placeholder="Email" />
+                            <Input {...field} placeholder="Email" disabled={isloading || isSubmitting} />
                         )}
                     />
                     {errors.email && <span className="err text-sm">{errors.email.message}</span>}
@@ -95,23 +95,23 @@ export default function Profile() {
 
             <div className="flex flex-wrap gap-6 mb-6">
                 <div className="flex-1  w-full items-center gap-1.5">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password" className="mb-1">Password</Label>
                     <Controller
                         name="password"
                         control={control}
                         render={({ field }) => (
-                            <Input {...field} type="password" placeholder="Password" />
+                            <Input {...field} type="password" placeholder="Password" disabled={isloading || isSubmitting} />
                         )}
                     />
                     {errors.password && <span className="err text-sm">{errors.password.message}</span>}
                 </div>
                 <div className="flex-1  w-full items-center gap-1.5">
-                    <Label htmlFor="confirm_password">Confirm Password</Label>
+                    <Label htmlFor="confirm_password" className="mb-1">Confirm Password</Label>
                     <Controller
                         name="confirm_password"
                         control={control}
                         render={({ field }) => (
-                            <Input {...field} type="password" placeholder="Confirm Password" />
+                            <Input {...field} type="password" placeholder="Confirm Password" disabled={isloading || isSubmitting} />
                         )}
                     />
                     {errors.confirm_password && <span className="err text-sm">{errors.confirm_password.message}</span>}
@@ -124,7 +124,7 @@ export default function Profile() {
                     ? "opacity-50 cursor-not-allowed" : ""
                     }`}
             >
-                Update
+                {(isSubmitting || isloading) ? "just a moment..." : "Update"}
             </Button>
         </form>
     )
