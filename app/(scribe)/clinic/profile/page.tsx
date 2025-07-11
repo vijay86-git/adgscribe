@@ -12,16 +12,16 @@ import {
 
 import Basic from '@/components/clinic/Basic'
 import Optional from '@/components/clinic/Optional'
-import { metaData } from "@/app/actions";
+import { getClinicDetails, metaData } from "@/app/actions";
 
-import { MetaCol, Specialization, ClinicType, MetaDataType } from "@/components/clinic/Types";
+import { MetaCol, Specialization, ClinicProps, MetaDataType } from "@/components/clinic/Types";
 
 export default async function Page() {
 
     let countries: MetaCol[] = [];
     let designations: MetaCol[] = [];
     let specializations: Specialization[] = [];
-    let clinicDetail: ClinicType | null = null;
+    let clinicDetail: ClinicProps | null = null;
 
     // const api_base_url: string = process.env.NEXT_PUBLIC_API_BASE_URL || '';
     // const metadataUrl = await apiRoutes.metadata;
@@ -32,7 +32,7 @@ export default async function Page() {
         if (response) {
             ({ countries, designations, specializations } = response);
         }
-        //clinicDetail = await fetch(`${api_base_url}${clinicDetails}`).then(res => res.json());
+        clinicDetail = await getClinicDetails();
     } catch {
         //console.error("Failed to fetch metadata:", error);
     }
@@ -53,7 +53,7 @@ export default async function Page() {
                                 <Basic countries={countries} clinic_detail={clinicDetail} />
                             </TabsContent>
                             <TabsContent value="business">
-                                <Optional designations={designations} clinic_detail={clinicDetail} specializations={specializations} />
+                                {/* <Optional designations={designations} clinic_detail={clinicDetail} specializations={specializations} /> */}
                             </TabsContent>
                         </Tabs>)
                     }

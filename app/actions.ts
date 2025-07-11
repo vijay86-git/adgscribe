@@ -167,3 +167,18 @@ export async function getUserDetail() {
         return { success: false, msg: "Something went wrong! Try again" }
     };
 }
+
+export async function getClinicDetails() {
+    try {
+        const resp: Response = await apiFetch(`/clinic-details`, {
+            method: 'GET'
+        });
+        if (resp.ok) {
+            return await resp.json();
+        } else {
+            //return { success: false, msg: "Something went wrong! Try again" };
+        }
+    } catch {
+        //return { success: false, msg: "Something went wrong! Try again" }
+    };
+}

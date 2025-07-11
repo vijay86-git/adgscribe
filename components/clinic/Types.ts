@@ -8,28 +8,36 @@ export type Specialization = {
     label: string;
 };
 
-
-export type MetaDataType = {
-    countries: MetaCol[];
-    designations: MetaCol[];
-    specializations: Specialization[];
-};
-
-export type ClinicType = {
+export type ClinicMandatory = {
     clinic_name: string;
-    clinic_logo?: string;
     street_address: string;
     city: string;
     state: string;
     zip_code: number;
     country: string;
-    gst_no: string;
     patient_id_prefix: string;
-    image?: string;
+    clinic_logo?: string;
+    upload_clinic_logo?: File | null;
+};
+
+export type ClinicBusiness = {
     no_of_doctors?: number;
     daily_monthly_patient_footfall?: number;
     designation?: string;
     website_clinic_url?: string;
     year_establishment?: string;
     ai_filter?: string;
+};
+
+export type ClinicCountryProps = {
+    countries: MetaCol[];
+    clinic_detail: ClinicMandatory & ClinicBusiness;
+};
+
+export type ClinicProps = ClinicMandatory & ClinicBusiness;
+
+export type MetaDataType = {
+    countries: MetaCol[];
+    designations: MetaCol[];
+    specializations: Specialization[];
 };

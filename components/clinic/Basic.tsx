@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,8 +9,6 @@ import { z } from 'zod';
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -24,7 +22,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { HelpCircle, Loader2, Check, ChevronsUpDown } from "lucide-react";
+import { HelpCircle, Check, ChevronsUpDown } from "lucide-react";
 
 import {
     Command,
@@ -33,43 +31,9 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-
-import { clinicProfileMandatoryFormSchema } from "@/schemas/clinic-profile-mandatory-schema";
-
-import { MultiSelect } from "@/components/multi-select";
-
-type MetaCol1 = {
-    id: string;
-    name: string;
-};
-
-type ClinicType = {
-    clinic_name: string;
-    clinic_logo?: string;
-    upload_clinic_logo?: File | null;
-    street_address: string;
-    city: string;
-    state: string;
-    zip_code: number;
-    country: string;
-    gst_no: string;
-    patient_id_prefix: string;
-    no_of_doctors?: number;
-    daily_monthly_patient_footfall?: number;
-    designation?: string;
-    website_clinic_url?: string;
-    year_establishment?: string;
-    ai_filter?: string;
-};
+import { clinicProfileMandatoryFormSchema, ClinicProfileMandatoryFormSchema } from "@/schemas/clinicProfileMandatorySchema";
 
 import {
     Popover,
@@ -77,116 +41,217 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
+import { ClinicCountryProps } from "@/components/clinic/Types"
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-type FormData = z.infer<typeof clinicProfileMandatoryFormSchema>;
-type FormErrors = Partial<Record<keyof FormData, string[]>>;
+// type MetaCol1 = {
+//     id: string;
+//     name: string;
+// };
 
-export default function Basic({ countries, clinic_detail }: { countries: MetaCol1[], clinic_detail: ClinicType }) {
+// type ClinicType = {
+//     clinic_name: string;
+//     clinic_logo?: string;
+//     upload_clinic_logo?: File | null;
+//     street_address: string;
+//     city: string;
+//     state: string;
+//     zip_code: number;
+//     country: string;
+//     gst_no: string;
+//     patient_id_prefix: string;
+//     no_of_doctors?: number;
+//     daily_monthly_patient_footfall?: number;
+//     designation?: string;
+//     website_clinic_url?: string;
+//     year_establishment?: string;
+//     ai_filter?: string;
+// };
 
-    const { clinic_name, country, state, city, street_address, patient_id_prefix, clinic_logo, upload_clinic_logo = null } = clinic_detail;
 
-    const [formError, setFormErrors] = useState<FormErrors>({});
-    const [errors, setErrors] = useState<FormErrors>({});
-    const [loading, setLoading] = useState<boolean>(true);
-    const [msg, setMsg] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [serverMessage, setServerMessage] = useState("");
-    const [formData, setFormData] = useState<FormData>({ clinic_name, country, state, city, street_address, patient_id_prefix, upload_clinic_logo });
+//type FormData = z.infer<typeof clinicProfileMandatoryFormSchema>;
+//type FormErrors = Partial<Record<keyof FormData, string[]>>;
+
+export default function Basic({ countries, clinic_detail }: ClinicCountryProps) {
+
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isloading, setIsLoading] = useState<boolean>(false);
+    const [serverMessage, setServerMessage] = useState<string>("");
+    const [updateMsg, setUpdateMsg] = useState<boolean>(false);
+    const [open, setOpen] = useState<boolean>(false);
     const [countrySearch, setCountrySearch] = useState<string>("");
 
-    const [open, setOpen] = useState<boolean>(false)
-    //const [value, setValue] = React.useState("")
-    // 39 - canada
+    const {
+        handleSubmit,
+        control,
+        setValue,
+        formState: { errors },
+    } = useForm<ClinicProfileMandatoryFormSchema>({
+        resolver: zodResolver(clinicProfileMandatoryFormSchema),
+        defaultValues: {
+            clinic_name: "",
+            street_address: "",
+            city: "",
+            state: "",
+            country: "",
+            patient_id_prefix: ""
+        },// Connects Zod schema to React Hook Form
+    });
 
-    const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
 
-    const validateForm = (data: FormData): FormErrors => {
-
-        try {
-            clinicProfileMandatoryFormSchema.parse(data);
-            return {};
-        } catch (error) {
-            if (error instanceof z.ZodError) {
-                return error.flatten().fieldErrors;
-            }
-            return {};
+    // When clinic_detail changes, update form values
+    useEffect(() => {
+        if (clinic_detail) {
+            setValue("clinic_name", clinic_detail.clinic_name || "");
+            setValue("street_address", clinic_detail.street_address || "");
+            setValue("city", clinic_detail.city || "");
+            setValue("state", clinic_detail.state || "");
+            setValue("country", clinic_detail.country || "");
+            //setValue("zip_code", clinic_detail.zip_code || 0);
+            setValue("patient_id_prefix", clinic_detail.patient_id_prefix || "");
+            //setValue("clinic_logo", clinic_detail.clinic_logo || "");
         }
-    };
+    }, [clinic_detail, setValue]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setFormData((prev) => ({ ...prev, upload_clinic_logo: file }));
-        }
-    };
-
-    async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-
-        const newErrors = validateForm(formData);
-        setErrors(newErrors);
-
-        console.log(Object.keys(newErrors).length, newErrors);
-
-        if (Object.keys(newErrors).length === 0) {
-
-            setFormErrors({});
-
-            try {
-                setServerMessage('');
-                setIsSubmitting(true);
-
-                const frmData = new FormData();
-                frmData.append('clinic_name', formData.clinic_name);
-                frmData.append('country', formData.country);
-                frmData.append('state', formData.state);
-                frmData.append('city', formData.city);
-                frmData.append('street_address', formData.street_address);
-                frmData.append('patient_id_prefix', formData.patient_id_prefix);
-
-                if (formData.upload_clinic_logo) {
-                    frmData.append("upload_clinic_logo", formData.upload_clinic_logo);
-                }
-
-                const res = await fetch(`/api/clinic/basic`, {
-                    method: "POST",
-                    body: frmData,
-                });
-
-                const data = await res.json();
-                setIsSubmitting(false);
-
-                console.log(data, 'data');
-                return;
-                if (data.success) {
-                    //setUpdateMsg(true);
-                }
-
-                if (data?.msg?.errors) {
-                    setFormErrors(data.msg.errors);
-                }
-
-                if (data?.msg?.message) {
-                    setServerMessage(data.msg.message);
-                }
-
-            } catch (err: unknown) {
-                setIsSubmitting(false);
-                if (err instanceof Error) {
-                    setServerMessage(err.message); // // works, `e` narrowed to string
-                } else if (e instanceof Error) {
-                    setServerMessage("Oops! Something went wrong"); // works, `e` narrowed to Error
-                }
-            }
-        }
+    const onSubmit = async (data: ClinicProfileMandatoryFormSchema) => {
+        // setIsSubmitting(true);
+        // setUpdateMsg(false);
+        // setServerMessage('');
+        // const response = await updateProfile(data);
+        // setIsSubmitting(false);
+        // if (response.success) {
+        //     setUpdateMsg(true);
+        // } else {
+        //     setServerMessage("Something went wrong! Try again");
+        // }
     }
+
+
+
+
+    // const { clinic_name, country, state, city, street_address, patient_id_prefix, clinic_logo, upload_clinic_logo = null } = clinic_detail;
+
+    //const [formError, setFormErrors] = useState<FormErrors>({});
+    //const [errors, setErrors] = useState<FormErrors>({});
+    // const [loading, setLoading] = useState<boolean>(true);
+    // const [msg, setMsg] = useState<boolean>(false);
+    // const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    // const [serverMessage, setServerMessage] = useState<string>("");
+    // const [formData, setFormData] = useState<ClinicProfileMandatoryFormSchema>({ clinic_name, country, state, city, street_address, patient_id_prefix, upload_clinic_logo });
+    // const [countrySearch, setCountrySearch] = useState<string>("");
+    // const [open, setOpen] = useState<boolean>(false)
+    // //const [value, setValue] = React.useState("")
+    // // 39 - canada
+
+    // const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
+
+
+    // const {
+    //     handleSubmit,
+    //     control,
+    //     setValue,
+    //     formState: { errors },
+    // } = useForm<ClinicProfileMandatoryFormSchema>({
+    //     resolver: zodResolver(ClinicProfileMandatoryFormSchema),
+    //     defaultValues: {
+    //         name: "",
+    //         email: "",
+    //         password: "",
+    //         confirm_password: ""
+    //     },// Connects Zod schema to React Hook Form
+    // });
+
+
+
+    // const validateForm = (data: FormData): FormErrors => {
+
+    //     try {
+    //         clinicProfileMandatoryFormSchema.parse(data);
+    //         return {};
+    //     } catch (error) {
+    //         if (error instanceof z.ZodError) {
+    //             return error.flatten().fieldErrors;
+    //         }
+    //         return {};
+    //     }
+    // };
+
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setFormData({
+    //         ...formData,
+    //         [e.target.name]: e.target.value,
+    //     });
+    // };
+
+    // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const file = e.target.files?.[0];
+    //     if (file) {
+    //         setFormData((prev) => ({ ...prev, upload_clinic_logo: file }));
+    //     }
+    // };
+
+    // async function handleSubmit(e: React.FormEvent) {
+    //     e.preventDefault();
+
+    //     const newErrors = validateForm(formData);
+    //     setErrors(newErrors);
+
+    //     console.log(Object.keys(newErrors).length, newErrors);
+
+    //     if (Object.keys(newErrors).length === 0) {
+
+    //         setFormErrors({});
+
+    //         try {
+    //             setServerMessage('');
+    //             setIsSubmitting(true);
+
+    //             const frmData = new FormData();
+    //             frmData.append('clinic_name', formData.clinic_name);
+    //             frmData.append('country', formData.country);
+    //             frmData.append('state', formData.state);
+    //             frmData.append('city', formData.city);
+    //             frmData.append('street_address', formData.street_address);
+    //             frmData.append('patient_id_prefix', formData.patient_id_prefix);
+
+    //             if (formData.upload_clinic_logo) {
+    //                 frmData.append("upload_clinic_logo", formData.upload_clinic_logo);
+    //             }
+
+    //             const res = await fetch(`/api/clinic/basic`, {
+    //                 method: "POST",
+    //                 body: frmData,
+    //             });
+
+    //             const data = await res.json();
+    //             setIsSubmitting(false);
+
+    //             console.log(data, 'data');
+    //             return;
+    //             if (data.success) {
+    //                 //setUpdateMsg(true);
+    //             }
+
+    //             if (data?.msg?.errors) {
+    //                 setFormErrors(data.msg.errors);
+    //             }
+
+    //             if (data?.msg?.message) {
+    //                 setServerMessage(data.msg.message);
+    //             }
+
+    //         } catch (err: unknown) {
+    //             setIsSubmitting(false);
+    //             if (err instanceof Error) {
+    //                 setServerMessage(err.message); // // works, `e` narrowed to string
+    //             } else if (e instanceof Error) {
+    //                 setServerMessage("Oops! Something went wrong"); // works, `e` narrowed to Error
+    //             }
+    //         }
+    //     }
+    // }
 
     return (
         <Card>
@@ -195,13 +260,19 @@ export default function Basic({ countries, clinic_detail }: { countries: MetaCol
             </CardHeader>
             <CardContent className="grid">
                 <section className="container">
-                    <form onSubmit={handleSubmit} className="border border-gray-100 rounded-lg p-4">
+                    <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-100 rounded-lg p-4">
                         <div className="flex gap-3 mb-6">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="clinic_name">Clinic Name<sup>*</sup></Label>
-                                <Input type="text" id="clinic_name" name="clinic_name" placeholder="Clinic Name" onChange={handleChange} value={formData.clinic_name} />
+                                <Controller
+                                    name="clinic_name"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input {...field} placeholder="Name" disabled={isloading || isSubmitting} />
+                                    )}
+                                />
                                 {errors.clinic_name && (
-                                    <p className="text-red-500 text-xs">{errors.clinic_name[0]}</p>
+                                    <p className="text-red-500 text-xs">{errors.clinic_name.message}</p>
                                 )}
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -214,8 +285,8 @@ export default function Basic({ countries, clinic_detail }: { countries: MetaCol
                                             aria-expanded={open}
                                             className="justify-between"
                                         >
-                                            {formData.country
-                                                ? countries.find((country) => String(country.id) === String(formData.country))?.name
+                                            {clinic_detail.country
+                                                ? countries.find((country) => String(country.id) === String(clinic_detail.country))?.name
                                                 : "Select Country..."}
                                             <ChevronsUpDown className="opacity-50" />
                                         </Button>
@@ -236,7 +307,7 @@ export default function Basic({ countries, clinic_detail }: { countries: MetaCol
                                                                 console.log(cid);
                                                                 //setValue(currentValue === value ? "" : currentValue)
 
-                                                                setFormData((prev) => ({ ...prev, country: cid }));
+                                                                //setFormData((prev) => ({ ...prev, country: cid }));
                                                                 setOpen(false)
                                                             }}
                                                         >
@@ -244,7 +315,7 @@ export default function Basic({ countries, clinic_detail }: { countries: MetaCol
                                                             <Check
                                                                 className={cn(
                                                                     "ml-auto",
-                                                                    String(formData.country) == String(country.id) ? "opacity-100" : "opacity-0"
+                                                                    String(clinic_detail.country) == String(country.id) ? "opacity-100" : "opacity-0"
                                                                 )}
                                                             />
                                                         </CommandItem>
@@ -255,31 +326,50 @@ export default function Basic({ countries, clinic_detail }: { countries: MetaCol
                                     </PopoverContent>
                                 </Popover>
                                 {errors.country && (
-                                    <p className="text-red-500 text-xs">{errors.country[0]}</p>
+                                    <p className="text-red-500 text-xs">{errors.country.message}</p>
                                 )}
 
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="state">State/Province <sup>*</sup></Label>
-                                <Input type="text" id="state" name="state" placeholder="State/Province" onChange={handleChange} value={formData.state} />
+                                <Controller
+                                    name="state"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input {...field} placeholder="State" disabled={isloading || isSubmitting} />
+                                    )}
+                                />
                                 {errors.state && (
-                                    <p className="text-red-500 text-xs">{errors.state[0]}</p>
+                                    <p className="text-red-500 text-xs">{errors.state.message}</p>
                                 )}
                             </div>
                         </div>
                         <div className="flex gap-3 mb-6">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="city">City<sup>*</sup></Label>
-                                <Input type="text" id="city" name="city" placeholder="City" onChange={handleChange} value={formData.city} />
+                                <Controller
+                                    name="city"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input {...field} placeholder="City" disabled={isloading || isSubmitting} />
+                                    )}
+                                />
                                 {errors.city && (
-                                    <p className="text-red-500 text-xs">{errors.city[0]}</p>
+                                    <p className="text-red-500 text-xs">{errors.city.message}</p>
                                 )}
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="street_address">Street Address<sup>*</sup></Label>
-                                <Input type="text" id="street_address" name="street_address" placeholder="Street Address" onChange={handleChange} value={formData.street_address} />
+
+                                <Controller
+                                    name="street_address"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input {...field} placeholder="Street Address" disabled={isloading || isSubmitting} />
+                                    )}
+                                />
                                 {errors.street_address && (
-                                    <p className="text-red-500 text-xs">{errors.street_address[0]}</p>
+                                    <p className="text-red-500 text-xs">{errors.street_address.message}</p>
                                 )}
                             </div>
                             <div className="relative grid w-full max-w-sm items-center gap-1.5">
@@ -296,22 +386,31 @@ export default function Basic({ countries, clinic_detail }: { countries: MetaCol
                                         </Tooltip>
                                     </TooltipProvider>
                                 </Label>
-                                <Input type="text" id="patient_id_prefix" name="patient_id_prefix" placeholder="Patient ID Prefix" onChange={handleChange} value={formData.patient_id_prefix} />
+                                <Controller
+                                    name="patient_id_prefix"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input {...field} placeholder="Patient Id Prefix" disabled={isloading || isSubmitting} />
+                                    )}
+                                />
+
                                 {errors.patient_id_prefix && (
-                                    <p className="text-red-500 text-xs">{errors.patient_id_prefix[0]}</p>
+                                    <p className="text-red-500 text-xs">{errors.patient_id_prefix.message}</p>
                                 )}
                             </div>
                         </div>
                         <div className="flex gap-3 mb-3">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="clinic_logo">Clinic Logo<sup>*</sup></Label>
-                                <Input id="image" type="file" name="upload_clinic_logo" accept="image/*" onChange={handleImageChange} />
 
-                                {clinic_logo && (<Image alt="" width={120} height={0} layout="intrinsic" src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${clinic_logo}`} />)}
+                                <Controller
+                                    name="upload_clinic_logo"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input {...field} type="file" accept="image/*" placeholder="Upload Logo" disabled={isloading || isSubmitting} />
+                                    )}
+                                />
 
-                                {errors.upload_clinic_logo && (
-                                    <p className="text-red-500 text-xs">{errors.upload_clinic_logo[0]}</p>
-                                )}
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                             </div>

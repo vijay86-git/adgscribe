@@ -38,7 +38,7 @@ export function Signin() {
     return (
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
-                {message && <span className="err text-sm">{message}</span>}
+                {message && <span className="errBox text-sm vBox">{message}</span>}
                 <div className="grid gap-3">
                     <Label htmlFor="email">Email</Label>
                     <Input {...register("email")}
