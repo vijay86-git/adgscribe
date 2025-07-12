@@ -407,7 +407,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                                     name="upload_clinic_logo"
                                     control={control}
                                     render={({ field }) => (
-                                        <Input {...field} type="file" accept="image/*" placeholder="Upload Logo" disabled={isloading || isSubmitting} />
+                                        <Input {...field} onChange={(e) => field.onChange(e.target.files)} type="file" accept="image/*" placeholder="Upload Logo" disabled={isloading || isSubmitting} />
                                     )}
                                 />
 

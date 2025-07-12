@@ -74,30 +74,30 @@ export default function Optional({ designations, specializations, clinic_detail 
     } = useForm<ClinicProfileOptionalSchema>({
         resolver: zodResolver(clinicProfileOptionalSchema),
         defaultValues: {
-            no_of_doctors: 0,
-            daily_monthly_patient_footfall: 0,
-            designation: "",
-            specializations: [],
-            website_clinic_url: "",
-            year_establishment: "",
-            ai_filter: ""
+            no_of_doctors: clinic_detail?.no_of_doctors || 0,
+            daily_monthly_patient_footfall: clinic_detail?.daily_monthly_patient_footfall || 0,
+            designation: clinic_detail?.designation || 0,
+            specializations: clinic_detail?.specializations || [],
+            website_clinic_url: clinic_detail?.website_clinic_url || "",
+            year_establishment: clinic_detail?.year_establishment || "",
+            ai_filter: clinic_detail?.ai_filter || 0
         },// Connects Zod schema to React Hook Form
     });
 
+    console.log(errors, 999);
 
     // When clinic_detail changes, update form values
     useEffect(() => {
         if (clinic_detail) {
             setValue("no_of_doctors", clinic_detail.no_of_doctors || 0);
             setValue("daily_monthly_patient_footfall", clinic_detail.daily_monthly_patient_footfall || 0);
-            setValue("designation", clinic_detail.designation || "");
+            setValue("designation", clinic_detail.designation || 0);
             setValue("specializations", clinic_detail.specializations || []);
             setValue("website_clinic_url", clinic_detail.website_clinic_url || "");
             setValue("year_establishment", clinic_detail.year_establishment || "");
-            setValue("ai_filter", clinic_detail.ai_filter || "");
+            setValue("ai_filter", clinic_detail.ai_filter || 0);
         }
     }, [clinic_detail, setValue]);
-
 
     const onSubmit = async (data: ClinicProfileOptionalSchema) => {
 
@@ -217,9 +217,12 @@ export default function Optional({ designations, specializations, clinic_detail 
                                     name="no_of_doctors"
                                     control={control}
                                     render={({ field }) => (
-                                        <Input {...field} type="number" min="0" placeholder="Number of Doctors" disabled={isloading || isSubmitting} />
+                                        <Input {...field} type="number" min="0" placeholder="Number of Doctors" disabled={isloading || isSubmitting} onChange={(e) => field.onChange(e.target.value === "" ? "" : Number(e.target.value))} />
                                     )}
                                 />
+                                {errors.no_of_doctors && (
+                                    <p className="text-red-500 text-xs">{errors.no_of_doctors.message}</p>
+                                )}
 
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -228,50 +231,74 @@ export default function Optional({ designations, specializations, clinic_detail 
                                     name="daily_monthly_patient_footfall"
                                     control={control}
                                     render={({ field }) => (
-                                        <Input {...field} placeholder="Daily/Monthly Patient Footfall" disabled={isloading || isSubmitting} />
+                                        <Input {...field} placeholder="Daily/Monthly Patient Footfall" disabled={isloading || isSubmitting} onChange={(e) => field.onChange(e.target.value === "" ? "" : Number(e.target.value))} />
                                     )}
+
                                 />
+                                {errors.daily_monthly_patient_footfall && (
+                                    <p className="text-red-500 text-xs">{errors.daily_monthly_patient_footfall.message}</p>
+                                )}
 
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="clinic_specializations">Clinic Specializations</Label>
-                                <MultiSelect
+
+                                <Controller
+                                    name="specializations"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <MultiSelect
+                                            options={specializations}
+                                            defaultValue={field.value}
+                                            onValueChange={field.onChange}
+                                            placeholder="Select Specializations"
+                                            variant="inverted"
+                                            maxCount={1}
+                                        />
+                                    )}
+                                />
+                                {/* <MultiSelect
                                     options={specializations}
                                     onValueChange={setSelectedSpecializations}
                                     defaultValue={selectedSpecializations}
                                     placeholder="Select Specializations"
                                     variant="inverted"
                                     maxCount={1}
-                                />
+                                /> */}
+
+                                {errors.specializations && (
+                                    <p className="text-red-500 text-xs">{errors.specializations.message}</p>
+                                )}
 
                             </div>
                         </div>
 
-
                         <div className="flex gap-3 mb-3">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="designation">Designation/Role</Label>
-                                {designations && designations.length > 0 && (
-                                    <Select
-                                        value={clinic_detail.designation}
-                                        onValueChange={(value) => {
-                                            // setFormData((prev) => ({
-                                            //     ...prev,
-                                            //     designation: value,
-                                            // }))
-                                        }}
-                                    >
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Select a designation" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {designations.map((item, idx) => (
-                                                <SelectItem key={idx} value={String(item.id)}>
-                                                    {item.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+
+                                <Controller
+                                    name="designation"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Select value={field.value !== undefined ? String(field.value) : ""}
+                                            onValueChange={(value) => field.onChange(Number(value))}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Select a designation" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {designations.map((item, idx) => (
+                                                    <SelectItem key={idx} value={item.id}>
+                                                        {item.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    )}
+                                />
+
+                                {errors.designation && (
+                                    <p className="text-red-500 text-xs">{errors.designation.message}</p>
                                 )}
                             </div>
 
@@ -284,31 +311,38 @@ export default function Optional({ designations, specializations, clinic_detail 
                                         <Input {...field} placeholder="Website or Clinic URL" disabled={isloading || isSubmitting} />
                                     )}
                                 />
+                                {errors.website_clinic_url && (
+                                    <p className="text-red-500 text-xs">{errors.website_clinic_url.message}</p>
+                                )}
                             </div>
 
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="year_establishment">Year of Establishment</Label>
-                                <Select
-                                    value={clinic_detail.year_establishment}
-                                    onValueChange={(value) => {
-                                        // setFormData((prev) => ({
-                                        //     ...prev,
-                                        //     year_establishment: value,
-                                        // }))
-                                    }}
-                                >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select Year of Establishment" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {Array.from({ length: 101 }, (_, i) => {
-                                            const year = String(new Date().getFullYear() - i);
-                                            return (
-                                                <SelectItem key={year} value={year}>{year}</SelectItem>
-                                            );
-                                        })}
-                                    </SelectContent>
-                                </Select>
+                                <Controller
+                                    name="year_establishment"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Select value={field.value !== undefined ? String(field.value) : ""}
+                                            onValueChange={(value) => field.onChange(Number(value))}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Select Year of Establishment" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {Array.from({ length: 101 }, (_, i) => {
+                                                    const year = String(new Date().getFullYear() - i);
+                                                    return (
+                                                        <SelectItem key={year} value={year}>
+                                                            {year}
+                                                        </SelectItem>
+                                                    );
+                                                })}
+                                            </SelectContent>
+                                        </Select>
+                                    )}
+                                />
+                                {errors.year_establishment && (
+                                    <p className="text-red-500 text-xs">{errors.year_establishment.message}</p>
+                                )}
                             </div>
 
                         </div>
@@ -318,6 +352,6 @@ export default function Optional({ designations, specializations, clinic_detail 
                     </form>
                 </section>
             </CardContent>
-        </Card>
+        </Card >
     )
 }
