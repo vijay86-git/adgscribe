@@ -1,19 +1,17 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
-
-import Link from "next/link";
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { z } from 'zod';
 
 import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from "@/components/ui/tabs"
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 import {
     Card,
@@ -23,16 +21,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-
-import { HelpCircle, Loader2 } from "lucide-react";
-
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 
 import { MultiSelect } from "@/components/multi-select";
 
@@ -57,97 +45,162 @@ type Spec = {
     label: string;
 };
 
-import { clinicProfileOptionalFormSchema } from "@/schemas/clinic-profile-optional-schema";
-type FormData = z.infer<typeof clinicProfileOptionalFormSchema>;
-type FormErrors = Partial<Record<keyof FormData, string[]>>;
+import { ClinicOptionalProps } from "@/components/clinic/Types";
 
-export default function Optional({ designations, specializations, clinic_detail }: { designations: MetaCol[], specializations: Spec[], clinic_detail: CType }) {
 
-    const { no_of_doctors, daily_monthly_patient_footfall, designation, website_clinic_url, year_establishment, ai_filter } = clinic_detail;
+import { clinicProfileOptionalSchema, ClinicProfileOptionalSchema } from "@/schemas/clinicProfileOptionalSchema"
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+// type FormData = z.infer<typeof clinicProfileOptionalFormSchema>;
+// type FormErrors = Partial<Record<keyof FormData, string[]>>;
 
-    const [formData, setFormData] = useState<FormData>({ no_of_doctors, daily_monthly_patient_footfall, designation, website_clinic_url, year_establishment });
+export default function Optional({ designations, specializations, clinic_detail }: ClinicOptionalProps) {
 
-    //const [selectedSpecializations, setSelectedSpecializations] = useState<string[] | (() => string[])>(clinic_detail.specializations ?? []);
-    const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>(clinic_detail.specializations ?? []);
-
-    const [errors, setErrors] = useState<FormErrors>({});
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isloading, setIsLoading] = useState<boolean>(false);
     const [serverMessage, setServerMessage] = useState<string>("");
+    const [updateMsg, setUpdateMsg] = useState<boolean>(false);
+    const [open, setOpen] = useState<boolean>(false);
+    const [countrySearch, setCountrySearch] = useState<string>("");
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
+    const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>(clinic_detail.specializations ?? []);
 
-    const validateForm = (data: FormData): FormErrors => {
+    const {
+        handleSubmit,
+        control,
+        setValue,
+        formState: { errors },
+    } = useForm<ClinicProfileOptionalSchema>({
+        resolver: zodResolver(clinicProfileOptionalSchema),
+        defaultValues: {
+            no_of_doctors: 0,
+            daily_monthly_patient_footfall: 0,
+            designation: "",
+            specializations: [],
+            website_clinic_url: "",
+            year_establishment: "",
+            ai_filter: ""
+        },// Connects Zod schema to React Hook Form
+    });
 
-        try {
-            clinicProfileOptionalFormSchema.parse(data);
-            return {};
-        } catch (error) {
-            if (error instanceof z.ZodError) {
-                return error.flatten().fieldErrors;
-            }
-            return {};
+
+    // When clinic_detail changes, update form values
+    useEffect(() => {
+        if (clinic_detail) {
+            setValue("no_of_doctors", clinic_detail.no_of_doctors || 0);
+            setValue("daily_monthly_patient_footfall", clinic_detail.daily_monthly_patient_footfall || 0);
+            setValue("designation", clinic_detail.designation || "");
+            setValue("specializations", clinic_detail.specializations || []);
+            setValue("website_clinic_url", clinic_detail.website_clinic_url || "");
+            setValue("year_establishment", clinic_detail.year_establishment || "");
+            setValue("ai_filter", clinic_detail.ai_filter || "");
         }
-    };
+    }, [clinic_detail, setValue]);
 
-    async function handleSubmit(e: React.FormEvent) {
-        /*
-          e.preventDefault();
-    
-          const newErrors = validateForm(formData);
-          setErrors(newErrors);
-    
-          console.log(Object.keys(newErrors).length, newErrors);
-    
-          if (Object.keys(newErrors).length === 0) {
-    
-            //setFormErrors({});
-    
-            try {
-                setServerMessage('');
-                setIsSubmitting(true);
-    
-                const res = await fetch(`/api/clinic/optional`, {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                                        ...formData,
-                                        specializations: selectedSpecializations,
-                                      })
-                });
-    
-                const data = await res.json();
-                setIsSubmitting(false);
-    
-                if (data.success) {
-                    //setUpdateMsg(true);
-                } 
-    
-                if (data?.msg?.errors) {
-                   // setFormErrors(data.msg.errors);
-                }
-    
-                if (data?.msg?.message) {
-                    setServerMessage(data.msg.message);
-                }
-    
-            } catch (err: unknown) {
-              setIsSubmitting(false);
-              if (err instanceof Error) {
-                setServerMessage(err.message); // // works, `e` narrowed to string
-              } else if (e instanceof Error) {
-                setServerMessage("Oops! Something went wrong"); // works, `e` narrowed to Error
-              }
-            }
-          }*/
+
+    const onSubmit = async (data: ClinicProfileOptionalSchema) => {
+
+        console.log(data);
+        // setIsSubmitting(true);
+        // setUpdateMsg(false);
+        // setServerMessage('');
+        // const response = await updateProfile(data);
+        // setIsSubmitting(false);
+        // if (response.success) {
+        //     setUpdateMsg(true);
+        // } else {
+        //     setServerMessage("Something went wrong! Try again");
+        // }
     }
+
+
+
+    // const { no_of_doctors, daily_monthly_patient_footfall, designation, website_clinic_url, year_establishment, ai_filter } = clinic_detail;
+
+    // const [formData, setFormData] = useState<FormData>({ no_of_doctors, daily_monthly_patient_footfall, designation, website_clinic_url, year_establishment });
+
+    // //const [selectedSpecializations, setSelectedSpecializations] = useState<string[] | (() => string[])>(clinic_detail.specializations ?? []);
+    // const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>(clinic_detail.specializations ?? []);
+
+    // const [errors, setErrors] = useState<FormErrors>({});
+
+    // const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    // const [serverMessage, setServerMessage] = useState<string>("");
+
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setFormData({
+    //         ...formData,
+    //         [e.target.name]: e.target.value,
+    //     });
+    // };
+
+    // const validateForm = (data: FormData): FormErrors => {
+
+    //     try {
+    //         clinicProfileOptionalFormSchema.parse(data);
+    //         return {};
+    //     } catch (error) {
+    //         if (error instanceof z.ZodError) {
+    //             return error.flatten().fieldErrors;
+    //         }
+    //         return {};
+    //     }
+    // };
+
+    //async function handleSubmit(e: React.FormEvent) {
+    /*
+      e.preventDefault();
+ 
+      const newErrors = validateForm(formData);
+      setErrors(newErrors);
+ 
+      console.log(Object.keys(newErrors).length, newErrors);
+ 
+      if (Object.keys(newErrors).length === 0) {
+ 
+        //setFormErrors({});
+ 
+        try {
+            setServerMessage('');
+            setIsSubmitting(true);
+ 
+            const res = await fetch(`/api/clinic/optional`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                                    ...formData,
+                                    specializations: selectedSpecializations,
+                                  })
+            });
+ 
+            const data = await res.json();
+            setIsSubmitting(false);
+ 
+            if (data.success) {
+                //setUpdateMsg(true);
+            } 
+ 
+            if (data?.msg?.errors) {
+               // setFormErrors(data.msg.errors);
+            }
+ 
+            if (data?.msg?.message) {
+                setServerMessage(data.msg.message);
+            }
+ 
+        } catch (err: unknown) {
+          setIsSubmitting(false);
+          if (err instanceof Error) {
+            setServerMessage(err.message); // // works, `e` narrowed to string
+          } else if (e instanceof Error) {
+            setServerMessage("Oops! Something went wrong"); // works, `e` narrowed to Error
+          }
+        }
+      }*/
+    //}
 
     return (
         <Card>
@@ -156,27 +209,32 @@ export default function Optional({ designations, specializations, clinic_detail 
             </CardHeader>
             <CardContent className="grid gap-6">
                 <section className="container">
-                    <form onSubmit={handleSubmit} className="border border-gray-100 rounded-lg p-4">
+                    <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-100 rounded-lg p-4">
                         <div className="flex gap-3 mb-6">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="no_of_doctors">Number of Doctors</Label>
-                                <Input type="number" min="0" onChange={handleChange} placeholder="Number of Doctors" name="no_of_doctors" value={formData.no_of_doctors} />
+                                <Controller
+                                    name="no_of_doctors"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input {...field} type="number" min="0" placeholder="Number of Doctors" disabled={isloading || isSubmitting} />
+                                    )}
+                                />
+
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="daily_monthly_patient_footfall">Daily/Monthly Patient Footfall</Label>
-                                <Input type="number" id="daily_monthly_patient_footfall" onChange={handleChange} placeholder="Daily/Monthly Patient Footfall" name="daily_monthly_patient_footfall" value={formData.daily_monthly_patient_footfall} />
+                                <Controller
+                                    name="daily_monthly_patient_footfall"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input {...field} placeholder="Daily/Monthly Patient Footfall" disabled={isloading || isSubmitting} />
+                                    )}
+                                />
+
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="clinic_specializations">Clinic Specializations</Label>
-
-                                {/*<MultiSelect
-                                  options={specializations}
-                                  onValueChange={setSelectedSpecializations}
-                                  defaultValue={selectedSpecializations}
-                                  placeholder="Select Specializations"
-                                  variant="inverted"
-                                  maxCount={1}
-                                />*/}
                                 <MultiSelect
                                     options={specializations}
                                     onValueChange={setSelectedSpecializations}
@@ -195,13 +253,13 @@ export default function Optional({ designations, specializations, clinic_detail 
                                 <Label htmlFor="designation">Designation/Role</Label>
                                 {designations && designations.length > 0 && (
                                     <Select
-                                        value={formData.designation}
-                                        onValueChange={(value) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                designation: value,
-                                            }))
-                                        }
+                                        value={clinic_detail.designation}
+                                        onValueChange={(value) => {
+                                            // setFormData((prev) => ({
+                                            //     ...prev,
+                                            //     designation: value,
+                                            // }))
+                                        }}
                                     >
                                         <SelectTrigger className="w-full">
                                             <SelectValue placeholder="Select a designation" />
@@ -219,19 +277,25 @@ export default function Optional({ designations, specializations, clinic_detail 
 
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="website_clinic_url">Website or Clinic URL <sup>*</sup></Label>
-                                <Input type="text" id="url" onChange={handleChange} placeholder="Website or Clinic URL" name="website_clinic_url" value={formData.website_clinic_url} />
+                                <Controller
+                                    name="website_clinic_url"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input {...field} placeholder="Website or Clinic URL" disabled={isloading || isSubmitting} />
+                                    )}
+                                />
                             </div>
 
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="year_establishment">Year of Establishment</Label>
                                 <Select
-                                    value={formData.year_establishment}
-                                    onValueChange={(value) =>
-                                        setFormData((prev) => ({
-                                            ...prev,
-                                            year_establishment: value,
-                                        }))
-                                    }
+                                    value={clinic_detail.year_establishment}
+                                    onValueChange={(value) => {
+                                        // setFormData((prev) => ({
+                                        //     ...prev,
+                                        //     year_establishment: value,
+                                        // }))
+                                    }}
                                 >
                                     <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Select Year of Establishment" />
@@ -246,8 +310,6 @@ export default function Optional({ designations, specializations, clinic_detail 
                                     </SelectContent>
                                 </Select>
                             </div>
-
-
 
                         </div>
 

@@ -27,6 +27,7 @@ export type ClinicBusiness = {
     website_clinic_url?: string;
     year_establishment?: string;
     ai_filter?: string;
+    specializations?: string[];
 };
 
 export type ClinicCountryProps = {
@@ -40,4 +41,11 @@ export type MetaDataType = {
     countries: MetaCol[];
     designations: MetaCol[];
     specializations: Specialization[];
+};
+
+
+export type ClinicOptionalProps = {
+    designations: MetaCol[];
+    specializations: Specialization[];
+    clinic_detail: ClinicMandatory & ClinicBusiness;
 };
