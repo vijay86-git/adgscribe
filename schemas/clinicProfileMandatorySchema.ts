@@ -2,7 +2,10 @@ import { z } from 'zod';
 
 export const clinicProfileMandatoryFormSchema = z.object({
     clinic_name: z.string().nonempty('The name field is required'),
-    country: z.string().nonempty('The Country field is required'),
+    country: z.number({
+        required_error: 'The Country field is required',
+        invalid_type_error: 'Please select a country',
+    }).min(1, 'The Country field is required'),
     state: z.string().nonempty('The state field is required').max(96, 'The state must not exceed 96 characters'),
     city: z.string().nonempty('The city field is required').max(96, 'The city must not exceed 96 characters'),
     street_address: z.string().nonempty('The address field is required').max(255, 'The address must not exceed 255 characters'),

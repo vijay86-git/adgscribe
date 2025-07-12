@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import Image from "next/image";
-import { z } from 'zod';
 
 import {
     Card,
@@ -77,8 +75,8 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isloading, setIsLoading] = useState<boolean>(false);
-    const [serverMessage, setServerMessage] = useState<string>("");
-    const [updateMsg, setUpdateMsg] = useState<boolean>(false);
+    //const [serverMessage, setServerMessage] = useState<string>("");
+    //const [updateMsg, setUpdateMsg] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const [countrySearch, setCountrySearch] = useState<string>("");
 
@@ -86,6 +84,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
         handleSubmit,
         control,
         setValue,
+        watch,
         formState: { errors },
     } = useForm<ClinicProfileMandatoryFormSchema>({
         resolver: zodResolver(clinicProfileMandatoryFormSchema),
@@ -94,10 +93,13 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
             street_address: "",
             city: "",
             state: "",
-            country: "",
+            country: 0,
             patient_id_prefix: ""
         },// Connects Zod schema to React Hook Form
     });
+
+    const selectedCountryId = watch("country");
+    const selectedCountry = countries.find((c) => c.id == selectedCountryId);
 
 
     // When clinic_detail changes, update form values
@@ -107,7 +109,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
             setValue("street_address", clinic_detail.street_address || "");
             setValue("city", clinic_detail.city || "");
             setValue("state", clinic_detail.state || "");
-            setValue("country", clinic_detail.country || "");
+            setValue("country", clinic_detail.country || 0);
             //setValue("zip_code", clinic_detail.zip_code || 0);
             setValue("patient_id_prefix", clinic_detail.patient_id_prefix || "");
             //setValue("clinic_logo", clinic_detail.clinic_logo || "");
@@ -116,6 +118,14 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
 
 
     const onSubmit = async (data: ClinicProfileMandatoryFormSchema) => {
+
+        console.log(data);
+        //return;
+        //const { } = data;
+        //const formData = new FormData();
+        //formData.append('image', data.upload_clinic_logo[0]);
+
+
         // setIsSubmitting(true);
         // setUpdateMsg(false);
         // setServerMessage('');
@@ -285,27 +295,28 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                                             aria-expanded={open}
                                             className="justify-between"
                                         >
-                                            {clinic_detail.country
-                                                ? countries.find((country) => String(country.id) === String(clinic_detail.country))?.name
-                                                : "Select Country..."}
+                                            {selectedCountry ? selectedCountry.name : "Select Country..."}
                                             <ChevronsUpDown className="opacity-50" />
                                         </Button>
                                     </PopoverTrigger>
                                     <PopoverContent className="w-[200px] p-0">
                                         <Command>
-                                            <CommandInput placeholder="Search country..." className="h-9" />
+                                            <CommandInput placeholder="Search country..." className="h-9" value={countrySearch}
+                                                onValueChange={(value) => setCountrySearch(value)} />
                                             <CommandList>
                                                 <CommandEmpty>No Country found.</CommandEmpty>
                                                 <CommandGroup>
                                                     {countries.filter((country) => country.name.toLowerCase().includes(countrySearch.toLowerCase())).map((country) => (
-                                                        <CommandItem
-                                                            key={String(country.id)}
+
+                                                        < CommandItem
+                                                            key={country.id}
                                                             value={String(country.name)}
                                                             onSelect={(selected) => {
-                                                                const cid: string = String(countries.find((c) => c.name === selected)?.id ?? "");
+                                                                console.log(selected, 999);
+                                                                const cid = Number(countries.find((c) => c.name === selected)?.id ?? 0);
 
-                                                                console.log(cid);
-                                                                //setValue(currentValue === value ? "" : currentValue)
+                                                                //console.log(cid);
+                                                                setValue('country', cid, { shouldValidate: true });
 
                                                                 //setFormData((prev) => ({ ...prev, country: cid }));
                                                                 setOpen(false)
@@ -315,7 +326,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                                                             <Check
                                                                 className={cn(
                                                                     "ml-auto",
-                                                                    String(clinic_detail.country) == String(country.id) ? "opacity-100" : "opacity-0"
+                                                                    selectedCountry?.id == country.id ? "opacity-100" : "opacity-0"
                                                                 )}
                                                             />
                                                         </CommandItem>
@@ -422,6 +433,6 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                     </form>
                 </section>
             </CardContent>
-        </Card>
+        </Card >
     )
 }

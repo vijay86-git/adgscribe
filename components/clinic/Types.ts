@@ -3,6 +3,11 @@ export type MetaCol = {
     name: string;
 };
 
+export type Country = {
+    id: number;
+    name: string;
+};
+
 export type Specialization = {
     value: string;
     label: string;
@@ -14,7 +19,7 @@ export type ClinicMandatory = {
     city: string;
     state: string;
     zip_code: number;
-    country: string;
+    country: number;
     patient_id_prefix: string;
     clinic_logo?: string;
     upload_clinic_logo?: File | null;
@@ -31,14 +36,14 @@ export type ClinicBusiness = {
 };
 
 export type ClinicCountryProps = {
-    countries: MetaCol[];
+    countries: Country[];
     clinic_detail: ClinicMandatory & ClinicBusiness;
 };
 
 export type ClinicProps = ClinicMandatory & ClinicBusiness;
 
 export type MetaDataType = {
-    countries: MetaCol[];
+    countries: Country[];
     designations: MetaCol[];
     specializations: Specialization[];
 };

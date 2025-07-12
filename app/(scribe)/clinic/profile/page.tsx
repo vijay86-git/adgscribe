@@ -14,11 +14,11 @@ import Basic from '@/components/clinic/Basic'
 import Optional from '@/components/clinic/Optional'
 import { getClinicDetails, metaData } from "@/app/actions";
 
-import { MetaCol, Specialization, ClinicProps, MetaDataType } from "@/components/clinic/Types";
+import { MetaCol, Specialization, ClinicProps, MetaDataType, Country } from "@/components/clinic/Types";
 
 export default async function Page() {
 
-    let countries: MetaCol[] = [];
+    let countries: Country[] = [];
     let designations: MetaCol[] = [];
     let specializations: Specialization[] = [];
     let clinicDetail: ClinicProps | null = null;
