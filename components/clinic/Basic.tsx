@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import Image from "next/image"
 
 import {
     Card,
@@ -39,6 +40,8 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
+import { useRef } from "react";
+
 import { ClinicCountryProps, FormValidationErrors } from "@/components/clinic/Types"
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,6 +58,8 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
     const [open, setOpen] = useState<boolean>(false);
     const [countrySearch, setCountrySearch] = useState<string>("");
     const [formError, setFormErrors] = useState<FormValidationErrors>({});
+    const [clinicLogo, setClinicLogo] = useState<string>("");
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const {
         handleSubmit,
@@ -88,20 +93,24 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
             setValue("country", clinic_detail.country || 0);
             setValue("patient_id_prefix", clinic_detail.patient_id_prefix || "");
             //setValue("clinic_logo", clinic_detail.clinic_logo || "");
+            setClinicLogo(clinic_detail?.clinic_logo ?? "");
         }
     }, [clinic_detail, setValue]);
 
     const onSubmit = async (data: ClinicProfileMandatoryFormSchema) => {
 
         const formData = toFormData(data); // convert data to formData
-
         setIsSubmitting(true);
+        setUpdateMsg(false);
         const resp = await updateClinincMandatoryDetails(formData);
         setIsSubmitting(false);
         setFormErrors({});
         setUpdateMsg(false);
         if (resp.response == "OK") {
+            if (resp.logo) setClinicLogo(resp.logo);
             setUpdateMsg(true);
+
+            if (fileInputRef.current) fileInputRef.current.value = "";
         }
         else if (resp.response == "VALIDATION") {
             setFormErrors(resp.msg);
@@ -273,10 +282,11 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                                         <Input
                                             type="file"
                                             accept="image/*"
+                                            ref={fileInputRef}
                                             onChange={(e) => { const file = e.target.files?.[0] || null; onChange(file) }}
                                             placeholder="Upload Logo"
                                             disabled={isloading || isSubmitting}
-                                            ref={ref} // forward ref for react-hook-form
+                                        // forward ref for react-hook-form
                                         />
                                     )}
                                 />
@@ -284,7 +294,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                                     <p className="text-red-500 text-xs">{errors.upload_clinic_logo.message}</p>
                                 )}
 
-                                <img src={`http://127.0.0.1:8001/storage/uploads/${clinic_detail.clinic_logo}`} />
+                                <Image src={`http://127.0.0.1:8001/storage/uploads/${clinicLogo}`} width={120} height={120} alt="" />
 
 
 
@@ -295,7 +305,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                             </div>
                         </div>
 
-                        <div className="flex gap-3"><Button className="mt-3" disabled={isSubmitting}>Save Changes</Button></div>
+                        <div className="flex gap-3"><Button className="mt-3" disabled={isSubmitting || isSubmitting}>{(isloading || isSubmitting) ? "Just a moment..." : "Save Changes"}</Button></div>
                     </form>
                 </section>
             </CardContent>

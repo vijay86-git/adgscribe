@@ -201,7 +201,7 @@ export async function updateClinincMandatoryDetails(formData: FormData) {
         });
         const response = await resp.json();
         if (resp.ok) {
-            return { response: "OK" };
+            return { response: "OK", logo: response.logo };
         } else {
             return { response: "VALIDATION", msg: response.errors };
         }
