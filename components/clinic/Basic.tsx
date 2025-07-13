@@ -44,6 +44,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { updateClinincMandatoryDetails } from "@/app/actions"
+import { toFormData } from "@/lib/utils"
 
 export default function Basic({ countries, clinic_detail }: ClinicCountryProps) {
 
@@ -92,18 +93,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
 
     const onSubmit = async (data: ClinicProfileMandatoryFormSchema) => {
 
-        const formData = new FormData();
-
-        // Append normal fields
-        Object.entries(data).forEach(([key, value]) => {
-            if (value instanceof File) {
-                if (value.size > 0) {
-                    formData.append(key, value); // for files
-                }
-            } else if (value !== undefined && value !== null) {
-                formData.append(key, String(value)); // for strings/numbers/booleans
-            }
-        });
+        const formData = toFormData(data); // convert data to formData
 
         setIsSubmitting(true);
         const resp = await updateClinincMandatoryDetails(formData);
@@ -114,7 +104,6 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
             setUpdateMsg(true);
         }
         else if (resp.response == "VALIDATION") {
-            // setMessage(response.msg.message);
             setFormErrors(resp.msg);
         } else {
             setServerMessage(true);

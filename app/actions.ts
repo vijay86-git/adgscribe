@@ -194,24 +194,6 @@ export async function getClinicDetails() {
 
 export async function updateClinincMandatoryDetails(formData: FormData) {
 
-    console.log(formData);
-
-    // FormData {
-    //     clinic_name: 'my clicnic@@',
-    //         country: '6',
-    //             state: 'mystate',
-    //                 city: 'my city',
-    //                     street_address: 'my address',
-    //                         patient_id_prefix: 'myfasf',
-    //                             upload_clinic_logo: File {
-    //         size: 363690,
-    //             type: 'image/png',
-    //                 name: 'Screenshot 2025-06-10 at 11.22.52 AM.png',
-    //                     lastModified: 1752405034083
-    //     }
-    // }
-
-
     try {
         const resp: Response = await apiFetch(`/update-clinic-basic-details`, {
             method: 'POST',
