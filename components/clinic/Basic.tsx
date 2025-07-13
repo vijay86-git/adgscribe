@@ -39,42 +39,11 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-import { ClinicCountryProps } from "@/components/clinic/Types"
+import { ClinicCountryProps, FormValidationErrors } from "@/components/clinic/Types"
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { updateClinincMandatoryDetails } from "@/app/actions"
-
-// type MetaCol1 = {
-//     id: string;
-//     name: string;
-// };
-
-// type ClinicType = {
-//     clinic_name: string;
-//     clinic_logo?: string;
-//     upload_clinic_logo?: File | null;
-//     street_address: string;
-//     city: string;
-//     state: string;
-//     zip_code: number;
-//     country: string;
-//     gst_no: string;
-//     patient_id_prefix: string;
-//     no_of_doctors?: number;
-//     daily_monthly_patient_footfall?: number;
-//     designation?: string;
-//     website_clinic_url?: string;
-//     year_establishment?: string;
-//     ai_filter?: string;
-// };
-
-type FormValidationErrors = {
-    [field: string]: string[];
-};
-
-//type FormData = z.infer<typeof clinicProfileMandatoryFormSchema>;
-//type FormErrors = Partial<Record<keyof FormData, string[]>>;
 
 export default function Basic({ countries, clinic_detail }: ClinicCountryProps) {
 
@@ -109,13 +78,13 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
 
     // When clinic_detail changes, update form values
     useEffect(() => {
+        setIsLoading(true);
         if (clinic_detail) {
             setValue("clinic_name", clinic_detail.clinic_name || "");
             setValue("street_address", clinic_detail.street_address || "");
             setValue("city", clinic_detail.city || "");
             setValue("state", clinic_detail.state || "");
             setValue("country", clinic_detail.country || 0);
-            //setValue("zip_code", clinic_detail.zip_code || 0);
             setValue("patient_id_prefix", clinic_detail.patient_id_prefix || "");
             //setValue("clinic_logo", clinic_detail.clinic_logo || "");
         }
@@ -137,149 +106,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
         } else {
             setServerMessage(true);
         }
-
-        //return;
-        //const { } = data;
-        //const formData = new FormData();
-        //formData.append('image', data.upload_clinic_logo[0]);
-
-
-        // setIsSubmitting(true);
-        // setUpdateMsg(false);
-        // setServerMessage('');
-        // const response = await updateProfile(data);
-        // setIsSubmitting(false);
-        // if (response.success) {
-        //     setUpdateMsg(true);
-        // } else {
-        //     setServerMessage("Something went wrong! Try again");
-        // }
     }
-
-
-
-
-    // const { clinic_name, country, state, city, street_address, patient_id_prefix, clinic_logo, upload_clinic_logo = null } = clinic_detail;
-
-    //const [formError, setFormErrors] = useState<FormErrors>({});
-    //const [errors, setErrors] = useState<FormErrors>({});
-    // const [loading, setLoading] = useState<boolean>(true);
-    // const [msg, setMsg] = useState<boolean>(false);
-    // const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    // const [serverMessage, setServerMessage] = useState<string>("");
-    // const [formData, setFormData] = useState<ClinicProfileMandatoryFormSchema>({ clinic_name, country, state, city, street_address, patient_id_prefix, upload_clinic_logo });
-    // const [countrySearch, setCountrySearch] = useState<string>("");
-    // const [open, setOpen] = useState<boolean>(false)
-    // //const [value, setValue] = React.useState("")
-    // // 39 - canada
-
-    // const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
-
-
-    // const {
-    //     handleSubmit,
-    //     control,
-    //     setValue,
-    //     formState: { errors },
-    // } = useForm<ClinicProfileMandatoryFormSchema>({
-    //     resolver: zodResolver(ClinicProfileMandatoryFormSchema),
-    //     defaultValues: {
-    //         name: "",
-    //         email: "",
-    //         password: "",
-    //         confirm_password: ""
-    //     },// Connects Zod schema to React Hook Form
-    // });
-
-
-
-    // const validateForm = (data: FormData): FormErrors => {
-
-    //     try {
-    //         clinicProfileMandatoryFormSchema.parse(data);
-    //         return {};
-    //     } catch (error) {
-    //         if (error instanceof z.ZodError) {
-    //             return error.flatten().fieldErrors;
-    //         }
-    //         return {};
-    //     }
-    // };
-
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setFormData({
-    //         ...formData,
-    //         [e.target.name]: e.target.value,
-    //     });
-    // };
-
-    // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const file = e.target.files?.[0];
-    //     if (file) {
-    //         setFormData((prev) => ({ ...prev, upload_clinic_logo: file }));
-    //     }
-    // };
-
-    // async function handleSubmit(e: React.FormEvent) {
-    //     e.preventDefault();
-
-    //     const newErrors = validateForm(formData);
-    //     setErrors(newErrors);
-
-    //     console.log(Object.keys(newErrors).length, newErrors);
-
-    //     if (Object.keys(newErrors).length === 0) {
-
-    //         setFormErrors({});
-
-    //         try {
-    //             setServerMessage('');
-    //             setIsSubmitting(true);
-
-    //             const frmData = new FormData();
-    //             frmData.append('clinic_name', formData.clinic_name);
-    //             frmData.append('country', formData.country);
-    //             frmData.append('state', formData.state);
-    //             frmData.append('city', formData.city);
-    //             frmData.append('street_address', formData.street_address);
-    //             frmData.append('patient_id_prefix', formData.patient_id_prefix);
-
-    //             if (formData.upload_clinic_logo) {
-    //                 frmData.append("upload_clinic_logo", formData.upload_clinic_logo);
-    //             }
-
-    //             const res = await fetch(`/api/clinic/basic`, {
-    //                 method: "POST",
-    //                 body: frmData,
-    //             });
-
-    //             const data = await res.json();
-    //             setIsSubmitting(false);
-
-    //             console.log(data, 'data');
-    //             return;
-    //             if (data.success) {
-    //                 //setUpdateMsg(true);
-    //             }
-
-    //             if (data?.msg?.errors) {
-    //                 setFormErrors(data.msg.errors);
-    //             }
-
-    //             if (data?.msg?.message) {
-    //                 setServerMessage(data.msg.message);
-    //             }
-
-    //         } catch (err: unknown) {
-    //             setIsSubmitting(false);
-    //             if (err instanceof Error) {
-    //                 setServerMessage(err.message); // // works, `e` narrowed to string
-    //             } else if (e instanceof Error) {
-    //                 setServerMessage("Oops! Something went wrong"); // works, `e` narrowed to Error
-    //             }
-    //         }
-    //     }
-    // }
 
     return (
         <Card>

@@ -25,6 +25,10 @@ export type ClinicMandatory = {
     upload_clinic_logo?: File | null;
 };
 
+export type FormValidationErrors = {
+    [field: string]: string[];
+};
+
 export type ClinicBusiness = {
     no_of_doctors?: number;
     daily_monthly_patient_footfall?: number;
