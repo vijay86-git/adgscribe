@@ -13,6 +13,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
+import { HelpCircle, Check, ChevronsUpDown } from "lucide-react";
+
 import {
     Card,
     CardContent,
@@ -29,7 +31,6 @@ type MetaCol = {
     name: string;
 };
 
-
 type CType = {
     no_of_doctors?: number;
     daily_monthly_patient_footfall?: number;
@@ -45,8 +46,9 @@ type Spec = {
     label: string;
 };
 
-import { ClinicOptionalProps } from "@/components/clinic/Types";
+import { ClinicOptionalProps, FormValidationErrors } from "@/components/clinic/Types";
 
+import { updateClinicBusinessDetails } from "@/app/actions"
 
 import { clinicProfileOptionalSchema, ClinicProfileOptionalSchema } from "@/schemas/clinicProfileOptionalSchema"
 import { useForm, Controller } from "react-hook-form";
@@ -64,6 +66,8 @@ export default function Optional({ designations, specializations, clinic_detail 
     const [open, setOpen] = useState<boolean>(false);
     const [countrySearch, setCountrySearch] = useState<string>("");
 
+    const [formError, setFormErrors] = useState<FormValidationErrors>({});
+
     const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>(clinic_detail.specializations ?? []);
 
     const {
@@ -79,7 +83,7 @@ export default function Optional({ designations, specializations, clinic_detail 
             designation: clinic_detail?.designation || 0,
             specializations: clinic_detail?.specializations || [],
             website_clinic_url: clinic_detail?.website_clinic_url || "",
-            year_establishment: clinic_detail?.year_establishment || "",
+            year_establishment: clinic_detail?.year_establishment || 0,
             ai_filter: clinic_detail?.ai_filter || 0
         },// Connects Zod schema to React Hook Form
     });
@@ -94,14 +98,28 @@ export default function Optional({ designations, specializations, clinic_detail 
             setValue("designation", clinic_detail.designation || 0);
             setValue("specializations", clinic_detail.specializations || []);
             setValue("website_clinic_url", clinic_detail.website_clinic_url || "");
-            setValue("year_establishment", clinic_detail.year_establishment || "");
+            setValue("year_establishment", clinic_detail.year_establishment || 0);
             setValue("ai_filter", clinic_detail.ai_filter || 0);
         }
     }, [clinic_detail, setValue]);
 
     const onSubmit = async (data: ClinicProfileOptionalSchema) => {
+        // convert data to formData
+        setIsSubmitting(true);
+        setUpdateMsg(false);
+        const resp = await updateClinicBusinessDetails(data);
+        setIsSubmitting(false);
+        setFormErrors({});
+        setUpdateMsg(false);
+        if (resp.response == "OK") {
+            setUpdateMsg(true);
+        }
+        else if (resp.response == "VALIDATION") {
+            setFormErrors(resp.msg);
+        } else {
+            //setServerMessage(true);
+        }
 
-        console.log(data);
         // setIsSubmitting(true);
         // setUpdateMsg(false);
         // setServerMessage('');
@@ -210,6 +228,7 @@ export default function Optional({ designations, specializations, clinic_detail 
             <CardContent className="grid gap-6">
                 <section className="container">
                     <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-100 rounded-lg p-4">
+                        {updateMsg && (<p className="flex w-full mb-5 text-sm font-bold vBox sucBox"><Check className="mt-1 mr-1 w-6 h-6" color="green" /> Updated successfully!</p>)}
                         <div className="flex gap-3 mb-6">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="no_of_doctors">Number of Doctors</Label>

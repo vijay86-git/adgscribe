@@ -34,7 +34,7 @@ export type ClinicBusiness = {
     daily_monthly_patient_footfall?: number;
     designation?: number;
     website_clinic_url?: string;
-    year_establishment?: string;
+    year_establishment?: number;
     ai_filter?: number;
     specializations?: string[];
 };

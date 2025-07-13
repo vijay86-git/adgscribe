@@ -6,7 +6,7 @@ export const clinicProfileOptionalSchema = z.object({
     designation: z.number().optional(),
     specializations: z.array(z.string()).optional(),
     website_clinic_url: z.string().optional(),
-    year_establishment: z.string().optional(),
+    year_establishment: z.number().optional(),
     ai_filter: z.number().optional()
 });
 

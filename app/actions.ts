@@ -4,6 +4,7 @@ import { createSession } from '@/lib/session'
 import { SearchRequestBody } from '@/components/doctors/Types';
 import { UserProfileFormSchema } from "@/schemas/userProfileSchema";
 import { ClinicProfileMandatoryFormSchema } from "@/schemas/clinicProfileMandatorySchema";
+import { ClinicProfileOptionalSchema } from "@/schemas/clinicProfileOptionalSchema";
 
 export async function apiFetch<T>(
     endpoint: string,
@@ -198,6 +199,25 @@ export async function updateClinincMandatoryDetails(formData: FormData) {
         const resp: Response = await apiFetch(`/update-clinic-basic-details`, {
             method: 'POST',
             body: formData,
+        });
+        const response = await resp.json();
+        if (resp.ok) {
+            return { response: "OK", logo: response.logo };
+        } else {
+            return { response: "VALIDATION", msg: response.errors };
+        }
+    } catch {
+        return { response: "ERROR", msg: "Something went wrong! Try again" }
+    };
+
+}
+
+export async function updateClinicBusinessDetails(data: ClinicProfileOptionalSchema) {
+
+    try {
+        const resp: Response = await apiFetch(`/update-clinic-business-details`, {
+            method: 'POST',
+            body: JSON.stringify(data)
         });
         const response = await resp.json();
         if (resp.ok) {
