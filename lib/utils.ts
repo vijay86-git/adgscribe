@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { ClinicProfileMandatoryFormSchema } from "@/schemas/clinicProfileMandatorySchema";
+//import { getPlaiceholder } from 'plaiceholder';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -19,3 +20,17 @@ export function toFormData(data: ClinicProfileMandatoryFormSchema) {
   });
   return formData;
 }
+
+// export async function getImageProps(src: string) {
+//   const buffer = await fetch(src).then(async (res) =>
+//     Buffer.from(await res.arrayBuffer())
+//   );
+//   const { base64, metadata: { height, width } } = await getPlaiceholder(Buffer.from(buffer));
+//   //const img = { src, height, width };
+//   return {
+//     base64, // 👈 this is your blurDataURL
+//     src,
+//     width,
+//     height
+//   };
+// }
