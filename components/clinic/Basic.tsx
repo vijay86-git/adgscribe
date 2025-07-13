@@ -49,6 +49,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { updateClinincMandatoryDetails } from "@/app/actions"
 import { toFormData } from "@/lib/utils"
 
+import FieldErrorMessages from "@/components/clinic/FieldErrorMessages"
+
 export default function Basic({ countries, clinic_detail }: ClinicCountryProps) {
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -129,15 +131,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                     <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-100 rounded-lg p-4">
                         {serverMessage && <span className="errBox text-sm vBox">Someting went wrong</span>}
                         {updateMsg && (<p className="flex w-full mb-5 text-sm font-bold vBox sucBox"><Check className="mt-1 mr-1 w-6 h-6" color="green" /> Your Profile has been updated successfully!</p>)}
-                        {Object.entries(formError).map(([field, messages]) => (
-                            <div key={field}>
-                                <ul className="mb-5">
-                                    {messages.map((msg, index) => (
-                                        <li className="err text-sm" key={index}>{msg}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
+                        <FieldErrorMessages errors={formError} />
                         <div className="flex gap-3 mb-6">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="clinic_name">Clinic Name<sup>*</sup></Label>

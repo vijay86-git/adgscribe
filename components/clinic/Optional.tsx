@@ -24,6 +24,8 @@ import {
 
 import { MultiSelect } from "@/components/multi-select";
 
+import FieldErrorMessages from "@/components/clinic/FieldErrorMessages"
+
 import { ClinicOptionalProps, FormValidationErrors } from "@/components/clinic/Types";
 
 import { updateClinicBusinessDetails } from "@/app/actions"
@@ -100,6 +102,7 @@ export default function Optional({ designations, specializations, clinic_detail 
             <CardContent className="grid gap-6">
                 <section className="container">
                     <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-100 rounded-lg p-4">
+                        <FieldErrorMessages errors={formError} />
                         {updateMsg && (<p className="flex w-full mb-5 text-sm font-bold vBox sucBox"><Check className="mt-1 mr-1 w-6 h-6" color="green" /> Updated successfully!</p>)}
                         <div className="flex gap-3 mb-6">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
