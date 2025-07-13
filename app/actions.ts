@@ -3,6 +3,7 @@ import { SignInFormData } from "@/schemas/formSchemas";
 import { createSession } from '@/lib/session'
 import { SearchRequestBody } from '@/components/doctors/Types';
 import { UserProfileFormSchema } from "@/schemas/userProfileSchema";
+import { ClinicProfileMandatoryFormSchema } from "@/schemas/clinicProfileMandatorySchema";
 
 export async function apiFetch<T>(
     endpoint: string,
@@ -181,4 +182,24 @@ export async function getClinicDetails() {
     } catch {
         //return { success: false, msg: "Something went wrong! Try again" }
     };
+}
+
+
+export async function updateClinincMandatoryDetails(data: ClinicProfileMandatoryFormSchema) {
+
+    try {
+        const resp: Response = await apiFetch(`/update-clinic-basic-details`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+        const response = await resp.json();
+        if (resp.ok) {
+            return { response: "OK" };
+        } else {
+            return { response: "VALIDATION", msg: response.errors };
+        }
+    } catch {
+        return { response: "ERROR", msg: "Something went wrong! Try again" }
+    };
+
 }

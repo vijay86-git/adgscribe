@@ -43,6 +43,8 @@ import { ClinicCountryProps } from "@/components/clinic/Types"
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { updateClinincMandatoryDetails } from "@/app/actions"
+
 // type MetaCol1 = {
 //     id: string;
 //     name: string;
@@ -67,6 +69,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 //     ai_filter?: string;
 // };
 
+type FormValidationErrors = {
+    [field: string]: string[];
+};
 
 //type FormData = z.infer<typeof clinicProfileMandatoryFormSchema>;
 //type FormErrors = Partial<Record<keyof FormData, string[]>>;
@@ -75,10 +80,11 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isloading, setIsLoading] = useState<boolean>(false);
-    //const [serverMessage, setServerMessage] = useState<string>("");
-    //const [updateMsg, setUpdateMsg] = useState<boolean>(false);
+    const [serverMessage, setServerMessage] = useState<boolean>(false);
+    const [updateMsg, setUpdateMsg] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const [countrySearch, setCountrySearch] = useState<string>("");
+    const [formError, setFormErrors] = useState<FormValidationErrors>({});
 
     const {
         handleSubmit,
@@ -101,7 +107,6 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
     const selectedCountryId = watch("country");
     const selectedCountry = countries.find((c) => c.id == selectedCountryId);
 
-
     // When clinic_detail changes, update form values
     useEffect(() => {
         if (clinic_detail) {
@@ -116,10 +121,23 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
         }
     }, [clinic_detail, setValue]);
 
-
     const onSubmit = async (data: ClinicProfileMandatoryFormSchema) => {
 
-        console.log(data);
+        setIsSubmitting(true);
+        const resp = await updateClinincMandatoryDetails(data);
+        setIsSubmitting(false);
+        setFormErrors({});
+        setUpdateMsg(false);
+        if (resp.response == "OK") {
+            setUpdateMsg(true);
+        }
+        else if (resp.response == "VALIDATION") {
+            // setMessage(response.msg.message);
+            setFormErrors(resp.msg);
+        } else {
+            setServerMessage(true);
+        }
+
         //return;
         //const { } = data;
         //const formData = new FormData();
@@ -271,6 +289,17 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
             <CardContent className="grid">
                 <section className="container">
                     <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-100 rounded-lg p-4">
+                        {serverMessage && <span className="errBox text-sm vBox">Someting went wrong</span>}
+                        {updateMsg && (<p className="flex w-full mb-5 text-sm font-bold vBox sucBox"><Check className="mt-1 mr-1 w-6 h-6" color="green" /> Your Profile has been updated successfully!</p>)}
+                        {Object.entries(formError).map(([field, messages]) => (
+                            <div key={field}>
+                                <ul className="mb-5">
+                                    {messages.map((msg, index) => (
+                                        <li className="err text-sm" key={index}>{msg}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
                         <div className="flex gap-3 mb-6">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                                 <Label htmlFor="clinic_name">Clinic Name<sup>*</sup></Label>
@@ -307,18 +336,13 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                                                 <CommandEmpty>No Country found.</CommandEmpty>
                                                 <CommandGroup>
                                                     {countries.filter((country) => country.name.toLowerCase().includes(countrySearch.toLowerCase())).map((country) => (
-
-                                                        < CommandItem
+                                                        <CommandItem
                                                             key={country.id}
                                                             value={String(country.name)}
+                                                            className={(isloading || isSubmitting) ? "pointer-events-none opacity-50" : ""}
                                                             onSelect={(selected) => {
-                                                                console.log(selected, 999);
                                                                 const cid = Number(countries.find((c) => c.name === selected)?.id ?? 0);
-
-                                                                //console.log(cid);
                                                                 setValue('country', cid, { shouldValidate: true });
-
-                                                                //setFormData((prev) => ({ ...prev, country: cid }));
                                                                 setOpen(false)
                                                             }}
                                                         >
