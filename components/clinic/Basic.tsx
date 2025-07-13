@@ -49,7 +49,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { updateClinincMandatoryDetails } from "@/app/actions"
 import { toFormData } from "@/lib/utils"
 
-import FieldErrorMessages from "@/components/clinic/FieldErrorMessages"
+import FieldErrorMessages from "@/components/error/FieldErrorMessages"
 
 export default function Basic({ countries, clinic_detail }: ClinicCountryProps) {
 

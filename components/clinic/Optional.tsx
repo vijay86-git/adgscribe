@@ -24,7 +24,7 @@ import {
 
 import { MultiSelect } from "@/components/multi-select";
 
-import FieldErrorMessages from "@/components/clinic/FieldErrorMessages"
+import FieldErrorMessages from "@/components/error/FieldErrorMessages"
 
 import { ClinicOptionalProps, FormValidationErrors } from "@/components/clinic/Types";
 
