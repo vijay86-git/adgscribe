@@ -13,8 +13,7 @@ export default async function ScribeLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const headersList = await headers();
-    const pathname = headersList.get('x-next-url') || '';
+    const pathname = (await headers()).get('x-pathname') || '';
     const hideLayout = pathname.startsWith('/app');
     return (
         <>

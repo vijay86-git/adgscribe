@@ -27,10 +27,10 @@ export function Signin() {
         setIsSubmitting(true);
         setMessage("");
         const response = await signin(data);
-        setIsSubmitting(false);
         if (response.success) {
             redirect('/dashboard');
         } else {
+            setIsSubmitting(false);
             setMessage(response.msg.message);
         }
     }

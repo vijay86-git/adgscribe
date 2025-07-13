@@ -18,19 +18,27 @@ export default async function middleware(req: NextRequest) {
     const cookie = (await cookies()).get('session')?.value;
     const session = await decrypt(cookie);
 
+    let response: NextResponse;
+
     // 4. Redirect to /login if the user is not authenticated
     if (isProtectedRoute && !session?.token) {
-        return NextResponse.redirect(new URL(ROUTES.signin, req.nextUrl))
+        response = NextResponse.redirect(new URL(ROUTES.signin, req.nextUrl))
     }
     // 5. Redirect to /dashboard if the user is authenticated
-    if (
+    else if (
         isPublicRoute &&
         session?.token &&
         !req.nextUrl.pathname.startsWith(ROUTES.dashboard)
     ) {
-        return NextResponse.redirect(new URL(ROUTES.dashboard, req.nextUrl))
+        response = NextResponse.redirect(new URL(ROUTES.dashboard, req.nextUrl))
+    } else {
+        response = NextResponse.next()
     }
-    return NextResponse.next()
+
+    // ✅ Inject the full URL (or path) for server components
+    response.headers.set('x-url', req.nextUrl.toString());
+    response.headers.set('x-pathname', req.nextUrl.pathname);
+    return response;
 }
 
 // Routes Middleware should not run on
