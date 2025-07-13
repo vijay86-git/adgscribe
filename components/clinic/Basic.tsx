@@ -78,7 +78,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
 
     // When clinic_detail changes, update form values
     useEffect(() => {
-        setIsLoading(true);
+
         if (clinic_detail) {
             setValue("clinic_name", clinic_detail.clinic_name || "");
             setValue("street_address", clinic_detail.street_address || "");
@@ -92,8 +92,21 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
 
     const onSubmit = async (data: ClinicProfileMandatoryFormSchema) => {
 
+        const formData = new FormData();
+
+        // Append normal fields
+        Object.entries(data).forEach(([key, value]) => {
+            if (value instanceof File) {
+                if (value.size > 0) {
+                    formData.append(key, value); // for files
+                }
+            } else if (value !== undefined && value !== null) {
+                formData.append(key, String(value)); // for strings/numbers/booleans
+            }
+        });
+
         setIsSubmitting(true);
-        const resp = await updateClinincMandatoryDetails(data);
+        const resp = await updateClinincMandatoryDetails(formData);
         setIsSubmitting(false);
         setFormErrors({});
         setUpdateMsg(false);
@@ -263,15 +276,28 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                         </div>
                         <div className="flex gap-3 mb-3">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
-                                <Label htmlFor="clinic_logo">Clinic Logo<sup>*</sup></Label>
-
+                                <Label htmlFor="clinic_logo">Logo<sup>*</sup></Label>
                                 <Controller
                                     name="upload_clinic_logo"
                                     control={control}
-                                    render={({ field }) => (
-                                        <Input {...field} onChange={(e) => field.onChange(e.target.files)} type="file" accept="image/*" placeholder="Upload Logo" disabled={isloading || isSubmitting} />
+                                    render={({ field: { onChange, ref } }) => (
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => { const file = e.target.files?.[0] || null; onChange(file) }}
+                                            placeholder="Upload Logo"
+                                            disabled={isloading || isSubmitting}
+                                            ref={ref} // forward ref for react-hook-form
+                                        />
                                     )}
                                 />
+                                {errors.upload_clinic_logo && (
+                                    <p className="text-red-500 text-xs">{errors.upload_clinic_logo.message}</p>
+                                )}
+
+                                <img src={`http://127.0.0.1:8001/storage/uploads/${clinic_detail.clinic_logo}`} />
+
+
 
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">

@@ -7,17 +7,24 @@ import { ClinicProfileMandatoryFormSchema } from "@/schemas/clinicProfileMandato
 
 export async function apiFetch<T>(
     endpoint: string,
-    options?: RequestInit
+    options: RequestInit
 ): Promise<T> {
+
+    const defaultHeaders: Record<string, string> = {};
+
+    // Only add Content-Type if not FormData
+    if (!(options.body instanceof FormData)) {
+        defaultHeaders['Content-Type'] = 'application/json';
+    }
 
     const API_BASE_URL: string | undefined = process.env.NEXT_PUBLIC_API_BASE_URL;
 
     const response: Response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        headers: {
-            'Content-Type': 'application/json',
-            ...(options?.headers || {}),
-        },
         ...options,
+        headers: {
+            ...defaultHeaders,
+            ...(options.headers || {}),
+        },
     });
 
     if (response.status === 401 || response.status === 422) {
@@ -185,12 +192,30 @@ export async function getClinicDetails() {
 }
 
 
-export async function updateClinincMandatoryDetails(data: ClinicProfileMandatoryFormSchema) {
+export async function updateClinincMandatoryDetails(formData: FormData) {
+
+    console.log(formData);
+
+    // FormData {
+    //     clinic_name: 'my clicnic@@',
+    //         country: '6',
+    //             state: 'mystate',
+    //                 city: 'my city',
+    //                     street_address: 'my address',
+    //                         patient_id_prefix: 'myfasf',
+    //                             upload_clinic_logo: File {
+    //         size: 363690,
+    //             type: 'image/png',
+    //                 name: 'Screenshot 2025-06-10 at 11.22.52 AM.png',
+    //                     lastModified: 1752405034083
+    //     }
+    // }
+
 
     try {
         const resp: Response = await apiFetch(`/update-clinic-basic-details`, {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: formData,
         });
         const response = await resp.json();
         if (resp.ok) {
