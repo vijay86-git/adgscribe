@@ -17,6 +17,12 @@ const labels = {
     },
     user: {
         updateProfile: "Update Profile"
+    },
+    template: {
+        my_template: "My Templates",
+        create_template: "Create Template",
+        update_template: "Update Template",
+
     }
 };
 

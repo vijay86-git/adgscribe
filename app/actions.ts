@@ -149,12 +149,11 @@ export async function updateProfile(formData: UserProfileFormSchema) {
             method: 'POST',
             body: JSON.stringify(formData)
         });
+        const response = await resp.json();
         if (resp.ok) {
-            const data = await resp.json();
-            return { success: true, data }
+            return { response: "OK" };
         } else {
-            console.log(await resp.json());
-            return { success: false, msg: "Something went wrong! Try again" };
+            return { response: "VALIDATION", msg: response.errors };
         }
     } catch {
         return { success: false, msg: "Something went wrong! Try again" }
@@ -230,3 +229,22 @@ export async function updateClinicBusinessDetails(data: ClinicProfileOptionalSch
     };
 
 }
+
+
+export async function getTemplates(body: SearchRequestBody) {
+    try {
+        const resp: Response = await apiFetch(`/templates`, {
+            method: 'POST',
+            body: JSON.stringify(body)
+        });
+        if (resp.ok) {
+            const data = await resp.json();
+            return { success: true, res: data };
+        } else {
+            return { success: false, msg: "Something went wrong! Try again" };
+        }
+    } catch {
+        return { response: "ERROR", msg: "Something went wrong! Try again" }
+    };
+}
+

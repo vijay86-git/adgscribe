@@ -8,13 +8,17 @@ import { Input } from "@/components/ui/input"
 import { userProfileFormSchema, UserProfileFormSchema } from "@/schemas/userProfileSchema";
 import { Check } from "lucide-react";
 import { updateProfile, getUserDetail } from "@/app/actions";
+import FieldErrorMessages from "@/components/error/FieldErrorMessages"
+
+import { FormValidationErrors } from "@/lib/types"
 
 export default function Profile() {
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isloading, setIsLoading] = useState<boolean>(false);
-    const [serverMessage, setServerMessage] = useState<string>("");
+    const [serverMessage, setServerMessage] = useState<boolean>(false);
     const [updateMsg, setUpdateMsg] = useState<boolean>(false);
+    const [formError, setFormErrors] = useState<FormValidationErrors>({});
 
     const {
         handleSubmit,
@@ -47,23 +51,41 @@ export default function Profile() {
     }, []);
 
     const onSubmit = async (data: UserProfileFormSchema) => {
+
         setIsSubmitting(true);
         setUpdateMsg(false);
-        setServerMessage('');
-        const response = await updateProfile(data);
+        const resp = await updateProfile(data);
         setIsSubmitting(false);
-        if (response.success) {
+        setFormErrors({});
+        if (resp.response == "OK") {
             setUpdateMsg(true);
-        } else {
-            setServerMessage("Something went wrong! Try again");
+            setValue("password", "");
+            setValue("confirm_password", "");
         }
+        else if (resp.response == "VALIDATION") {
+            setFormErrors(resp.msg);
+        } else {
+            setServerMessage(true);
+        }
+
+
+        // setIsSubmitting(true);
+        // setUpdateMsg(false);
+        // setServerMessage('');
+        // const response = await updateProfile(data);
+        // setIsSubmitting(false);
+        // if (response.success) {
+        //     setUpdateMsg(true);
+        // } else {
+        //     setServerMessage("Something went wrong! Try again");
+        // }
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-100 rounded-lg p-4">
             {updateMsg && (<p className="flex w-full mb-5 text-sm font-bold vBox sucBox"><Check className="mt-1 mr-1 w-6 h-6" color="green" /> Your Profile has been updated successfully!</p>)}
             {serverMessage && (<p className="flex w-full mb-5 text-sm font-bold vBox errBox">Something went wrong!</p>)}
-
+            <FieldErrorMessages errors={formError} />
             <div className="flex gap-6 mb-6">
                 <div className="flex-1 w-full items-center gap-2.5">
                     <Label htmlFor="name" className="mb-1">

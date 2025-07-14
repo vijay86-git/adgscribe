@@ -42,7 +42,8 @@ import {
 
 import { useRef } from "react";
 
-import { ClinicCountryProps, FormValidationErrors } from "@/components/clinic/Types"
+import { ClinicCountryProps } from "@/components/clinic/Types"
+import { FormValidationErrors } from "@/lib/types"
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 

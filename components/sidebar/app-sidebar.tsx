@@ -125,8 +125,8 @@ const data = {
                 },
 
                 {
-                    title: "Manage Template",
-                    url: "/template",
+                    title: "Template Library",
+                    url: "/my-templates",
                     icon: "FileText",
                     className: "size-4",
                     isActive: false

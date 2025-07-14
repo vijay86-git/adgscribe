@@ -26,7 +26,9 @@ import { MultiSelect } from "@/components/multi-select";
 
 import FieldErrorMessages from "@/components/error/FieldErrorMessages"
 
-import { ClinicOptionalProps, FormValidationErrors } from "@/components/clinic/Types";
+import { ClinicOptionalProps } from "@/components/clinic/Types";
+
+import { FormValidationErrors } from "@/lib/types"
 
 import { updateClinicBusinessDetails } from "@/app/actions"
 
@@ -97,7 +99,7 @@ export default function Optional({ designations, specializations, clinic_detail 
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Optional (but recommended)</CardTitle>
+                <CardTitle>Optional Fields (but recommended)</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-6">
                 <section className="container">
