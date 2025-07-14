@@ -4,7 +4,7 @@ export interface Template {
     id: number;
     name: string;
     template: string;
-    status: boolean;
+    status: number;
     created_at: string;
 }
 

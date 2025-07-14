@@ -5,6 +5,7 @@ import { SearchRequestBody } from '@/components/doctors/Types';
 import { UserProfileFormSchema } from "@/schemas/userProfileSchema";
 import { ClinicProfileMandatoryFormSchema } from "@/schemas/clinicProfileMandatorySchema";
 import { ClinicProfileOptionalSchema } from "@/schemas/clinicProfileOptionalSchema";
+import { templateFormSchema, TemplateFormSchema } from "@/schemas/templateSchema";
 
 export async function apiFetch<T>(
     endpoint: string,
@@ -233,7 +234,7 @@ export async function updateClinicBusinessDetails(data: ClinicProfileOptionalSch
 
 export async function getTemplates(body: SearchRequestBody) {
     try {
-        const resp: Response = await apiFetch(`/templates`, {
+        const resp: Response = await apiFetch(`/my-templates`, {
             method: 'POST',
             body: JSON.stringify(body)
         });
@@ -248,3 +249,21 @@ export async function getTemplates(body: SearchRequestBody) {
     };
 }
 
+export async function templateStore(data: TemplateFormSchema) {
+
+    try {
+        const resp: Response = await apiFetch(`/templates`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+        if (resp.ok) {
+            return { response: "OK" };
+        } else {
+            const response = await resp.json();
+            return { response: "VALIDATION", msg: response.errors };
+        }
+    } catch {
+        return { response: "ERROR", msg: "Something went wrong! Try again" }
+    };
+
+}

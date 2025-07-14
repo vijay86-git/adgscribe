@@ -71,7 +71,7 @@ export default function List() {
                         <TableRow>
                             <TableHead className="text-center font-bold text-gray-700 dark:text-gray-200 uppercase">#</TableHead>
                             <TableHead className="text-center font-bold text-gray-700 dark:text-gray-200 uppercase">Name</TableHead>
-                            <TableHead className="text-center font-bold text-gray-700 dark:text-gray-200 uppercase">Status</TableHead>
+                            <TableHead className="text-center font-bold text-gray-700 dark:text-gray-200 uppercase">Template</TableHead>
                             <TableHead className="text-center font-bold text-gray-700 dark:text-gray-200 uppercase">Date/Time</TableHead>
                             <TableHead className="text-center font-bold text-gray-700 dark:text-gray-200 uppercase">Action</TableHead>
                         </TableRow>

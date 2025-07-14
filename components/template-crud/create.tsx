@@ -7,12 +7,16 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { templateFormSchema, TemplateFormSchema } from "@/schemas/templateSchema";
 import { Check } from "lucide-react";
-import { updateProfile, getUserDetail } from "@/app/actions";
+import { templateStore } from "@/app/actions";
 import FieldErrorMessages from "@/components/error/FieldErrorMessages"
+import { useRouter } from 'next/navigation';
 
 import { FormValidationErrors } from "@/lib/types"
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Create() {
+
+    const router = useRouter(); // ✅ Called at the top level
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isloading, setIsLoading] = useState<boolean>(false);
@@ -30,27 +34,30 @@ export default function Create() {
         defaultValues: {
             name: "",
             template: "",
-            status: "",
         },// Connects Zod schema to React Hook Form
     });
 
     const onSubmit = async (data: TemplateFormSchema) => {
 
-        // setIsSubmitting(true);
-        // setUpdateMsg(false);
-        // const resp = await updateProfile(data);
-        // setIsSubmitting(false);
-        // setFormErrors({});
-        // if (resp.response == "OK") {
-        //     setUpdateMsg(true);
-        //     setValue("password", "");
-        //     setValue("confirm_password", "");
-        // }
-        // else if (resp.response == "VALIDATION") {
-        //     setFormErrors(resp.msg);
-        // } else {
-        //     setServerMessage(true);
-        // }
+        console.log(data);
+
+        setIsSubmitting(true);
+        setUpdateMsg(false);
+        const resp = await templateStore(data);
+        setIsSubmitting(false);
+        setFormErrors({});
+        if (resp.response == "OK") {
+
+            router.push('/my-templates');
+            //     setUpdateMsg(true);
+            //     setValue("password", "");
+            //     setValue("confirm_password", "");
+        }
+        else if (resp.response == "VALIDATION") {
+            setFormErrors(resp.msg);
+        } else {
+            setServerMessage(true);
+        }
     }
 
     return (
@@ -72,6 +79,8 @@ export default function Create() {
                     />
                     {errors.name && <span className="err text-sm">{errors.name.message}</span>}
                 </div>
+            </div>
+            <div className="flex gap-6 mb-6">
                 <div className="flex-1 w-full items-center gap-2.5">
                     <Label htmlFor="email" className="mb-1">
                         Template<sup>*</sup>
@@ -80,7 +89,7 @@ export default function Create() {
                         name="template"
                         control={control}
                         render={({ field }) => (
-                            <Input {...field} placeholder="Template" disabled={isloading || isSubmitting} />
+                            <Textarea {...field} className="h-10" placeholder="Template" disabled={isloading || isSubmitting} />
                         )}
                     />
                     {errors.template && <span className="err text-sm">{errors.template.message}</span>}
@@ -94,7 +103,7 @@ export default function Create() {
                     ? "opacity-50 cursor-not-allowed" : ""
                     }`}
             >
-                {(isSubmitting || isloading) ? "just a moment..." : "Update"}
+                {(isSubmitting || isloading) ? "just a moment..." : "Submit"}
             </Button>
         </form>
     )
