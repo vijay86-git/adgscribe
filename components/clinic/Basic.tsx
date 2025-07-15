@@ -55,7 +55,7 @@ import FieldErrorMessages from "@/components/error/FieldErrorMessages"
 export default function Basic({ countries, clinic_detail }: ClinicCountryProps) {
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isloading, setIsLoading] = useState<boolean>(false);
+    //const [isloading, setIsLoading] = useState<boolean>(false);
     const [serverMessage, setServerMessage] = useState<boolean>(false);
     const [updateMsg, setUpdateMsg] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
@@ -63,6 +63,8 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
     const [formError, setFormErrors] = useState<FormValidationErrors>({});
     const [clinicLogo, setClinicLogo] = useState<string>("");
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    const isloading: boolean = false;
 
     const {
         handleSubmit,

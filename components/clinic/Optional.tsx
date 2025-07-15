@@ -38,14 +38,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Optional({ designations, specializations, clinic_detail }: ClinicOptionalProps) {
 
+    const isloading: boolean = false;
+
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isloading, setIsLoading] = useState<boolean>(false);
+    //const [isloading, setIsLoading] = useState<boolean>(false);
     const [serverMessage, setServerMessage] = useState<string>("");
     const [updateMsg, setUpdateMsg] = useState<boolean>(false);
-    const [open, setOpen] = useState<boolean>(false);
+    //const [open, setOpen] = useState<boolean>(false);
     const [formError, setFormErrors] = useState<FormValidationErrors>({});
 
-    const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>(clinic_detail.specializations ?? []);
+    // const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>(clinic_detail.specializations ?? []);
 
     const {
         handleSubmit,
@@ -105,6 +107,7 @@ export default function Optional({ designations, specializations, clinic_detail 
                 <section className="container">
                     <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-100 rounded-lg p-4">
                         <FieldErrorMessages errors={formError} />
+                        {serverMessage && <span className="errBox text-sm vBox">Someting went wrong</span>}
                         {updateMsg && (<p className="flex w-full mb-5 text-sm font-bold vBox sucBox"><Check className="mt-1 mr-1 w-6 h-6" color="green" /> Updated successfully!</p>)}
                         <div className="flex gap-3 mb-6">
                             <div className="grid w-full max-w-sm items-center gap-1.5">

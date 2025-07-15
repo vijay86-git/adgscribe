@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from "@/components/ui/table"
-import { Edit, Trash, Eye } from "lucide-react";
+import { Eye } from "lucide-react";
 import Skeleton from '@/components/history/Skeleton'
 import { ListProps } from '@/components/history/Types'
 

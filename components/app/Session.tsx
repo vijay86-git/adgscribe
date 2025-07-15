@@ -1,6 +1,6 @@
 'use client'
 import React from "react";
-import { useDropzone } from 'react-dropzone'
+import { useDropzone, FileWithPath } from 'react-dropzone'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -45,7 +45,7 @@ export default function Session() {
     const { startRecording, stopRecording, isRecording, step, uploadFile, percent, progressBar, filename, formatTime, seconds } = useAudioRecorder();
 
     // Define the onDrop callback for when files are dropped
-    const onDrop = (acceptedFiles: any) => {
+    const onDrop = (acceptedFiles: FileWithPath[]) => {
         const file = acceptedFiles[0];
         if (file) {
             uploadFile(file);
@@ -86,8 +86,8 @@ export default function Session() {
                                                         <input {...getInputProps()} />
                                                         <div className="font-extrabold text-center">{
                                                             isDragActive ?
-                                                                <p>Drop the file here ...</p> :
-                                                                <p>Drag 'n' drop file here, or click to select file</p>
+                                                                <p>{"Drop the file here ..."}</p> :
+                                                                <p>{"Drag 'n' drop file here, or click to select file"}</p>
                                                         }</div>
                                                     </div>
                                                     {progressBar ? (<div className="w-full flex items-center justify-center gap-3"><Progress value={percent} className="w-[100%] [&>div]:bg-green-600" /> <span className="text-sm">{percent}%</span></div>) : ''}

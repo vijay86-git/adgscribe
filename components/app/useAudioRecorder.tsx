@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { FileWithPath } from 'react-dropzone';
 
 export function useAudioRecorder() {
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -10,10 +11,10 @@ export function useAudioRecorder() {
     const [progressBar, showProgressBar] = useState<boolean>(false);
     const [filename, setFileName] = useState<string>("");
 
-    const [seconds, setSeconds] = useState(0);
+    const [seconds, setSeconds] = useState<number>(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-    const formatTime = (totalSeconds: any) => {
+    const formatTime = (totalSeconds: number) => {
         const mins = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
         const secs = String(totalSeconds % 60).padStart(2, '0');
         return `${mins}:${secs}`;
@@ -73,7 +74,7 @@ export function useAudioRecorder() {
         }
     };
 
-    const uploadFile = async (file: any) => {
+    const uploadFile = async (file: FileWithPath) => {
 
         setStep(2);
         setLoader(true);
