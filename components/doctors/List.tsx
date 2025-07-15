@@ -50,6 +50,7 @@ export default function List() {
 
         const response = await getDoctors(requestBody);
         if (response.success) {
+            console.log(response.res.doctors.data, 'doctors');
             setLoading(false);
             setInitial(false);
             setDoctors(response.res.doctors.data);

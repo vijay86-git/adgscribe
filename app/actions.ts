@@ -97,10 +97,6 @@ export async function getDoctors(body: SearchRequestBody) {
             },
         });
 
-        const data = await resp.json();
-        console.log(data, "data");
-
-
         if (resp.ok) {
             const data = await resp.json();
             return { success: true, res: data };
