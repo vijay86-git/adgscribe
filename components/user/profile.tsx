@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@/components/ui/label"
@@ -35,7 +35,7 @@ export default function Profile() {
         },// Connects Zod schema to React Hook Form
     });
 
-    const getUserInfo = async () => {
+    const getUserInfo = useCallback(async () => {
         const response = await getUserDetail();
         if (response.success) {
             const { name, email } = response.data.user;
@@ -43,12 +43,12 @@ export default function Profile() {
             setValue("email", email, { shouldValidate: true });
             setIsLoading(false);
         }
-    };
+    }, [getUserDetail, setValue]);
 
     useEffect(() => {
         setIsLoading(true);
         getUserInfo();
-    }, []);
+    }, [getUserInfo]);
 
     const onSubmit = async (data: UserProfileFormSchema) => {
 
