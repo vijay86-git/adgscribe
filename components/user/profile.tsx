@@ -43,7 +43,7 @@ export default function Profile() {
             setValue("email", email, { shouldValidate: true });
             setIsLoading(false);
         }
-    }, [getUserDetail, setValue]);
+    }, [setValue]);
 
     useEffect(() => {
         setIsLoading(true);
