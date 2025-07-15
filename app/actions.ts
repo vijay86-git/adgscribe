@@ -50,6 +50,7 @@ export async function signin(formData: SignInFormData) {
         });
         if (resp.ok) {
             const data = await resp.json();
+            console.log(data, "data");
             await createSession(data.access_token);
             return { success: true };
         } else {
