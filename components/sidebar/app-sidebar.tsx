@@ -157,14 +157,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
-                                {item.items.map((item) => (
+                                {item.items.map((item, i) => (
                                     <SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton asChild isActive={item.isActive}>
                                             <div className="m-1">
                                                 <span className="mr-2">
                                                     {iconMapping[item.icon as IconName](item.className || "size-4")} {/* Pass className dynamically */}
                                                 </span>
-                                                <Link href={item.url}>{item.title}</Link></div>
+                                                <Link href={item.url} target={i === 0 ? "_blank" : undefined}>{item.title}</Link></div>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
                                 ))}
@@ -174,6 +174,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 ))}
             </SidebarContent>
             <SidebarRail />
-        </Sidebar>
+        </Sidebar >
     )
 }
