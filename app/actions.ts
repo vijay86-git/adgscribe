@@ -83,7 +83,7 @@ export async function getDoctors(body: SearchRequestBody) {
             method: 'GET',
             body: JSON.stringify(body),
             headers: {
-                Authorization: `Bearer ${getBearToken()}`
+                Authorization: `Bearer ${await getBearToken()}`
             },
         });
         if (resp.ok) {
@@ -101,7 +101,10 @@ export async function getPatients(body: SearchRequestBody) {
     try {
         const resp: Response = await apiFetch(`/patients`, {
             method: 'POST',
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         if (resp.ok) {
             const data = await resp.json();
@@ -118,7 +121,10 @@ export async function getHistories(body: SearchRequestBody) {
     try {
         const resp: Response = await apiFetch(`/history`, {
             method: 'POST',
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         if (resp.ok) {
             const data = await resp.json();
@@ -135,7 +141,10 @@ export async function getLogs(body: SearchRequestBody) {
     try {
         const resp: Response = await apiFetch(`/logs`, {
             method: 'POST',
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         if (resp.ok) {
             const data = await resp.json();
@@ -151,7 +160,10 @@ export async function getLogs(body: SearchRequestBody) {
 export async function metaData() {
     try {
         const resp: Response = await apiFetch(`/metadata`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         if (resp.ok) {
             return await resp.json();
@@ -167,7 +179,10 @@ export async function updateProfile(formData: UserProfileFormSchema) {
     try {
         const resp: Response = await apiFetch(`/user/profile`, {
             method: 'POST',
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         const response = await resp.json();
         if (resp.ok) {
@@ -183,7 +198,10 @@ export async function updateProfile(formData: UserProfileFormSchema) {
 export async function getUserDetail() {
     try {
         const resp: Response = await apiFetch(`/user/profile`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         if (resp.ok) {
             const data = await resp.json();
@@ -199,7 +217,10 @@ export async function getUserDetail() {
 export async function getClinicDetails() {
     try {
         const resp: Response = await apiFetch(`/clinic-details`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         if (resp.ok) {
             return await resp.json();
@@ -218,6 +239,9 @@ export async function updateClinincMandatoryDetails(formData: FormData) {
         const resp: Response = await apiFetch(`/update-clinic-basic-details`, {
             method: 'POST',
             body: formData,
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         const response = await resp.json();
         if (resp.ok) {
@@ -236,7 +260,10 @@ export async function updateClinicBusinessDetails(data: ClinicProfileOptionalSch
     try {
         const resp: Response = await apiFetch(`/update-clinic-business-details`, {
             method: 'POST',
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         const response = await resp.json();
         if (resp.ok) {
@@ -255,7 +282,10 @@ export async function getTemplates(body: SearchRequestBody) {
     try {
         const resp: Response = await apiFetch(`/my-templates`, {
             method: 'POST',
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         if (resp.ok) {
             const data = await resp.json();
@@ -273,7 +303,10 @@ export async function templateStore(data: TemplateFormSchema) {
     try {
         const resp: Response = await apiFetch(`/templates`, {
             method: 'POST',
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
         });
         if (resp.ok) {
             return { response: "OK" };
