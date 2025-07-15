@@ -1,10 +1,17 @@
 'use server'
 import { SignInFormData } from "@/schemas/formSchemas";
-import { createSession } from '@/lib/session'
+import { createSession, decrypt } from '@/lib/session'
+import { cookies } from 'next/headers'
 import { SearchRequestBody } from '@/components/doctors/Types';
 import { UserProfileFormSchema } from "@/schemas/userProfileSchema";
 import { ClinicProfileOptionalSchema } from "@/schemas/clinicProfileOptionalSchema";
 import { TemplateFormSchema } from "@/schemas/templateSchema";
+
+const getBearToken = async () => {
+    const cookie = (await cookies()).get('session')?.value;
+    const session = await decrypt(cookie);
+    return session?.token;
+}
 
 export async function apiFetch<T>(
     endpoint: string,
@@ -73,7 +80,10 @@ export async function getDoctors(body: SearchRequestBody) {
     try {
         const resp: Response = await apiFetch(`/doctors`, {
             method: 'POST',
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            headers: {
+                Authorization: `Bearer ${getBearToken()}`
+            },
         });
         if (resp.ok) {
             const data = await resp.json();
