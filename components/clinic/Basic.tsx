@@ -291,7 +291,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                                     <p className="text-red-500 text-xs">{errors.upload_clinic_logo.message}</p>
                                 )}
 
-                                <Image src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${clinicLogo}`} width={120} height={120} alt="" />
+                                <Image src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}storage/uploads/${clinicLogo}`} width={120} height={120} alt="" />
 
 
 
