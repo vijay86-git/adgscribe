@@ -18,7 +18,7 @@ export async function apiFetch<T>(
         defaultHeaders['Content-Type'] = 'application/json';
     }
 
-    const API_BASE_URL: string | undefined = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const API_BASE_URL: string | undefined = "https://api.adgscribe.companydemo.ca/api/v1/";//process.env.NEXT_PUBLIC_API_BASE_URL;
 
     console.log("process.env.NEXT_PUBLIC_API_BASE_URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
 
