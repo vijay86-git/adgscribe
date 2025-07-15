@@ -30,6 +30,10 @@ export async function apiFetch<T>(
         },
     });
 
+    console.log(response.status, 'response.status');
+    console.log(response, 'response.status');
+
+
     if (response.status === 401 || response.status === 422) {
         return response as T;
     }
