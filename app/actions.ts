@@ -29,6 +29,16 @@ export async function apiFetch<T>(
 
     console.log("process.env.NEXT_PUBLIC_API_BASE_URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
 
+    console.log("yy888");
+
+    console.log({
+        ...options,
+        headers: {
+            ...defaultHeaders,
+            ...(options.headers || {}),
+        },
+    });
+
     const response: Response = await fetch(`${API_BASE_URL}${endpoint}`, {
         ...options,
         headers: {
