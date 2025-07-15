@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    remotePatterns: [new URL(`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/storage/uploads/**`)],
+    remotePatterns: [new URL(`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}storage/uploads/**`)],
   },
 };
 
