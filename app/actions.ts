@@ -90,7 +90,7 @@ export async function getDoctors(body: SearchRequestBody) {
 
     try {
         const resp: Response = await apiFetch(`/doctors`, {
-            method: 'GET',
+            method: 'POST',
             body: JSON.stringify(body),
             headers: {
                 'Authorization': `Bearer ${await getBearToken()}`
