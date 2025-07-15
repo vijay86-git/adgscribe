@@ -3,9 +3,8 @@ import { SignInFormData } from "@/schemas/formSchemas";
 import { createSession } from '@/lib/session'
 import { SearchRequestBody } from '@/components/doctors/Types';
 import { UserProfileFormSchema } from "@/schemas/userProfileSchema";
-import { ClinicProfileMandatoryFormSchema } from "@/schemas/clinicProfileMandatorySchema";
 import { ClinicProfileOptionalSchema } from "@/schemas/clinicProfileOptionalSchema";
-import { templateFormSchema, TemplateFormSchema } from "@/schemas/templateSchema";
+import { TemplateFormSchema } from "@/schemas/templateSchema";
 
 export async function apiFetch<T>(
     endpoint: string,

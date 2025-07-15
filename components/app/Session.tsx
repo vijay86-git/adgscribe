@@ -1,12 +1,11 @@
 'use client'
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import { useDropzone } from 'react-dropzone'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-
 
 import {
     Select,
@@ -39,11 +38,11 @@ import {
 
 import { Folder, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Check, Timer, AudioLines } from "lucide-react";
 
-import { audioRecorder } from './audioRecorder';
+import { useAudioRecorder } from './useAudioRecorder';
 
 export default function Session() {
 
-    const { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, filename, formatTime, seconds } = audioRecorder();
+    const { startRecording, stopRecording, isRecording, step, uploadFile, percent, progressBar, filename, formatTime, seconds } = useAudioRecorder();
 
     // Define the onDrop callback for when files are dropped
     const onDrop = (acceptedFiles: any) => {
