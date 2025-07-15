@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    remotePatterns: [new URL('http://127.0.0.1:8001/storage/uploads/**')],
+    remotePatterns: [new URL(`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/storage/uploads/**`)],
   },
 };
 
