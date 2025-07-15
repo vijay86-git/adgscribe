@@ -33,7 +33,8 @@ export async function createSession(token: string) {
     const session = await encrypt({ token, expiresAt })
     const cookieStore = await cookies();
 
-    console.log(session, "session");
+    console.log(session, "session"); process.env.SESSION_SECRET
+    console.log(process.env.SESSION_SECRET, "secreto");
 
     cookieStore.set('session', session, {
         httpOnly: true,
