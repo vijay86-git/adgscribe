@@ -69,7 +69,7 @@ export function useAudioRecorder() {
         if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
             mediaRecorderRef.current.stop();
             setIsRecording(false);
-            stopTimer();
+            resetTimer();
         }
     };
 
