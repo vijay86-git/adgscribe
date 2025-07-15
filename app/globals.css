@@ -136,3 +136,4 @@ body {
 .vBox{height:34px;line-height:34px;padding-left:10px;border-radius:3px;animation: fade-in 3s}
 .errBox {background:#ffdddd;border:1px solid #ff97b4;color: #c71515}
 .sucBox {background: #ddffec;border: 1px solid #97ffcd;color: #087819}
+.trnscribelftlnk{pointer-events: none;opacity: 0.2}

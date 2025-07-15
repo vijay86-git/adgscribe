@@ -267,3 +267,52 @@ export async function templateStore(data: TemplateFormSchema) {
     };
 
 }
+
+
+export async function upload(file: any) {
+
+    //const formData = await req.formData();
+
+    // const res =  await apiFetch(apiRoutes.auth.profile, {
+    //   	method: 'POST',
+    //   	body: JSON.stringify({}),
+    //   	headers: {
+    // 	    Authorization: `Bearer ${token}`
+    // 	},
+    // });
+
+    const formData = new FormData();
+    formData.append("audio_file", file);
+
+    // Show progress UI
+    //$("#upload-progress-container").show();
+    //$("#upload-progress-bar").css("width", "0%").text("0%");
+
+    try {
+        const response: any = await fetch(`/upload`, {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            alert("Upload failed: " + errorText);
+            return;
+        }
+
+        const data = await response.json();
+
+        // Show success UI
+        const uploadedFilename = data.filename;
+
+        //console.log(data);
+
+
+        //$("#uploaded-name").text(data.filename);
+        //switchStep(2);
+    } catch (error) {
+        alert("Upload failed due to network error.");
+        console.error(error);
+    }
+
+}
