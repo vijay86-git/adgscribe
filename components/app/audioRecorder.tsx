@@ -10,6 +10,36 @@ export function audioRecorder() {
     const [progressBar, showProgressBar] = useState<boolean>(false);
     const [filename, setFileName] = useState<string>("");
 
+    const [seconds, setSeconds] = useState(0);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+    const formatTime = (totalSeconds: any) => {
+        const mins = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+        const secs = String(totalSeconds % 60).padStart(2, '0');
+        return `${mins}:${secs}`;
+    };
+
+    const resetTimer = () => {
+        stopTimer();
+        setSeconds(0);
+    };
+
+    const startTimer = () => {
+        if (intervalRef.current !== null) return; // Prevent multiple intervals
+        intervalRef.current = setInterval(() => {
+            setSeconds(prev => prev + 1);
+        }, 1000);
+    };
+
+    const stopTimer = () => {
+        if (intervalRef.current !== null) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+            console.log(4411);
+        }
+        intervalRef.current = null;
+    };
+
     const startRecording = async () => {
 
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -30,14 +60,16 @@ export function audioRecorder() {
             uploadFile(file);
         };
         mediaRecorder.start();
+        startTimer();
         setIsRecording(true);
-        console.log(111);
     };
 
     const stopRecording = () => {
+
         if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
             mediaRecorderRef.current.stop();
             setIsRecording(false);
+            stopTimer();
         }
     };
 
@@ -98,5 +130,5 @@ export function audioRecorder() {
     //                   });
     //const data = await res.json();
 
-    return { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, filename };
+    return { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, filename, formatTime, seconds };
 }

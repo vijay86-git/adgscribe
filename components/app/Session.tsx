@@ -43,7 +43,7 @@ import { audioRecorder } from './audioRecorder';
 
 export default function Session() {
 
-    const { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, filename } = audioRecorder();
+    const { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, filename, formatTime, seconds } = audioRecorder();
 
     // Define the onDrop callback for when files are dropped
     const onDrop = (acceptedFiles: any) => {
@@ -106,7 +106,7 @@ export default function Session() {
                                                     {isRecording ? (<><AudioLines className="audio-lines-animate w-16 h-8" /><Button className="mt-2" onClick={stopRecording}><MicOff size={24} /> Stop Recording</Button></>) : ''}
                                                 </section>
                                                 <div className="flex items-center gap-1.5 justify-center">
-                                                    <Timer className="w-5 h-5" /><p className="text-sm font-normal tracking-normal font-geist-sans leading-6 flex justify-self-end w-10 text-center text-primary">00:00</p>
+                                                    <Timer className="w-5 h-5" /><p className="text-sm font-normal tracking-normal font-geist-sans leading-6 flex justify-self-end w-10 text-center text-primary">{formatTime(seconds)}</p>
                                                 </div>
                                             </div>
                                         </CardContent>
