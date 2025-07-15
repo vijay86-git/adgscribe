@@ -48,6 +48,8 @@ export async function signin(formData: SignInFormData) {
             method: 'POST',
             body: JSON.stringify(formData),
         });
+
+        console.log(resp, 'resp');
         if (resp.ok) {
             const data = await resp.json();
             console.log(data, "data");

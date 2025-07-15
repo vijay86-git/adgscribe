@@ -2,8 +2,8 @@ import 'server-only'
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 
-const secretKey = process.env.SESSION_SECRET
-const encodedKey = new TextEncoder().encode(secretKey)
+const secretKey = process.env.SESSION_SECRET;
+const encodedKey = new TextEncoder().encode(secretKey);
 
 type JWTPayload = {
     [key: string]: unknown;
@@ -14,7 +14,7 @@ export async function encrypt(payload: JWTPayload) {
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
         .setExpirationTime('7d')
-        .sign(encodedKey)
+        .sign(encodedKey);
 }
 
 export async function decrypt(session: string | undefined = '') {
