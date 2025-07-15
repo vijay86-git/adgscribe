@@ -90,7 +90,7 @@ const CheckItem = ({ text }: { text: string }) => (
 )
 
 export default function Page() {
-    const [isYearly, setIsYearly] = useState(false)
+    //const [isYearly, setIsYearly] = useState(false)
     //const togglePricingPeriod = (value: string) => setIsYearly(parseInt(value) === 1)
     const plans = [
         {
@@ -146,7 +146,7 @@ export default function Page() {
                     <PricingHeader title="Pricing Plans" subtitle="Choose the plan that's right for you" />
                     <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
                         {plans.map((plan) => {
-                            return <PricingCard key={plan.title} {...plan} isYearly={isYearly} />
+                            return <PricingCard key={plan.title} {...plan} isYearly={false} />
                         })}
                     </section>
                 </div>
