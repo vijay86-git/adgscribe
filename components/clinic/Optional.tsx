@@ -42,7 +42,7 @@ export default function Optional({ designations, specializations, clinic_detail 
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     //const [isloading, setIsLoading] = useState<boolean>(false);
-    const [serverMessage, setServerMessage] = useState<string>("");
+    const [serverMessage, setServerMessage] = useState<boolean>(false);
     const [updateMsg, setUpdateMsg] = useState<boolean>(false);
     //const [open, setOpen] = useState<boolean>(false);
     const [formError, setFormErrors] = useState<FormValidationErrors>({});
@@ -94,7 +94,7 @@ export default function Optional({ designations, specializations, clinic_detail 
         else if (resp.response == "VALIDATION") {
             setFormErrors(resp.msg);
         } else {
-            //setServerMessage(true);
+            setServerMessage(true);
         }
     }
 

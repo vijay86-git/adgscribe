@@ -275,7 +275,7 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
                                 <Controller
                                     name="upload_clinic_logo"
                                     control={control}
-                                    render={({ field: { onChange, ref } }) => (
+                                    render={({ field: { onChange } }) => (
                                         <Input
                                             type="file"
                                             accept="image/*"
