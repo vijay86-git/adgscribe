@@ -8,6 +8,7 @@ export function audioRecorder() {
     const [loader, setLoader] = useState<boolean>(false);
     const [percent, setPercent] = useState<number>(0.0);
     const [progressBar, showProgressBar] = useState<boolean>(false);
+    const [filename, setFileName] = useState<string>("");
 
     const startRecording = async () => {
 
@@ -67,11 +68,13 @@ export function audioRecorder() {
         });
 
         xhr.onload = function (): void {
+
+            console.log(xhr.status, 'status');
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
                 const uploadedFilename: string = response.filename;
-                //$("#uploaded-name").text(uploadedFilename);
-                //switchStep(2);
+                setFileName(uploadedFilename);
+                setStep(2);
             } else {
                 alert("Upload failed: " + xhr.responseText);
             }
@@ -85,7 +88,8 @@ export function audioRecorder() {
         // $("#upload-progress-container").show();
         // $("#upload-progress-bar").css("width", "0%").text("0%");
 
-        xhr.send(formData);
+        //xhr.send(formData);
+        xhr.send();
 
     }
     // const res = await fetch('/api/scribe', {
@@ -94,5 +98,5 @@ export function audioRecorder() {
     //                   });
     //const data = await res.json();
 
-    return { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar };
+    return { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, filename };
 }

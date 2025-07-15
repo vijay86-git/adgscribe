@@ -48,7 +48,7 @@ export default function AppLayout({
                 </div>
             </div>
             <div className="border-1 rounded-md flex flex-col shadow-2xl">
-                <main className="flex flex-1 flex-col p-4 lg:gap-6 lg:p-6">
+                <main className="flex flex-1 flex-col p-4">
                     {children}
                 </main>
             </div>
