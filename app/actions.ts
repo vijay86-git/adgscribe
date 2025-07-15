@@ -48,7 +48,7 @@ export async function apiFetch<T>(
 export async function signin(formData: SignInFormData) {
 
     try {
-        const resp: Response = await apiFetch(`login`, {
+        const resp: Response = await apiFetch(`/login`, {
             method: 'POST',
             body: JSON.stringify(formData),
         });
