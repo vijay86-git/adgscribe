@@ -158,7 +158,7 @@ export async function getLogs(body: SearchRequestBody) {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
-                Authorization: `Bearer ${await getBearToken()}`
+                "Authorization": `Bearer ${await getBearToken()}`
             },
         });
         if (resp.ok) {
