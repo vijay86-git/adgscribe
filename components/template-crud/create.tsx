@@ -19,15 +19,16 @@ export default function Create() {
     const router = useRouter(); // ✅ Called at the top level
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isloading, setIsLoading] = useState<boolean>(false);
+    //const [isloading, setIsLoading] = useState<boolean>(false);
     const [serverMessage, setServerMessage] = useState<boolean>(false);
     const [updateMsg, setUpdateMsg] = useState<boolean>(false);
     const [formError, setFormErrors] = useState<FormValidationErrors>({});
 
+    const isloading: boolean = false;
+
     const {
         handleSubmit,
         control,
-        setValue,
         formState: { errors },
     } = useForm<TemplateFormSchema>({
         resolver: zodResolver(templateFormSchema),

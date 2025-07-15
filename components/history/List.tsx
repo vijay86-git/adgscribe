@@ -17,13 +17,13 @@ export default function List() {
     const [pagination, setPagination] = useState<Pagination>({ current_page: 1, first_page_url: null, from: 0, last_page: 1, last_page_url: null, links: [], next_page_url: null, path: null, per_page: 10, prev_page_url: null, to: 0, total: 0 });
 
     const fetchHistories = async (page = 1, debouncedQuery = '') => {
-        const res = await fetch(`/api/history`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ page, q: encodeURIComponent(debouncedQuery) }),
-        });
+        // const res = await fetch(`/api/history`, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({ page, q: encodeURIComponent(debouncedQuery) }),
+        // });
 
         const requestBody: SearchRequestBody = {
             page,
