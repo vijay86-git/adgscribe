@@ -20,6 +20,8 @@ export async function apiFetch<T>(
 
     const API_BASE_URL: string | undefined = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+    console.log("process.env.NEXT_PUBLIC_API_BASE_URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
+
     const response: Response = await fetch(`${API_BASE_URL}${endpoint}`, {
         ...options,
         headers: {
