@@ -93,7 +93,7 @@ export async function getDoctors(body: SearchRequestBody) {
             method: 'GET',
             body: JSON.stringify(body),
             headers: {
-                Authorization: `Bearer ${await getBearToken()}`
+                'Authorization': `Bearer ${await getBearToken()}`
             },
         });
 
