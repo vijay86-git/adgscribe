@@ -269,50 +269,86 @@ export async function templateStore(data: TemplateFormSchema) {
 }
 
 
-export async function upload(file: any) {
+// export async function upload(file: any) {
 
-    //const formData = await req.formData();
+//     //const formData = await req.formData();
 
-    // const res =  await apiFetch(apiRoutes.auth.profile, {
-    //   	method: 'POST',
-    //   	body: JSON.stringify({}),
-    //   	headers: {
-    // 	    Authorization: `Bearer ${token}`
-    // 	},
-    // });
+//     // const res =  await apiFetch(apiRoutes.auth.profile, {
+//     //   	method: 'POST',
+//     //   	body: JSON.stringify({}),
+//     //   	headers: {
+//     // 	    Authorization: `Bearer ${token}`
+//     // 	},
+//     // });
 
-    const formData = new FormData();
-    formData.append("audio_file", file);
+//     const formData = new FormData();
+//     formData.append("audio_file", file);
 
-    // Show progress UI
-    //$("#upload-progress-container").show();
-    //$("#upload-progress-bar").css("width", "0%").text("0%");
+//     // Show progress UI
+//     //$("#upload-progress-container").show();
+//     //$("#upload-progress-bar").css("width", "0%").text("0%");
 
-    try {
-        const response: any = await fetch(`/upload`, {
-            method: "POST",
-            body: formData,
-        });
+//     try {
+//         // const response: any = await fetch(`/upload`, {
+//         //     method: "POST",
+//         //     body: formData,
+//         // });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            alert("Upload failed: " + errorText);
-            return;
-        }
+//         // const response: any = await fetch(`/upload`, {
+//         //     method: "GET"
+//         // });
 
-        const data = await response.json();
+//         // if (!response.ok) {
+//         //     const errorText = await response.text();
+//         //     alert("Upload failed: " + errorText);
+//         //     return;
+//         // }
 
-        // Show success UI
-        const uploadedFilename = data.filename;
+//         // const data = await response.json();
 
-        //console.log(data);
+//         // // Show success UI
+//         // const uploadedFilename = data.filename;
+
+//         //console.log(data);
 
 
-        //$("#uploaded-name").text(data.filename);
-        //switchStep(2);
-    } catch (error) {
-        alert("Upload failed due to network error.");
-        console.error(error);
-    }
+//         //$("#uploaded-name").text(data.filename);
+//         //switchStep(2);
 
-}
+
+//         const xhr = new XMLHttpRequest();
+//         xhr.open("POST", `http://127.0.0.1:8001/api/v1/upload`, true);
+
+//         // Type for event argument in progress event
+//         xhr.upload.addEventListener("progress", (e: ProgressEvent) => {
+//             if (e.lengthComputable) {
+//                 const percent = Math.round((e.loaded / e.total) * 100);
+//                 updateProgress(percent);
+//             }
+//         });
+
+//         xhr.onload = function (): void {
+//             if (xhr.status === 200) {
+//                 const response = JSON.parse(xhr.responseText);
+//                 const uploadedFilename: string = response.filename;
+//                 //$("#uploaded-name").text(uploadedFilename);
+//                 //switchStep(2);
+//             } else {
+//                 alert("Upload failed: " + xhr.responseText);
+//             }
+//         };
+
+//         xhr.onerror = function (): void {
+//             alert("Upload failed due to network error.");
+//         };
+
+//         // Show progress bar container before upload
+//        // $("#upload-progress-container").show();
+//        // $("#upload-progress-bar").css("width", "0%").text("0%");
+
+//         xhr.send(formData);
+
+//     } catch (error) {
+//         alert("Upload failed due to network error.");
+//         console.error(error);
+//     }

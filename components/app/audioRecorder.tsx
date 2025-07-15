@@ -6,6 +6,8 @@ export function audioRecorder() {
     const [isRecording, setIsRecording] = useState<boolean>(false);
     const [step, setStep] = useState<number>(1);
     const [loader, setLoader] = useState<boolean>(false);
+    const [percent, setPercent] = useState<number>(0.0);
+    const [progressBar, showProgressBar] = useState<boolean>(false);
 
     const startRecording = async () => {
 
@@ -51,17 +53,46 @@ export function audioRecorder() {
         console.log(file);
         console.log(formData);
 
-        const resp = await fetch('http://127.0.0.1:8001/api/v1/upload', {
-            method: 'POST',
-            body: formData,
+        showProgressBar(true);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", `http://127.0.0.1:8001/api/v1/upload`, true);
+
+        // Type for event argument in progress event
+        xhr.upload.addEventListener("progress", (e: ProgressEvent) => {
+            if (e.lengthComputable) {
+                const percent = Math.round((e.loaded / e.total) * 100);
+                setPercent(percent);
+            }
         });
 
-        // const res = await fetch('/api/scribe', {
-        //                       method: 'POST',
-        //                       body: formData,
-        //                   });
-        //const data = await res.json();
-    }
+        xhr.onload = function (): void {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                const uploadedFilename: string = response.filename;
+                //$("#uploaded-name").text(uploadedFilename);
+                //switchStep(2);
+            } else {
+                alert("Upload failed: " + xhr.responseText);
+            }
+        };
 
-    return { startRecording, stopRecording, isRecording, step, loader, uploadFile };
+        xhr.onerror = function (): void {
+            alert("Upload failed due to network error.");
+        };
+
+        // Show progress bar container before upload
+        // $("#upload-progress-container").show();
+        // $("#upload-progress-bar").css("width", "0%").text("0%");
+
+        xhr.send(formData);
+
+    }
+    // const res = await fetch('/api/scribe', {
+    //                       method: 'POST',
+    //                       body: formData,
+    //                   });
+    //const data = await res.json();
+
+    return { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar };
 }

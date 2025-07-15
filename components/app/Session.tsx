@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import {
     Select,
     SelectContent,
@@ -40,7 +41,7 @@ import { audioRecorder } from './audioRecorder';
 
 export default function Session() {
 
-    const { startRecording, stopRecording, isRecording, step, loader, uploadFile } = audioRecorder();
+    const { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar } = audioRecorder();
 
     // Define the onDrop callback for when files are dropped
     const onDrop = (acceptedFiles: any) => {
@@ -86,9 +87,11 @@ export default function Session() {
                                                         <p>Drag 'n' drop file here, or click to select file</p>
                                                 }</div>
                                             </div>
+                                            {progressBar ? (<div className="w-full flex items-center justify-center gap-3"><Progress value={percent} className="w-[100%] [&>div]:bg-green-600" /> <span className="text-sm">{percent}%</span></div>) : ''}
                                         </div>
                                     </section>
                                 </CardContent>
+
                             </Card>
                         </TabsContent>
                         <TabsContent value="liveRecording">
