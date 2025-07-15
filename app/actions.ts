@@ -76,7 +76,7 @@ export async function signin(formData: SignInFormData) {
 }
 
 export async function getDoctors(body: SearchRequestBody) {
-    console.log("token", getBearToken());
+    console.log("token", await getBearToken());
 
     try {
         const resp: Response = await apiFetch(`/doctors`, {
