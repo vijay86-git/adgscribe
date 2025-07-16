@@ -15,6 +15,8 @@ import {
 
 import { Scroll, NotebookPen, Users, CalendarDays } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge"
+
 export const metadata: Metadata = {
     title: "ADGScribe | AI Medical Transcription Tool for Healthcare",
     description: "ADGScribe is an AI-powered medical transcription platform that converts clinical speech to structured notes in real-time, improving accuracy and patient care",
@@ -52,7 +54,6 @@ export default function Page() {
                         <p className="text-gray-600 text-md mb-2 font-bold">Total Transcriptions</p>
                         <p className="text-3xl font-semibold text-stone-700">21</p>
                     </div>
-
                     <div className="w-12 h-12 rounded-full cclr flex items-center justify-center">
                         <Scroll className="" size={28} color="#57a3d4" />
                     </div>
@@ -74,34 +75,20 @@ export default function Page() {
                     <div className="w-12 h-12 rounded-full cclr flex items-center justify-center">
                         <Users className="" size={28} color="#57a3d4" />
                     </div>
-
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-5">
                 <div className="bg-white p-4 rounded-lg shadow border-1">
-                    <div className="flex justify-between items-center mb-2">
-                        <h3 className="text-lg font-semibold text-stone-700 ">Transcription</h3>
+                    <div className="flex justify-between items-center">
+                        <h3 className="text-lg font-semibold text-stone-700 ">Transcription <Badge className="text-sm">11,278</Badge></h3>
                         <span className="text-sm text-gray-400 flex gap-2"><CalendarDays size={16} /> Last 10 Days</span>
-                    </div>
-                    <div className="py-5 flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-full cclr flex items-center justify-center">
-                            <Users size={28} color="#57a3d4" />
-                        </div>
-                        <h2 className="text-2xl font-semibold">87</h2>
                     </div>
                 </div>
-
                 <div className="bg-white p-4 rounded-lg shadow border-1">
-                    <div className="flex justify-between items-center mb-2">
-                        <h3 className="text-lg font-semibold text-stone-700">Notes</h3>
+                    <div className="flex justify-between items-center">
+                        <h3 className="text-lg font-semibold text-stone-700 ">Notes <Badge className="text-sm">9,278</Badge></h3>
                         <span className="text-sm text-gray-400 flex gap-2"><CalendarDays size={16} /> Last 10 Days</span>
-                    </div>
-                    <div className="py-5 flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-full cclr flex items-center justify-center">
-                            <Users size={28} color="#57a3d4" />
-                        </div>
-                        <h2 className="text-2xl font-semibold">17</h2>
                     </div>
                 </div>
             </div>
