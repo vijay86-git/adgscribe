@@ -252,7 +252,7 @@ export default function Session() {
                                                 </div> */}
 
                                                 <div className="relative w-full max-w-sm">
-                                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
+                                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-8" />
                                                     <Input
                                                         type="text"
                                                         placeholder="Search Patient by Name, Contact Number..."
