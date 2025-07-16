@@ -74,6 +74,7 @@ export function useAudioRecorder() {
         }
     };
 
+
     const uploadFile = async (file: FileWithPath) => {
         setStep(2);
         setLoader(true);
@@ -81,7 +82,7 @@ export function useAudioRecorder() {
         formData.append("audio_file", file);
         showProgressBar(true);
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", `${process.env.NEXT_PUBLIC_API_BASE_URL}upload`, true);
+        xhr.open("POST", `${process.env.NEXT_PUBLIC_API_BASE_URL}/upload`, true);
 
         // Type for event argument in progress event
         xhr.upload.addEventListener("progress", (e: ProgressEvent) => {
@@ -105,12 +106,9 @@ export function useAudioRecorder() {
         xhr.onerror = function (): void {
             alert("Upload failed due to network error.");
         };
-
-        // Show progress bar container before upload
-        // $("#upload-progress-container").show();
-        // $("#upload-progress-bar").css("width", "0%").text("0%");
-
         xhr.send(formData);
     }
+
+
     return { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, filename, formatTime, seconds };
 }

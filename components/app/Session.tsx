@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { useState } from "react";
 import { useDropzone, FileWithPath } from 'react-dropzone'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,9 +40,16 @@ import { Folder, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Che
 
 import { useAudioRecorder } from './useAudioRecorder';
 
+import { generateTranscript, generateNotes } from '@/app/actions';
+
 export default function Session() {
 
     const { startRecording, stopRecording, isRecording, step, uploadFile, percent, progressBar, filename, formatTime, seconds } = useAudioRecorder();
+
+    const [transcribe, setTranscribe] = useState<string>("");
+    const [uuid, setUuid] = useState<string>("");
+    const [notes, setNotes] = useState<string>("");
+    const [transcribeEnabled, isTranscribeEnabled] = useState<boolean>(false);
 
     // Define the onDrop callback for when files are dropped
     const onDrop = (acceptedFiles: FileWithPath[]) => {
@@ -62,8 +69,28 @@ export default function Session() {
         }
     });
 
-    const genearateTranscription = () => {
+    const generateTranscription = async (filename: string) => {
 
+        console.log('generate transcription');
+
+        console.log(filename);
+
+        const resp = await generateTranscript(filename);
+        console.log(resp, 'clinet');
+
+        if (resp.response == "OK") {
+            const { response, uuid } = resp.data;
+            setTranscribe(response);
+            setUuid(uuid);
+            isTranscribeEnabled(true);
+        }
+    }
+
+    const genNotes = async () => {
+        const resp = await generateNotes(transcribe);
+        if (resp.status == "success") {
+            setNotes(notes);
+        }
     }
 
     return (
@@ -173,20 +200,20 @@ export default function Session() {
                             </Select></div>
                         </div>
                         <div>
-                            <Button type="submit" onClick={genearateTranscription}>
+                            <Button onClick={() => generateTranscription(filename)}>
                                 <FileText color="white" size={24} />Generate Transcription
                             </Button>
                         </div>
                     </div>
                     : ''}
 
-                {step == 3 ?
+                {transcribeEnabled ?
                     <>
                         <div className="grid grid-cols-2 gap-4 mt-5 ml-5">
                             <div className="mt-1">
                                 <div className="mb-3">
                                     <h3 className="text-xl font-semibold mb-1">Transcript</h3>
-                                    <Textarea className="w-full h-48 p-3 border border-gray-300 rounded-md" placeholder="Transcript" />
+                                    <Textarea className="w-full h-48 p-3 border border-gray-300 rounded-md" placeholder="Transcript" defaultValue={transcribe} />
                                 </div>
                                 <div className="mb-3">
                                     <h3 className="text-xl font-semibold mb-1">Internal Notes</h3>
@@ -197,8 +224,8 @@ export default function Session() {
                                 <div className="mb-6">
                                     <h3 className="text-xl font-semibold mb-2 flex justify-between items-center">
                                         <span>Clinical Notes</span>
-                                        <Button className="ml-4">
-                                            <FileText color="white" size={24} /> Verify and Generate Notes
+                                        <Button className="ml-4" >
+                                            <FileText color="white" size={24} onClick={() => genNotes()} /> Verify and Generate Notes
                                         </Button>
                                     </h3>
                                 </div>

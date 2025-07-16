@@ -327,7 +327,53 @@ export async function templateStore(data: TemplateFormSchema) {
     } catch {
         return { response: "ERROR", msg: "Something went wrong! Try again" }
     };
+}
 
+export async function generateTranscript(filename: string) {
+
+    try {
+        const resp: Response = await apiFetch(`/transcribe`, {
+            method: 'POST',
+            body: JSON.stringify({ filename }),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
+        });
+
+        if (resp.ok) {
+            const data = await resp.json();
+            return { response: "OK", data };
+        } else {
+            return { response: "ERROR", msg: "Something went wrong! Try again" };
+        }
+    } catch {
+        return { response: "ERROR", msg: "Something went wrong! Try again" }
+    };
+}
+
+export async function generateNotes(transcribe: string) {
+    try {
+        const resp: Response = await apiFetch(`/generate`, {
+            method: 'POST',
+            body: JSON.stringify({ transcribe }),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
+        });
+
+        if (resp.ok) {
+            const data: {
+                status: string;
+                response: string;
+            } = await resp.json();
+            const { status, response } = data;
+            return { status, response };
+        } else {
+            return { response: "ERROR", msg: "Something went wrong! Try again" };
+        }
+    } catch {
+        return { response: "ERROR", msg: "Something went wrong! Try again" }
+    };
 }
 
 
