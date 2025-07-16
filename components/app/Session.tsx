@@ -79,7 +79,8 @@ export default function Session() {
         console.log(resp, 'clinet');
 
         if (resp.response == "OK") {
-            const { response, uuid } = resp.data;
+            //const { response, uuid } = resp.data;
+            const { response } = resp.data;
             setTranscribe(response);
             //setUuid(uuid);
             isTranscribeEnabled(true);
