@@ -224,8 +224,8 @@ export default function Session() {
                                 <div className="mb-6">
                                     <h3 className="text-xl font-semibold mb-2 flex justify-between items-center">
                                         <span>Clinical Notes</span>
-                                        <Button className="ml-4" disabled={generatingNotes}>
-                                            <FileText color="white" size={24} onClick={() => genNotes()} /> {generatingNotes ? "Generating Notes" : "Verify and Generate Notes"}
+                                        <Button className="ml-4" disabled={generatingNotes} onClick={() => genNotes()}>
+                                            <FileText color="white" size={24} /> {generatingNotes ? "Generating Notes" : "Verify and Generate Notes"}
                                         </Button>
                                     </h3>
                                     <Textarea className="w-full h-24 p-3 border border-gray-300 rounded-md" placeholder="Clinical Notes" />
