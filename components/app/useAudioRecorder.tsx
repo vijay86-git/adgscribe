@@ -12,7 +12,6 @@ export function useAudioRecorder() {
     const [percent, setPercent] = useState<number>(0.0);
     const [progressBar, showProgressBar] = useState<boolean>(false);
     const [filename, setFileName] = useState<string>("");
-
     const [seconds, setSeconds] = useState<number>(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -113,7 +112,5 @@ export function useAudioRecorder() {
         // xhr.send(formData);
         xhr.send();
     }
-
-
     return { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, filename, formatTime, seconds };
 }

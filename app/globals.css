@@ -182,3 +182,5 @@ body {
   transform-origin: center;
   animation: wave 1s infinite ease-in-out;
 }
+main.bg-background{background:#f8fafc !important}
+.bg-sidebar{background:#fafafa}
