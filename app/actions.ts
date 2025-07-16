@@ -351,11 +351,11 @@ export async function generateTranscript(filename: string) {
     };
 }
 
-export async function generateNotes(transcribe: string) {
+export async function generateNotes(uuid: string) {
     try {
         const resp: Response = await apiFetch(`/generate`, {
             method: 'POST',
-            body: JSON.stringify({ transcribe }),
+            body: JSON.stringify({ uuid }),
             headers: {
                 Authorization: `Bearer ${await getBearToken()}`
             },

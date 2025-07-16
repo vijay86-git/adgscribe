@@ -47,12 +47,11 @@ export default function Session() {
     const { startRecording, stopRecording, isRecording, step, uploadFile, percent, progressBar, filename, formatTime, seconds } = useAudioRecorder();
 
     const [transcribe, setTranscribe] = useState<string>("");
-    //const [uuid, setUuid] = useState<string>("");
+    const [uuid, setUuid] = useState<string>("");
     const [notes, setNotes] = useState<string>("");
     const [transcribeEnabled, isTranscribeEnabled] = useState<boolean>(false);
     const [transcription, transcriptionLoading] = useState<boolean>(false);
     const [generatingNotes, isGeneratingNotes] = useState<boolean>(false);
-
 
     // Define the onDrop callback for when files are dropped
     const onDrop = (acceptedFiles: FileWithPath[]) => {
@@ -78,17 +77,16 @@ export default function Session() {
         const resp = await generateTranscript(filename);
         transcriptionLoading(false);
         if (resp.response == "OK") {
-            //const { response, uuid } = resp.data;
-            const { response } = resp.data;
+            const { response, uuid } = resp.data;
             setTranscribe(response);
-            //setUuid(uuid);
+            setUuid(uuid);
             isTranscribeEnabled(true);
         }
     }
 
     const genNotes = async () => {
         isGeneratingNotes(true);
-        const resp = await generateNotes(transcribe);
+        const resp = await generateNotes(uuid);
         isGeneratingNotes(false);
         if (resp.status == "success") {
             setNotes(notes);

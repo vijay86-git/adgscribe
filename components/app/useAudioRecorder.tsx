@@ -76,7 +76,6 @@ export function useAudioRecorder() {
         }
     };
 
-
     const uploadFile = async (file: FileWithPath) => {
         setStep(2);
         setLoader(true);
