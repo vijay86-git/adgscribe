@@ -84,8 +84,7 @@ export function useAudioRecorder() {
         formData.append("audio_file", file);
         showProgressBar(true);
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", `${process.env.NEXT_PUBLIC_API_BASE_URL}/upload`, true);
-
+        xhr.open("GET", `${process.env.NEXT_PUBLIC_API_BASE_URL}/upload`, true);
 
         // Set Bearer token in Authorization header
         xhr.setRequestHeader("Authorization", `Bearer ${await getBearToken()}`); // Replace with your actual token
@@ -112,7 +111,8 @@ export function useAudioRecorder() {
         xhr.onerror = function (): void {
             alert("Upload failed due to network error.");
         };
-        xhr.send(formData);
+        // xhr.send(formData);
+        xhr.send();
     }
 
 
