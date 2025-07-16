@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
 
+import { getBearToken } from "@/app/actions";
+
 export function useAudioRecorder() {
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
@@ -83,6 +85,10 @@ export function useAudioRecorder() {
         showProgressBar(true);
         const xhr = new XMLHttpRequest();
         xhr.open("POST", `${process.env.NEXT_PUBLIC_API_BASE_URL}/upload`, true);
+
+
+        // Set Bearer token in Authorization header
+        xhr.setRequestHeader("Authorization", `Bearer ${await getBearToken()}`); // Replace with your actual token
 
         // Type for event argument in progress event
         xhr.upload.addEventListener("progress", (e: ProgressEvent) => {

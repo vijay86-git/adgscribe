@@ -7,7 +7,7 @@ import { UserProfileFormSchema } from "@/schemas/userProfileSchema";
 import { ClinicProfileOptionalSchema } from "@/schemas/clinicProfileOptionalSchema";
 import { TemplateFormSchema } from "@/schemas/templateSchema";
 
-const getBearToken = async () => {
+export const getBearToken = async () => {
     const cookie = (await cookies()).get('session')?.value;
     const session = await decrypt(cookie);
     return session?.token;
