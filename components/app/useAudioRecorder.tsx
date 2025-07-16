@@ -75,22 +75,13 @@ export function useAudioRecorder() {
     };
 
     const uploadFile = async (file: FileWithPath) => {
-
         setStep(2);
         setLoader(true);
-
-        console.log(12222);
-
         const formData = new FormData();
         formData.append("audio_file", file);
-
-        console.log(file);
-        console.log(formData);
-
         showProgressBar(true);
-
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", `http://127.0.0.1:8001/api/v1/upload`, true);
+        xhr.open("POST", `${process.env.NEXT_PUBLIC_API_BASE_URL}upload`, true);
 
         // Type for event argument in progress event
         xhr.upload.addEventListener("progress", (e: ProgressEvent) => {
@@ -101,8 +92,6 @@ export function useAudioRecorder() {
         });
 
         xhr.onload = function (): void {
-
-            console.log(xhr.status, 'status');
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
                 const uploadedFilename: string = response.filename;
@@ -121,15 +110,7 @@ export function useAudioRecorder() {
         // $("#upload-progress-container").show();
         // $("#upload-progress-bar").css("width", "0%").text("0%");
 
-        //xhr.send(formData);
-        xhr.send();
-
+        xhr.send(formData);
     }
-    // const res = await fetch('/api/scribe', {
-    //                       method: 'POST',
-    //                       body: formData,
-    //                   });
-    //const data = await res.json();
-
     return { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, filename, formatTime, seconds };
 }

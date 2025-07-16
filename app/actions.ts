@@ -351,10 +351,13 @@ export async function templateStore(data: TemplateFormSchema) {
 //     //$("#upload-progress-bar").css("width", "0%").text("0%");
 
 //     try {
-//         // const response: any = await fetch(`/upload`, {
-//         //     method: "POST",
-//         //     body: formData,
-//         // });
+//         const response: any = await fetch(`/upload`, {
+//             method: "POST",
+//             body: formData,
+//             headers: {
+//                 Authorization: `Bearer ${await getBearToken()}`
+//             },
+//         });
 
 //         // const response: any = await fetch(`/upload`, {
 //         //     method: "GET"
@@ -379,7 +382,7 @@ export async function templateStore(data: TemplateFormSchema) {
 
 
 //         const xhr = new XMLHttpRequest();
-//         xhr.open("POST", `http://127.0.0.1:8001/api/v1/upload`, true);
+//         xhr.open("POST", `${process.env.NEXT_PUBLIC_API_BASE_URL}upload`, true);
 
 //         // Type for event argument in progress event
 //         xhr.upload.addEventListener("progress", (e: ProgressEvent) => {
@@ -405,8 +408,8 @@ export async function templateStore(data: TemplateFormSchema) {
 //         };
 
 //         // Show progress bar container before upload
-//        // $("#upload-progress-container").show();
-//        // $("#upload-progress-bar").css("width", "0%").text("0%");
+//         // $("#upload-progress-container").show();
+//         // $("#upload-progress-bar").css("width", "0%").text("0%");
 
 //         xhr.send(formData);
 

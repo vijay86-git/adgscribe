@@ -293,8 +293,6 @@ export default function Basic({ countries, clinic_detail }: ClinicCountryProps) 
 
                                 <Image src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}storage/uploads/${clinicLogo}`} width={120} height={120} alt="" />
 
-
-
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">
                             </div>

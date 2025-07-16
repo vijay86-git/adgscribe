@@ -62,6 +62,10 @@ export default function Session() {
         }
     });
 
+    const genearateTranscription = () => {
+
+    }
+
     return (
 
         <div className="flex">
@@ -139,25 +143,44 @@ export default function Session() {
                                 <span className="px-2 text-lg font-extrabold">File Uploaded: <Badge className="fbrd p-1 px-3 border-1 text-black text-sm" variant="outline"><Music4 size={24} />{filename}</Badge></span>
                             </div>
                             <div className="w-[35%] text-right"><Select>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Select Language" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="light">English</SelectItem>
-                                    <SelectItem value="dark">French</SelectItem>
-                                    <SelectItem value="system">German</SelectItem>
-                                </SelectContent>
+                                <Select value={"en"}>
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Select Language" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="ar">Arabic</SelectItem>
+                                        <SelectItem value="yue">Cantonese</SelectItem>
+                                        <SelectItem value="prs">Dari</SelectItem>
+                                        <SelectItem value="en">English</SelectItem>
+                                        <SelectItem value="fa">Farsi (Persian)</SelectItem>
+                                        <SelectItem value="fr">French</SelectItem>
+                                        <SelectItem value="de">German</SelectItem>
+                                        <SelectItem value="he">Hebrew</SelectItem>
+                                        <SelectItem value="hi">Hindi</SelectItem>
+                                        <SelectItem value="it">Italian</SelectItem>
+                                        <SelectItem value="ko">Korean</SelectItem>
+                                        <SelectItem value="zh">Mandarin</SelectItem>
+                                        <SelectItem value="pt">Portuguese</SelectItem>
+                                        <SelectItem value="pa">Punjabi</SelectItem>
+                                        <SelectItem value="ru">Russian</SelectItem>
+                                        <SelectItem value="so">Somali</SelectItem>
+                                        <SelectItem value="es">Spanish</SelectItem>
+                                        <SelectItem value="tl">Tagalog</SelectItem>
+                                        <SelectItem value="ta">Tamil</SelectItem>
+                                        <SelectItem value="ur">Urdu</SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </Select></div>
                         </div>
                         <div>
-                            <Button type="submit">
+                            <Button type="submit" onClick={genearateTranscription}>
                                 <FileText color="white" size={24} />Generate Transcription
                             </Button>
                         </div>
                     </div>
                     : ''}
 
-                {step == 2 ?
+                {step == 3 ?
                     <>
                         <div className="grid grid-cols-2 gap-4 mt-5 ml-5">
                             <div className="mt-1">
