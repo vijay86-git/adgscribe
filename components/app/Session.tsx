@@ -226,8 +226,8 @@ export default function Session() {
                                         <Button className="ml-4" >
                                             <FileText color="white" size={24} onClick={() => genNotes()} /> Verify and Generate Notes
                                         </Button>
-                                        <Textarea className="w-full h-24 p-3 border border-gray-300 rounded-md" placeholder="Clinical Notes" />
                                     </h3>
+                                    <Textarea className="w-full h-24 p-3 border border-gray-300 rounded-md" placeholder="Clinical Notes" />
                                 </div>
                             </div>
                         </div>
