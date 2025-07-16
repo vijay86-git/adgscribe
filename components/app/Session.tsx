@@ -51,6 +51,7 @@ export default function Session() {
     const [notes, setNotes] = useState<string>("");
     const [transcribeEnabled, isTranscribeEnabled] = useState<boolean>(false);
     const [transcription, transcriptionLoading] = useState<boolean>(false);
+    const [generatingNotes, isGeneratingNotes] = useState<boolean>(false);
 
 
     // Define the onDrop callback for when files are dropped
@@ -86,7 +87,9 @@ export default function Session() {
     }
 
     const genNotes = async () => {
+        isGeneratingNotes(true);
         const resp = await generateNotes(transcribe);
+        isGeneratingNotes(false);
         if (resp.status == "success") {
             setNotes(notes);
         }
@@ -223,8 +226,8 @@ export default function Session() {
                                 <div className="mb-6">
                                     <h3 className="text-xl font-semibold mb-2 flex justify-between items-center">
                                         <span>Clinical Notes</span>
-                                        <Button className="ml-4" >
-                                            <FileText color="white" size={24} onClick={() => genNotes()} /> Verify and Generate Notes
+                                        <Button className="ml-4" disabled={generatingNotes}>
+                                            <FileText color="white" size={24} onClick={() => genNotes()} /> {generatingNotes ? "Generating Notes" : "Verify and Generate Notes"}
                                         </Button>
                                     </h3>
                                     <Textarea className="w-full h-24 p-3 border border-gray-300 rounded-md" placeholder="Clinical Notes" />
