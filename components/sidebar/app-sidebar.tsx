@@ -169,11 +169,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     return (<SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton asChild isActive={item.isActive}>
                                             <div className={cn(
-                                                "m-1",
+                                                "m-1 p-3",
                                                 isActive && "lactive",
                                                 i === 0 && "lapp"
                                             )}>
-                                                <span className="mr-2">
+                                                <span className="mr-1">
                                                     {iconMapping[item.icon as IconName](item.className || "size-4")} {/* Pass className dynamically */}
                                                 </span>
                                                 <Link href={item.url} target={i === 0 ? "_blank" : undefined}>{item.title}</Link></div>
