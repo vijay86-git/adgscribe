@@ -13,12 +13,7 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar"
 
-import {
-    Card,
-    CardContent
-} from "@/components/ui/card"
-
-import { Scroll, NotebookPen, Users } from "lucide-react";
+import { Scroll, NotebookPen, Users, CalendarDays } from "lucide-react";
 
 export const metadata: Metadata = {
     title: "ADGScribe | AI Medical Transcription Tool for Healthcare",
@@ -87,25 +82,27 @@ export default function Page() {
                 <div className="bg-white p-4 rounded-lg shadow border-1">
                     <div className="flex justify-between items-center mb-2">
                         <h3 className="text-lg font-semibold text-stone-700 ">Transcription</h3>
-                        <span className="text-sm text-gray-400">Last 10 Days</span>
+                        <span className="text-sm text-gray-400 flex gap-2"><CalendarDays size={16} /> Last 10 Days</span>
                     </div>
-                    <Card>
-                        <CardContent>
-                            11
-                        </CardContent>
-                    </Card>
+                    <div className="py-5 flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-full cclr flex items-center justify-center">
+                            <Users size={28} color="#57a3d4" />
+                        </div>
+                        <h2 className="text-2xl font-semibold">87</h2>
+                    </div>
                 </div>
 
                 <div className="bg-white p-4 rounded-lg shadow border-1">
                     <div className="flex justify-between items-center mb-2">
                         <h3 className="text-lg font-semibold text-stone-700">Notes</h3>
-                        <span className="text-sm text-gray-400">Last 10 Days</span>
+                        <span className="text-sm text-gray-400 flex gap-2"><CalendarDays size={16} /> Last 10 Days</span>
                     </div>
-                    <Card>
-                        <CardContent>
-                            12
-                        </CardContent>
-                    </Card>
+                    <div className="py-5 flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-full cclr flex items-center justify-center">
+                            <Users size={28} color="#57a3d4" />
+                        </div>
+                        <h2 className="text-2xl font-semibold">17</h2>
+                    </div>
                 </div>
             </div>
         </SidebarInset>
