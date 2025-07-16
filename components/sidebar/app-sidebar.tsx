@@ -101,13 +101,13 @@ const data = {
                     isActive: false
                 },
 
-                {
-                    title: "Pricing",
-                    url: "/pricing",
-                    icon: "DollarSign",
-                    className: "size-4",
-                    isActive: false
-                },
+                // {
+                //     title: "Pricing",
+                //     url: "/pricing",
+                //     icon: "DollarSign",
+                //     className: "size-4",
+                //     isActive: false
+                // },
 
                 {
                     title: "Account Settings",
