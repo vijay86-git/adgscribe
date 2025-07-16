@@ -184,3 +184,5 @@ body {
 }
 main.bg-background{background:#f8fafc !important}
 .bg-sidebar{background:#fafafa}
+.lapp{background:#0f172a;color:#fff;font-weight:bold;height:34px}
+.lactive{background:#e0f2fe}

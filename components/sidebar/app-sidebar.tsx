@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react"
 import {
     Home,
@@ -144,7 +145,13 @@ const data = {
     ],
 }
 
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+    const pathname = usePathname();
+
     return (
         <Sidebar {...props}>
             <SidebarHeader>
@@ -157,17 +164,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
-                                {item.items.map((item, i) => (
-                                    <SidebarMenuItem key={item.title}>
+                                {item.items.map((item, i) => {
+                                    const isActive = pathname === item.url;
+                                    return (<SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton asChild isActive={item.isActive}>
-                                            <div className="m-1">
+                                            <div className={cn(
+                                                "m-1",
+                                                isActive && "lactive",
+                                                i === 0 && "lapp"
+                                            )}>
                                                 <span className="mr-2">
                                                     {iconMapping[item.icon as IconName](item.className || "size-4")} {/* Pass className dynamically */}
                                                 </span>
                                                 <Link href={item.url} target={i === 0 ? "_blank" : undefined}>{item.title}</Link></div>
                                         </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                ))}
+                                    </SidebarMenuItem>)
+                                })}
                             </SidebarMenu>
                         </SidebarGroupContent>
                     </SidebarGroup>
