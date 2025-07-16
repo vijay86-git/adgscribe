@@ -166,11 +166,11 @@ export default function Session() {
                     <div className="space-y-4 p-4">
                         <h1 className="text-left text-2xl font-extrabold tracking-tight text-balance">Transcribe</h1>
                         <div className="flex space-x-2">
-                            <div className="w-[65%] flex">
+                            <div className="w-[80%] flex">
                                 <CheckCircle color="green" size={24} />
                                 <span className="px-2 text-lg font-extrabold">File Uploaded: <Badge className="fbrd p-1 px-3 border-1 text-black text-sm" variant="outline"><Music4 size={24} />{filename}</Badge></span>
                             </div>
-                            <div className="w-[35%] text-right"><Select>
+                            <div className="w-[20%] text-right"><Select>
                                 <Select value={"en"}>
                                     <SelectTrigger className="w-[180px]">
                                         <SelectValue placeholder="Select Language" />
