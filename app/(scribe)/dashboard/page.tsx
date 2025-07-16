@@ -48,8 +48,8 @@ export default function Page() {
                 </Breadcrumb>
             </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 m-5">
-                <div className="dbox bg-white p-4 border-1 rounded-lg flex items-center justify-between">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 m-5 my-3">
+                <div className="dbox bg-white p-4 border-1 rounded-lg flex items-center justify-between transition-transform duration-300 hover:scale-102">
                     <div>
                         <p className="text-gray-600 text-md mb-2 font-bold">Total Transcriptions</p>
                         <p className="text-3xl font-semibold text-stone-700">21</p>
@@ -58,7 +58,7 @@ export default function Page() {
                         <Scroll className="" size={28} color="#57a3d4" />
                     </div>
                 </div>
-                <div className="dbox bg-white p-4 border-1 rounded-lg flex items-center justify-between">
+                <div className="dbox bg-white p-4 border-1 rounded-lg flex items-center justify-between transition-transform duration-300 hover:scale-102">
                     <div>
                         <p className="text-gray-600 text-md mb-2 font-bold">Total Notes</p>
                         <p className="text-3xl font-semibold text-stone-700">121</p>
@@ -67,7 +67,7 @@ export default function Page() {
                         <NotebookPen size={28} color="#57a3d4" />
                     </div>
                 </div>
-                <div className="dbox bg-white p-4 border-1 rounded-lg flex items-center justify-between">
+                <div className="dbox bg-white p-4 border-1 rounded-lg flex items-center justify-between transition-transform duration-300 hover:scale-102">
                     <div>
                         <p className="text-gray-600 text-md mb-2 font-bold">Total Patients</p>
                         <p className="text-3xl font-semibold text-stone-700">2,015</p>
@@ -78,7 +78,7 @@ export default function Page() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-5 my-3">
                 <div className="bg-white p-4 rounded-lg shadow border-1">
                     <div className="flex justify-between items-center">
                         <h3 className="text-lg font-semibold text-stone-700 ">Transcription <Badge className="text-sm">11,278</Badge></h3>
