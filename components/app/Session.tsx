@@ -36,7 +36,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { Folder, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Check, Timer, AudioLines, Search } from "lucide-react";
+import { Folder, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Check, Timer, AudioLines } from "lucide-react";
 
 import { useAudioRecorder } from './useAudioRecorder';
 
@@ -243,37 +243,7 @@ export default function Session() {
                                             <DialogTitle>Search / Add New Patient</DialogTitle>
                                         </DialogHeader>
                                         <div className="grid gap-4">
-                                            <form className="space-y-4">
-                                                {/* <div>
-                                                    <Input
-                                                        placeholder="Search Patient by Name, Contact Number..."
-                                                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                    />
-                                                </div> */}
-
-                                                <div className="relative w-full max-w-sm">
-                                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
-                                                    <Input
-                                                        type="text"
-                                                        placeholder="Search Patient by Name, Contact Number..."
-                                                        className="pl-9"
-                                                    // value={value}
-                                                    // onChange={(e) => onChange(e.target.value)}
-                                                    />
-                                                </div>
-
-                                                <div className="flex items-center justify-center m-5 space-x-4 w-[95%]">
-                                                    <div className="flex-grow border-t border-dashed border-gray-400"></div>
-                                                    <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white text-sm font-semibold">
-                                                        OR
-                                                    </div>
-                                                    <div className="flex-grow border-t border-dashed border-gray-400"></div>
-                                                </div>
-
-                                                <Patient />
-
-
-                                            </form>
+                                            <Patient />
                                         </div>
                                         <DialogFooter>
                                             <Button type="submit"><UserPlus size={24} /> Add Patient</Button>

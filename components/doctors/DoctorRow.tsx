@@ -13,9 +13,9 @@ const DoctorRow = ({ doctors, pagination, initial }: ListProps) => {
                     i +
                     1}
             </TableCell>
-            <TableCell className="text-center font-medium">{doctor.name} </TableCell>
-            <TableCell className="text-center font-medium">{doctor.email} </TableCell>
-            <TableCell className="text-center">
+            <TableCell className="text-left font-medium">{doctor.name} </TableCell>
+            <TableCell className="text-left font-medium">{doctor.email} </TableCell>
+            <TableCell className="text-right">
                 <div className="flex justify-center items-center gap-2 md:flex-row">
                     <Edit size={18} className="w-5 h-5 text-green-700 cursor-pointer" />
                     <Trash size={18} className="w-5 h-5 text-red-700 cursor-pointer" />
