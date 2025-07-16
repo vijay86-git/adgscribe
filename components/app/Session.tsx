@@ -50,6 +50,8 @@ export default function Session() {
     //const [uuid, setUuid] = useState<string>("");
     const [notes, setNotes] = useState<string>("");
     const [transcribeEnabled, isTranscribeEnabled] = useState<boolean>(false);
+    const [transcription, transcriptionLoading] = useState<boolean>(false);
+
 
     // Define the onDrop callback for when files are dropped
     const onDrop = (acceptedFiles: FileWithPath[]) => {
@@ -71,13 +73,9 @@ export default function Session() {
 
     const generateTranscription = async (filename: string) => {
 
-        console.log('generate transcription');
-
-        console.log(filename);
-
+        transcriptionLoading(true);
         const resp = await generateTranscript(filename);
-        console.log(resp, 'clinet');
-
+        transcriptionLoading(false);
         if (resp.response == "OK") {
             //const { response, uuid } = resp.data;
             const { response } = resp.data;
@@ -201,8 +199,8 @@ export default function Session() {
                             </Select></div>
                         </div>
                         <div>
-                            <Button onClick={() => generateTranscription(filename)}>
-                                <FileText color="white" size={24} />Generate Transcription
+                            <Button onClick={() => generateTranscription(filename)} disabled={transcription}>
+                                <FileText color="white" size={24} />{transcription ? "Generating..." : "Generate Transcription"}
                             </Button>
                         </div>
                     </div>
@@ -228,6 +226,7 @@ export default function Session() {
                                         <Button className="ml-4" >
                                             <FileText color="white" size={24} onClick={() => genNotes()} /> Verify and Generate Notes
                                         </Button>
+                                        <Textarea className="w-full h-24 p-3 border border-gray-300 rounded-md" placeholder="Clinical Notes" />
                                     </h3>
                                 </div>
                             </div>
