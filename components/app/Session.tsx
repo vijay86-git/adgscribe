@@ -160,7 +160,7 @@ export default function Session() {
                     </div>
                     : ''}
 
-                {step == 2 ?
+                {(step == 2 && !transcribeEnabled) ?
                     <div className="space-y-4 p-4">
                         <h1 className="text-left text-2xl font-extrabold tracking-tight text-balance">Transcribe</h1>
                         <div className="flex space-x-2">
