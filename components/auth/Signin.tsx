@@ -12,59 +12,57 @@ import { redirect } from 'next/navigation'
 import { useSession, signIn, signOut } from "next-auth/react";
 
 interface ApiResponseType {
-  name: string;
-  role: string;
-  id: number;
+    name: string;
+    role: string;
+    id: number;
 }
 
 export function Signin() {
 
     const { data: session, status } = useSession();
     const [loading, setLoading] = useState<boolean>(false);
-    const [apiResponse, setApiResponse] = useState<ApiResponseType | null>(null);
+    //const [apiResponse, setApiResponse] = useState<ApiResponseType | null>(null);
 
     useEffect(() => {
         // Only call API if session exists and we haven't already loaded data
 
         console.log(status);
-        if (status === "authenticated" && !apiResponse) {
+        if (status === "authenticated" && session?.user?.email) {
 
-            console.log('apiResponse', apiResponse);
-
-          setLoading(true);
-          const socialLogin = async () => {
-             const email = session.user.email;
-             console.log('email:::', email);
-             const response = await social_signin(email); 
-             if (response.success) {
-                redirect('/dashboard');
-             } else {
-                setIsSubmitting(false);
-                setMessage(response.msg.message);
-             }
-          }
-          // Example API call
-          // fetch("/api/some-endpoint", {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //   },
-          //   body: JSON.stringify({ email: session.user.email }),
-          // })
-          //   .then((res) => res.json())
-          //   .then((data) => {
-          //       setApiResponse(data);
-          //   })
-          //   .catch((error) => {
-          //     console.error("API error:", error);
-          //   })
-          //   .finally(() => {
-          //     setLoading(false);
-          //   });
-          socialLogin();
+            setLoading(true);
+            const socialLogin = async () => {
+                const email = session?.user?.email ?? '';
+                console.log('email:::', email);
+                const response = await social_signin(email);
+                if (response.success) {
+                    redirect('/dashboard');
+                } else {
+                    setIsSubmitting(false);
+                    setMessage(response.msg.message);
+                }
+            }
+            // Example API call
+            // fetch("/api/some-endpoint", {
+            //   method: "POST",
+            //   headers: {
+            //     "Content-Type": "application/json",
+            //   },
+            //   body: JSON.stringify({ email: session.user.email }),
+            // })
+            //   .then((res) => res.json())
+            //   .then((data) => {
+            //       setApiResponse(data);
+            //   })
+            //   .catch((error) => {
+            //     console.error("API error:", error);
+            //   })
+            //   .finally(() => {
+            //     setLoading(false);
+            //   });
+            socialLogin();
         }
-        
-      }, [session, status, apiResponse]);
+
+    }, [session, status, apiResponse]);
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
@@ -155,7 +153,7 @@ export function Signin() {
             </div>
             <div className="mt-4 text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <Link href="/signup" className="underline underline-offset-4"  disabled={isSubmitting || loading}>
+                <Link href="/signup" className="underline underline-offset-4" disabled={isSubmitting || loading}>
                     Sign up
                 </Link>
             </div>
