@@ -11,11 +11,11 @@ import { signin, social_signin } from "@/app/actions";
 import { redirect } from 'next/navigation'
 import { useSession, signIn, signOut } from "next-auth/react";
 
-interface ApiResponseType {
-    name: string;
-    role: string;
-    id: number;
-}
+// interface ApiResponseType {
+//     name: string;
+//     role: string;
+//     id: number;
+// }
 
 export function Signin() {
 
