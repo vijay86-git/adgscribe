@@ -85,6 +85,34 @@ export async function signin(formData: SignInFormData) {
     }
 }
 
+export async function social_signin(email: string) {
+
+    console.log('email,,,', email);
+
+    try {
+        const resp: Response = await apiFetch(`/social_login`, {
+            method: 'POST',
+            body: JSON.stringify({email}),
+        });
+        console.log(resp, 'resp');
+
+        if (resp.ok) {
+            const data = await resp.json();
+            console.log(data, "data");
+            await createSession(data.access_token);
+            return { success: true };
+        } else {
+            const msg = await resp.json();
+            return { success: false, msg };
+        }
+    } catch {
+        return { success: false, msg: { message: "Something went wrong! Try again" } };
+    }
+}
+
+
+
+
 export async function getDoctors(body: SearchRequestBody) {
 
     try {

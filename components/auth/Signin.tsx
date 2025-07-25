@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -7,13 +7,64 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signInSchema, SignInFormData } from "@/schemas/formSchemas";
 import Link from "next/link";
-import { signin } from "@/app/actions";
+import { signin, social_signin } from "@/app/actions";
 import { redirect } from 'next/navigation'
 import { useSession, signIn, signOut } from "next-auth/react";
 
+interface ApiResponseType {
+  name: string;
+  role: string;
+  id: number;
+}
+
 export function Signin() {
 
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [apiResponse, setApiResponse] = useState<ApiResponseType | null>(null);
+
+    useEffect(() => {
+        // Only call API if session exists and we haven't already loaded data
+
+        console.log(status);
+        if (status === "authenticated" && !apiResponse) {
+
+            console.log('apiResponse', apiResponse);
+
+          setLoading(true);
+          const socialLogin = async () => {
+             const email = session.user.email;
+             console.log('email:::', email);
+             const response = await social_signin(email); 
+             if (response.success) {
+                redirect('/dashboard');
+             } else {
+                setIsSubmitting(false);
+                setMessage(response.msg.message);
+             }
+          }
+          // Example API call
+          // fetch("/api/some-endpoint", {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
+          //   body: JSON.stringify({ email: session.user.email }),
+          // })
+          //   .then((res) => res.json())
+          //   .then((data) => {
+          //       setApiResponse(data);
+          //   })
+          //   .catch((error) => {
+          //     console.error("API error:", error);
+          //   })
+          //   .finally(() => {
+          //     setLoading(false);
+          //   });
+          socialLogin();
+        }
+        
+      }, [session, status, apiResponse]);
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
@@ -40,6 +91,8 @@ export function Signin() {
 
     return (
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            {loading && <p>Loading data from API...</p>}
+
             <div className="flex flex-col gap-6">
                 {message && <span className="errBox text-sm vBox">{message}</span>}
                 <div className="grid gap-3">
@@ -49,7 +102,7 @@ export function Signin() {
                         type="email"
                         placeholder=""
                         defaultValue="vijay.singh@adgonline.in"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || loading}
                     />
                     {errors.email && <span className="err text-sm">{errors.email.message}</span>}
                 </div>
@@ -67,7 +120,7 @@ export function Signin() {
                         id="password"
                         type="password"
                         defaultValue="12345678"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || loading}
                         {...register("password")}
                     />
                     {errors.password && <span className="err text-sm">{errors.password.message}</span>}
@@ -76,7 +129,7 @@ export function Signin() {
                     <Button
                         type="submit"
                         className={`w-full`}
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || loading}
                     >
                         {isSubmitting ? "Just a moment" : "Submit"}
                     </Button>
@@ -102,7 +155,7 @@ export function Signin() {
             </div>
             <div className="mt-4 text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <Link href="/signup" className="underline underline-offset-4">
+                <Link href="/signup" className="underline underline-offset-4"  disabled={isSubmitting || loading}>
                     Sign up
                 </Link>
             </div>
