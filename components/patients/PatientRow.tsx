@@ -30,7 +30,7 @@ const PatientRow = ({ initial, patients, pagination }: ListProps) => {
       : (
         <TableRow>
           <TableCell colSpan={8} className="text-left text-gray-800">
-            <p>You haven&apos;t added any patients yet. Click <Link href="/"><strong>Add New Patient</strong></Link> to begin.</p>
+            <p>You have not added any patients yet. Click <Link href="/"><strong>Add New Patient</strong></Link> to begin.</p>
           </TableCell>
         </TableRow>
       )
