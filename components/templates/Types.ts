@@ -6,6 +6,7 @@ export interface Template {
     template: string;
     status: number;
     created_at: string;
+    uuid: string;
 }
 
 export interface Link {

@@ -1,12 +1,3 @@
-import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination";
-
 import { PagingProps } from "@/components/doctors/Types";
 import WebPagination from '@/components/webpagination'
 
