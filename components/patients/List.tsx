@@ -73,14 +73,14 @@ export default function Patients() {
                 <Table className="w-full">
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="text-center bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">#</TableHead>
-                            <TableHead className="text-center bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Patient Id</TableHead>
-                            <TableHead className="text-center bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Name</TableHead>
-                            <TableHead className="text-center bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Age</TableHead>
-                            <TableHead className="text-center bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Contact No</TableHead>
-                            <TableHead className="text-center bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Personal Health Number</TableHead>
-                            <TableHead className="text-center bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Status</TableHead>
-                            <TableHead className="text-center bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Action</TableHead>
+                            <TableHead className="text-left bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">#</TableHead>
+                            <TableHead className="text-left bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Patient Id</TableHead>
+                            <TableHead className="text-left bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Name</TableHead>
+                            <TableHead className="text-left bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Age</TableHead>
+                            <TableHead className="text-left bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Contact No</TableHead>
+                            <TableHead className="text-left bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Personal Health Number</TableHead>
+                            <TableHead className="text-left bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Status</TableHead>
+                            <TableHead className="text-left bg-gray-100 font-bold text-gray-700 dark:text-gray-200 uppercase">Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

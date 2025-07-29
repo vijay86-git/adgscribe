@@ -7,7 +7,7 @@ const DoctorRow = ({ doctors, pagination, initial }: ListProps) => {
 
     return doctors.map((doctor, i) => (
         <TableRow key={i + 1}>
-            <TableCell className="text-center font-medium">
+            <TableCell className="text-left font-medium">
                 {(pagination.current_page - 1) *
                     Number(process.env.NEXT_PUBLIC_PAGINATION_LIMIT) +
                     i +
@@ -15,8 +15,8 @@ const DoctorRow = ({ doctors, pagination, initial }: ListProps) => {
             </TableCell>
             <TableCell className="text-left font-medium">{doctor.name} </TableCell>
             <TableCell className="text-left font-medium">{doctor.email} </TableCell>
-            <TableCell className="text-right">
-                <div className="flex justify-center items-center gap-2 md:flex-row">
+            <TableCell className="text-left">
+                <div className="flex items-center gap-2 md:flex-row">
                     <Edit size={18} className="w-5 h-5 text-green-700 cursor-pointer" />
                     <Trash size={18} className="w-5 h-5 text-red-700 cursor-pointer" />
                 </div>

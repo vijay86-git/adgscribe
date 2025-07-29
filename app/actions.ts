@@ -6,6 +6,7 @@ import { SearchRequestBody } from '@/components/doctors/Types';
 import { UserProfileFormSchema } from "@/schemas/userProfileSchema";
 import { ClinicProfileOptionalSchema } from "@/schemas/clinicProfileOptionalSchema";
 import { TemplateFormSchema } from "@/schemas/templateSchema";
+import { PatientFormData } from "@/schemas/patientSchemas";
 
 export const getBearToken = async () => {
     const cookie = (await cookies()).get('session')?.value;
@@ -62,6 +63,28 @@ export async function apiFetch<T>(
     return response as T;
 }
 
+export async function savePatient(formData: PatientFormData) {
+
+
+    try {
+        const resp: Response = await apiFetch(`/add/patient`, {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
+        });
+        const response = await resp.json();
+        if (resp.ok) {
+            return { response: "OK" };
+        } else {
+            return { response: "VALIDATION", msg: response.errors };
+        }
+    } catch {
+        return { success: false, msg: "Something went wrong! Try again" }
+    };
+}
+
 export async function signin(formData: SignInFormData) {
 
     try {
@@ -92,7 +115,7 @@ export async function social_signin(email: string) {
     try {
         const resp: Response = await apiFetch(`/social_login`, {
             method: 'POST',
-            body: JSON.stringify({email}),
+            body: JSON.stringify({ email }),
         });
         console.log(resp, 'resp');
 

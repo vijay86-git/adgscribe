@@ -1,0 +1,22 @@
+import Header from "@/components/header"
+import {
+    SidebarInset
+} from "@/components/ui/sidebar"
+
+import PatientCreate from '@/components/patient/create'
+import labels from '@/lib/labels'
+
+export default async function Page() {
+
+    return (
+        <SidebarInset>
+            <Header />
+            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                <h1 className="tracking-wide  scroll-m-20 text-left text-2xl mb-4 font-extrabold tracking-tight text-balance">
+                    {labels.patient.addPatient}
+                </h1>
+                <PatientCreate />
+            </div>
+        </SidebarInset>
+    )
+}
