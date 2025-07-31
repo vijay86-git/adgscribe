@@ -17,6 +17,16 @@ import {
 } from "@/components/ui/select";
 
 import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+
+import {
     Tabs,
     TabsContent,
     TabsList,
@@ -37,7 +47,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { Search, Smartphone, IdCard, Folder, Loader2, Info, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Timer, AudioLines } from "lucide-react";
+import { Search, Smartphone, IdCard, Folder, Loader2, Info, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Timer, AudioLines, Check } from "lucide-react";
 
 import { useAudioRecorder } from './useAudioRecorder';
 
@@ -140,12 +150,10 @@ export default function Session() {
 
                 </div>
 
-
-
                 <div className="my-5 flex items-center justify-center w-full max-w-3xl mx-auto">
 
                     <div className="flex flex-col items-center">
-                        <div className="w-10 h-10 rounded-full bg-stone-600 text-white flex items-center justify-center font-semibold z-10">01</div>
+                        <div className="w-10 h-10 rounded-full bg-stone-600 text-white flex items-center justify-center font-semibold z-10"><Check /></div>
                         <div className="text-sm mt-2 font-bold">Upload/ Record</div>
                     </div>
 
@@ -313,7 +321,7 @@ export default function Session() {
 
 
                             <div className="flex mt-5 border border-dashed border-gray-300 rounded-lg p-4 items-center justify-center w-full bg-white shadow-sm">
-                                <div className="flex flex-col items-center justify-center bg-stone-100 border-dashed border-2 border-neutral-400 rounded-sm p-4 text-center space-y-3 w-full">
+                                <div className="flex flex-col items-center justify-centerrounded-sm text-center space-y-3 w-full">
                                     <Loader2 className="h-8 w-8 animate-spin text-stone-600 " />
                                     <p className="text-md text-gray-700 font-semibold">
                                         Just a moment... Transcribing is in progress
@@ -322,13 +330,111 @@ export default function Session() {
                             </div>
 
                             <div className="recArea mt-5">
-                                <Tabs defaultValue="account" className="w-[400px]">
+                                <Tabs defaultValue="account" className="w-full">
                                     <TabsList>
                                         <TabsTrigger value="account">Pa</TabsTrigger>
                                         <TabsTrigger value="password">En</TabsTrigger>
                                     </TabsList>
-                                    <TabsContent value="account">Make changes to your account here.</TabsContent>
-                                    <TabsContent value="password">Change your password here.</TabsContent>
+                                    <TabsContent value="account">
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead className="w-[100px] font-semibold text-md tracking-wider">Original Transcription</TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                <TableRow key={1}>
+                                                    <TableCell className="font-medium">
+                                                        <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                            <User className="w-6 h-6 shrink-0" />
+                                                            <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={60} alt={'/'} />
+                                                            <span className="">Identifying...</span>
+                                                            <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+
+                                                <TableRow key={2}>
+                                                    <TableCell className="font-medium">
+                                                        <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                            <User className="w-6 h-6 shrink-0" />
+                                                            <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={60} alt={'/'} />
+                                                            <span className="">Identifying...</span>
+                                                            <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+
+                                                <TableRow key={4}>
+                                                    <TableCell className="font-medium">
+                                                        <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                            <User className="w-6 h-6 shrink-0" />
+                                                            <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={60} alt={'/'} />
+                                                            <span className="">Identifying...</span>
+                                                            <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+
+                                                <TableRow key={5}>
+                                                    <TableCell className="font-medium">
+                                                        <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                            <User className="w-6 h-6 shrink-0" />
+                                                            <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={60} alt={'/'} />
+                                                            <span className="">Identifying...</span>
+                                                            <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+
+                                                <TableRow key={6}>
+                                                    <TableCell className="font-medium">
+                                                        <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                            <Badge variant="destructive" className="font-semibold">SPEAKER-01</Badge>
+                                                            <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+
+
+                                                <TableRow key={7}>
+                                                    <TableCell className="font-medium">
+                                                        <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                            <Badge variant="destructive" className="font-semibold">SPEAKER-01</Badge>
+                                                            <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+
+
+
+                                            </TableBody>
+                                        </Table>
+                                    </TabsContent>
+                                    <TabsContent value="password">
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead className="w-[100px] font-semibold text-md tracking-wider">Original Transcription</TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                <TableRow key={1}>
+                                                    <TableCell className="font-medium">
+                                                        <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                            <User className="w-6 h-6 shrink-0" />
+                                                            <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={60} alt={'/'} />
+                                                            <span className="">Identifying...</span>
+                                                            <span className="pl-1 break-words block">Lorem ipusm dolor</span>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+
+
+
+                                            </TableBody>
+                                        </Table>
+                                    </TabsContent>
                                 </Tabs>
                             </div>
 
