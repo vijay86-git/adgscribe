@@ -55,7 +55,7 @@ const data = {
             url: "#",
             items: [
                 {
-                    title: "Launch App",
+                    title: "New Session",
                     url: "/app",
                     icon: "AppWindow",
                     className: "size-4",

@@ -191,3 +191,8 @@ main.bg-background{background:#f8fafc !important}
 .cclr{background: #e0f2fe;
   border: 1px solid #c4e1f4;
   color: #0f5380}
+
+.recArea{background: #fdfcfc;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px dashed #ddd;}
