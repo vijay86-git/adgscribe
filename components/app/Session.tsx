@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import Patient from "@/components/app/Patient";
 import Image from 'next/image';
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import {
     Select,
@@ -26,11 +25,7 @@ import {
 
 import {
     Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle
+    CardContent
 } from "@/components/ui/card"
 
 import {
@@ -42,10 +37,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-
-import { AppWindowIcon, CodeIcon, Search, Smartphone, IdCard, Folder, Loader2, Info, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Check, Timer, AudioLines } from "lucide-react";
+import { Search, Smartphone, IdCard, Folder, Loader2, Info, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Timer, AudioLines } from "lucide-react";
 
 import { useAudioRecorder } from './useAudioRecorder';
 
@@ -107,7 +99,7 @@ export default function Session() {
         <div className="flex">
             <div className="flex flex-1 flex-col gap-3 pt-0">
 
-                <div className="flex items-center justify-center w-full bg-red-100 border border-red-200 text-red-800 rounded-full px-4 py-2 w-fit">
+                <div className="flex items-center justify-center w-full bg-red-100 border border-red-200 text-red-800 rounded-full px-4 py-2">
                     <span className="text-md flex"><User /><label className="pl-2">Please map the patient with this session to continue !</label></span>
                     <button className="ml-4 flex items-center tracking-wide gap-2 bg-gray-800 text-white text-md font-bold px-4 py-2 rounded-full shadow">
                         <Search /> Search or Add Patient
