@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { useDropzone, FileWithPath } from 'react-dropzone'
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import Patient from "@/components/app/Patient";
@@ -37,6 +36,8 @@ import {
     Card,
     CardContent
 } from "@/components/ui/card"
+
+import { Textarea } from "@/components/ui/textarea"
 
 import {
     Dialog,
@@ -328,7 +329,7 @@ export default function Session() {
                             </div>
 
                             <div className="recArea mt-5 flex">
-                                <div className="flex1">
+                                <div className="flex1 w-[50%]">
                                     <Tabs defaultValue="account" className="w-full">
                                         <TabsList>
                                             <TabsTrigger value="account">Pa</TabsTrigger>
@@ -348,7 +349,7 @@ export default function Session() {
                                                                 <User className="w-6 h-6 shrink-0" />
                                                                 <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
                                                                 <span className="">Identifying...</span>
-                                                                <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ </span>
                                                             </div>
                                                         </TableCell>
                                                     </TableRow>
@@ -359,7 +360,7 @@ export default function Session() {
                                                                 <User className="w-6 h-6 shrink-0" />
                                                                 <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
                                                                 <span className="">Identifying...</span>
-                                                                <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
                                                             </div>
                                                         </TableCell>
                                                     </TableRow>
@@ -370,7 +371,7 @@ export default function Session() {
                                                                 <User className="w-6 h-6 shrink-0" />
                                                                 <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
                                                                 <span className="">Identifying...</span>
-                                                                <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
                                                             </div>
                                                         </TableCell>
                                                     </TableRow>
@@ -381,7 +382,7 @@ export default function Session() {
                                                                 <User className="w-6 h-6 shrink-0" />
                                                                 <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
                                                                 <span className="">Identifying...</span>
-                                                                <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
                                                             </div>
                                                         </TableCell>
                                                     </TableRow>
@@ -390,7 +391,7 @@ export default function Session() {
                                                         <TableCell className="font-medium">
                                                             <div className="flex flex-wrap items-start align-items-center gap-2">
                                                                 <Badge variant="destructive" className="font-semibold">SPEAKER-01</Badge>
-                                                                <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
                                                             </div>
                                                         </TableCell>
                                                     </TableRow>
@@ -400,7 +401,7 @@ export default function Session() {
                                                         <TableCell className="font-medium">
                                                             <div className="flex flex-wrap items-start align-items-center gap-2">
                                                                 <Badge variant="destructive" className="font-semibold">SPEAKER-01</Badge>
-                                                                <span className="pl-1 break-words block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
                                                             </div>
                                                         </TableCell>
                                                     </TableRow>
@@ -438,6 +439,7 @@ export default function Session() {
                                 </div>
                                 <div>
                                     <p>Generate Notes</p>
+                                    <Textarea />
                                 </div>
 
                             </div>
