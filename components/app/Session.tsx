@@ -53,7 +53,11 @@ import { useAudioRecorder } from './useAudioRecorder';
 
 import { generateTranscript, generateNotes } from '@/app/actions';
 
+import { Toaster } from "@/components/ui/sonner"
+
+
 export default function Session() {
+
 
     const { startRecording, stopRecording, isRecording, step, uploadFile, percent, progressBar, filename, formatTime, seconds } = useAudioRecorder();
     const [transcribe, setTranscribe] = useState<string>("");
@@ -108,11 +112,13 @@ export default function Session() {
         <div className="flex">
             <div className="flex flex-1 flex-col gap-3 pt-0">
 
+                <Toaster />
+
                 <div className="flex items-center justify-center w-full bg-red-100 border border-red-200 text-red-800 rounded-full px-4 py-2">
                     <span className="text-md flex"><User /><label className="pl-2">Please map the patient with this session</label></span>
-                    <button className="ml-4 flex items-center tracking-wide gap-2 bg-gray-800 text-white text-md font-bold px-4 py-2 rounded-full shadow">
+                    <Button className="ml-4 flex items-center tracking-wide gap-2 bg-gray-800 text-white text-md font-bold px-4 py-2 rounded-full shadow">
                         <Search /> Search or Add Patient
-                    </button>
+                    </Button>
                 </div>
 
                 <div className="mt-3 border border-dashed border-gray-300 rounded-lg p-4 items-center justify-between space-x-4 w-full bg-white shadow-sm">
@@ -401,7 +407,7 @@ export default function Session() {
 
                                                     <TableRow key={6}>
                                                         <TableCell className="font-medium">
-                                                            <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                            <div className="flex items-start align-items-center gap-2">
                                                                 <Badge variant="destructive" className="font-semibold">SPEAKER-01</Badge>
                                                                 <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
                                                             </div>
@@ -411,7 +417,7 @@ export default function Session() {
 
                                                     <TableRow key={7}>
                                                         <TableCell className="font-medium">
-                                                            <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                            <div className="flex items-start align-items-center gap-2">
                                                                 <Badge variant="destructive" className="font-semibold">SPEAKER-01</Badge>
                                                                 <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
                                                             </div>
@@ -450,9 +456,9 @@ export default function Session() {
                                     </Tabs>
                                 </div>
                                 <div className="w-1/2">
-                                    <div className="flex w-full mb-3">
-                                        <div className="w-[28%] bg-gray-100 p-4 font-semibold">Generate Notes</div>
-                                        <div className="w-[62%] bg-gray-100 p-2 text-center">
+                                    <div className="flex w-full mb-3 bg-gray-100 rounded-xl">
+                                        <div className="w-[28%]  p-4 font-semibold">Generate Notes</div>
+                                        <div className="w-[62%]  p-2 text-center">
                                             <div className="bg-white shadow rounded-xl p-1 w-full max-w-4xl mx-auto">
                                                 <div className="flex items-center justify-around p-2">
                                                     <span className="text-xs font-bold text-gray-500">#Template</span>
@@ -462,17 +468,19 @@ export default function Session() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="w-[10%] bg-gray-100 p-4"><Printer /></div>
+                                        <div className="w-[10%] p-4"><Printer /></div>
                                     </div>
 
                                     <div className="flex w-full">
                                         <Textarea />
                                     </div>
 
+                                    <div className="flex w-full mt-2">
+                                        <Button>Save</Button>
+                                    </div>
+
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                     : ''
