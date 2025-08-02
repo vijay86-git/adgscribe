@@ -47,7 +47,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { Search, Smartphone, IdCard, Folder, Loader2, Info, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Timer, AudioLines, Check, Plus } from "lucide-react";
+import { Search, Smartphone, IdCard, Folder, Loader2, Info, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Timer, AudioLines, Check, Plus, Printer } from "lucide-react";
 
 import { useAudioRecorder } from './useAudioRecorder';
 
@@ -117,7 +117,20 @@ export default function Session() {
 
                 <div className="mt-3 border border-dashed border-gray-300 rounded-lg p-4 items-center justify-between space-x-4 w-full bg-white shadow-sm">
 
-                    <div className="flex justify-end w-full mb-2"><Badge><User /> <Plus /></Badge></div>
+                    <div className="flex justify-end w-full mb-2">
+
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Badge className="cursor-pointer flex items-center gap-1">
+                                    <User size={16} />
+                                    <Plus size={16} />
+                                </Badge>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Update Patient</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
                     <div className="flex gap-5">
                         <div className="flex bg-stone-100 border-dashed border-2 border-neutral-400 rounded-sm p-2 items-center space-x-2 flex-1 pl-2">
                             <div className="text-neural-300 flex items-center">
@@ -327,8 +340,8 @@ export default function Session() {
                                 </div>
                             </div>
 
-                            <div className="recArea mt-5 flex">
-                                <div className="flex1 w-[50%]">
+                            <div className="recArea mt-5 flex w-full gap-3">
+                                <div className="w-1/2">
                                     <Tabs defaultValue="account" className="w-full">
                                         <TabsList>
                                             <TabsTrigger value="account">Pa</TabsTrigger>
@@ -436,9 +449,18 @@ export default function Session() {
                                         </TabsContent>
                                     </Tabs>
                                 </div>
-                                <div>
-                                    <p>Generate Notes</p>
-                                    <Textarea />
+                                <div className="w-1/2">
+
+                                    <div className="flex w-full mb-3">
+                                        <div className="w-[28%] bg-gray-100 p-4 font-semibold">Generate Notes</div>
+                                        <div className="w-[62%] bg-gray-100 p-4 text-center">Template</div>
+                                        <div className="w-[10%] bg-gray-100 p-4"><Printer /></div>
+                                    </div>
+
+                                    <div className="flex w-full">
+                                        <Textarea />
+                                    </div>
+
                                 </div>
 
                             </div>
