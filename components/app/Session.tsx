@@ -321,13 +321,13 @@ export default function Session() {
 
                                 <div className="rounded-sm items-center space-x-2 flex-1">
                                     <Select>
-                                        <SelectTrigger className="w-full min-h-[3rem] py-4 text-gray-700">
-                                            <SelectValue placeholder="Select Language" />
+                                        <SelectTrigger className="w-full min-h-[3rem] py-4 text-gray-900">
+                                            <SelectValue className="text-gray-900" placeholder="Select Language" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="en">English</SelectItem>
-                                            <SelectItem value="fr">French</SelectItem>
-                                            <SelectItem value="pa">Punjabi</SelectItem>
+                                            <SelectItem className="text-gray-900" value="en">English</SelectItem>
+                                            <SelectItem className="text-gray-900" value="fr">French</SelectItem>
+                                            <SelectItem className="text-gray-900" value="pa">Punjabi</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
@@ -346,140 +346,163 @@ export default function Session() {
                                 </div>
                             </div>
 
-                            <div className="recArea mt-5 flex w-full gap-3">
-                                <div className="w-1/2">
-                                    <Tabs defaultValue="account" className="w-full">
-                                        <TabsList>
-                                            <TabsTrigger value="account">Pa</TabsTrigger>
-                                            <TabsTrigger value="password">En</TabsTrigger>
-                                        </TabsList>
-                                        <TabsContent value="account">
-                                            <Table>
-                                                <TableHeader>
-                                                    <TableRow>
-                                                        <TableHead className="w-[100px] font-semibold text-md tracking-wider">Original Transcription</TableHead>
-                                                    </TableRow>
-                                                </TableHeader>
-                                                <TableBody>
-                                                    <TableRow key={1}>
-                                                        <TableCell className="font-medium">
-                                                            <div className="flex flex-wrap items-start align-items-center gap-2">
-                                                                <User className="w-6 h-6 shrink-0" />
-                                                                <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
-                                                                <span className="">Identifying...</span>
-                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ </span>
-                                                            </div>
-                                                        </TableCell>
-                                                    </TableRow>
+                            <div className="recArea mt-5">
 
-                                                    <TableRow key={2}>
-                                                        <TableCell className="font-medium">
-                                                            <div className="flex flex-wrap items-start align-items-center gap-2">
-                                                                <User className="w-6 h-6 shrink-0" />
-                                                                <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
-                                                                <span className="">Identifying...</span>
-                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
-                                                            </div>
-                                                        </TableCell>
-                                                    </TableRow>
-
-                                                    <TableRow key={4}>
-                                                        <TableCell className="font-medium">
-                                                            <div className="flex flex-wrap items-start align-items-center gap-2">
-                                                                <User className="w-6 h-6 shrink-0" />
-                                                                <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
-                                                                <span className="">Identifying...</span>
-                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
-                                                            </div>
-                                                        </TableCell>
-                                                    </TableRow>
-
-                                                    <TableRow key={5}>
-                                                        <TableCell className="font-medium">
-                                                            <div className="flex flex-wrap items-start align-items-center gap-2">
-                                                                <User className="w-6 h-6 shrink-0" />
-                                                                <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
-                                                                <span className="">Identifying...</span>
-                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
-                                                            </div>
-                                                        </TableCell>
-                                                    </TableRow>
-
-                                                    <TableRow key={6}>
-                                                        <TableCell className="font-medium">
-                                                            <div className="flex items-start align-items-center gap-2">
-                                                                <Badge variant="destructive" className="font-semibold">SPEAKER-01</Badge>
-                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
-                                                            </div>
-                                                        </TableCell>
-                                                    </TableRow>
-
-
-                                                    <TableRow key={7}>
-                                                        <TableCell className="font-medium">
-                                                            <div className="flex items-start align-items-center gap-2">
-                                                                <Badge variant="destructive" className="font-semibold">SPEAKER-01</Badge>
-                                                                <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
-                                                            </div>
-                                                        </TableCell>
-                                                    </TableRow>
-
-
-
-                                                </TableBody>
-                                            </Table>
-                                        </TabsContent>
-                                        <TabsContent value="password">
-                                            <Table>
-                                                <TableHeader>
-                                                    <TableRow>
-                                                        <TableHead className="w-[100px] font-semibold text-md tracking-wider">Original Transcription</TableHead>
-                                                    </TableRow>
-                                                </TableHeader>
-                                                <TableBody>
-                                                    <TableRow key={1}>
-                                                        <TableCell className="font-medium">
-                                                            <div className="flex flex-wrap items-start align-items-center gap-2">
-                                                                <User className="w-6 h-6 shrink-0" />
-                                                                <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={60} alt={'/'} />
-                                                                <span className="">Identifying...</span>
-                                                                <span className="pl-1 break-words block">Lorem ipusm dolor</span>
-                                                            </div>
-                                                        </TableCell>
-                                                    </TableRow>
-
-
-
-                                                </TableBody>
-                                            </Table>
-                                        </TabsContent>
-                                    </Tabs>
+                                <div className="flex w-full justify-end gap-5 mb-4">
+                                    <div className="">
+                                        <Select>
+                                            <SelectTrigger className="w-full min-h-[3rem] py-4 text-gray-900">
+                                                <SelectValue className="text-gray-900" placeholder="Select Template" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="en" className="text-gray-900"> Template 1</SelectItem>
+                                                <SelectItem value="fr" className="text-gray-900">Template 2</SelectItem>
+                                                <SelectItem value="pa" className="text-gray-900">Template 3</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="mt-1">
+                                        <Button className="ml-auto w-full h-10 tracking-wide text-md font-semibold">Generate Notes</Button>
+                                    </div>
                                 </div>
-                                <div className="w-1/2">
-                                    <div className="flex w-full mb-3 bg-gray-100 rounded-xl">
-                                        <div className="w-[28%]  p-4 font-semibold">Generate Notes</div>
-                                        <div className="w-[62%]  p-2 text-center">
-                                            <div className="bg-white shadow rounded-xl p-1 w-full max-w-4xl mx-auto">
-                                                <div className="flex items-center justify-around p-2">
-                                                    <span className="text-xs font-bold text-gray-500">#Template</span>
-                                                    <h2 className="text-xs font-bold text-gray-800">
-                                                        Acute Illness Visit Template
-                                                    </h2>
+
+                                <div className="flex w-full gap-5">
+                                    <div className="w-1/2">
+                                        <Tabs defaultValue="account" className="w-full">
+                                            <TabsList>
+                                                <TabsTrigger value="account">Pa</TabsTrigger>
+                                                <TabsTrigger value="password">En</TabsTrigger>
+                                            </TabsList>
+                                            <TabsContent value="account">
+                                                <Table>
+                                                    <TableHeader>
+                                                        <TableRow>
+                                                            <TableHead className="w-[100px] font-semibold text-md tracking-wider">Original Transcription</TableHead>
+                                                        </TableRow>
+                                                    </TableHeader>
+                                                    <TableBody>
+                                                        <TableRow key={1}>
+                                                            <TableCell className="font-medium">
+                                                                <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                                    <User className="w-6 h-6 shrink-0" />
+                                                                    <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
+                                                                    <span className="">Identifying...</span>
+                                                                    <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ </span>
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+
+                                                        <TableRow key={2}>
+                                                            <TableCell className="font-medium">
+                                                                <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                                    <User className="w-6 h-6 shrink-0" />
+                                                                    <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
+                                                                    <span className="">Identifying...</span>
+                                                                    <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+
+                                                        <TableRow key={4}>
+                                                            <TableCell className="font-medium">
+                                                                <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                                    <User className="w-6 h-6 shrink-0" />
+                                                                    <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
+                                                                    <span className="">Identifying...</span>
+                                                                    <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+
+                                                        <TableRow key={5}>
+                                                            <TableCell className="font-medium">
+                                                                <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                                    <User className="w-6 h-6 shrink-0" />
+                                                                    <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={20} alt={'/'} />
+                                                                    <span className="">Identifying...</span>
+                                                                    <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+
+                                                        <TableRow key={6}>
+                                                            <TableCell className="font-medium">
+                                                                <div className="flex items-start align-items-center gap-2">
+                                                                    <Badge variant="destructive" className="font-semibold">SPEAKER-01</Badge>
+                                                                    <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+
+
+                                                        <TableRow key={7}>
+                                                            <TableCell className="font-medium">
+                                                                <div className="flex items-start align-items-center gap-2">
+                                                                    <Badge variant="destructive" className="font-semibold">SPEAKER-01</Badge>
+                                                                    <span className="pl-1 text-wrap block">Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ ਕੋਮੁ Shਤ੍ਸ੍ਯ</span>
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+
+
+
+                                                    </TableBody>
+                                                </Table>
+                                            </TabsContent>
+                                            <TabsContent value="password">
+                                                <Table>
+                                                    <TableHeader>
+                                                        <TableRow>
+                                                            <TableHead className="w-[100px] font-semibold text-md tracking-wider">Original Transcription</TableHead>
+                                                        </TableRow>
+                                                    </TableHeader>
+                                                    <TableBody>
+                                                        <TableRow key={1}>
+                                                            <TableCell className="font-medium">
+                                                                <div className="flex flex-wrap items-start align-items-center gap-2">
+                                                                    <User className="w-6 h-6 shrink-0" />
+                                                                    <Image className="pt-1" src={`/images/audio_waves.gif`} width={60} height={60} alt={'/'} />
+                                                                    <span className="">Identifying...</span>
+                                                                    <span className="pl-1 break-words block">Lorem ipusm dolor</span>
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+
+
+
+                                                    </TableBody>
+                                                </Table>
+                                            </TabsContent>
+                                        </Tabs>
+                                    </div>
+                                    <div className="w-1/2">
+                                        <div className="flex w-full mb-3 bg-gray-100 rounded-xl">
+                                            <div className="w-[28%]  p-4 font-semibold">Generate Notes</div>
+                                            <div className="w-[62%]  p-2 text-center">
+                                                <div className="bg-white shadow rounded-xl p-1 w-full max-w-4xl mx-auto">
+                                                    <div className="flex items-center justify-around p-2">
+                                                        <span className="text-xs font-bold text-gray-500">#Template</span>
+                                                        <h2 className="text-xs font-bold text-gray-800">
+                                                            Acute Illness Visit Template
+                                                        </h2>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div className="w-[10%] p-4"><Printer /></div>
                                         </div>
-                                        <div className="w-[10%] p-4"><Printer /></div>
-                                    </div>
 
-                                    <div className="flex w-full">
-                                        <Textarea />
-                                    </div>
+                                        <div className="flex w-full">
+                                            <Textarea />
+                                        </div>
 
-                                    <div className="flex w-full mt-2">
-                                        <Button>Save</Button>
-                                    </div>
+                                        <div className="flex w-full mt-2">
+                                            <Button>Save</Button>
+                                        </div>
 
+                                    </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
