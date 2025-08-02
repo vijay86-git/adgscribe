@@ -450,10 +450,18 @@ export default function Session() {
                                     </Tabs>
                                 </div>
                                 <div className="w-1/2">
-
                                     <div className="flex w-full mb-3">
                                         <div className="w-[28%] bg-gray-100 p-4 font-semibold">Generate Notes</div>
-                                        <div className="w-[62%] bg-gray-100 p-4 text-center">Template</div>
+                                        <div className="w-[62%] bg-gray-100 p-2 text-center">
+                                            <div className="bg-white shadow rounded-xl p-1 w-full max-w-4xl mx-auto">
+                                                <div className="flex items-center justify-around p-2">
+                                                    <span className="text-xs font-bold text-gray-500">#Template</span>
+                                                    <h2 className="text-xs font-bold text-gray-800">
+                                                        Acute Illness Visit Template
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div className="w-[10%] bg-gray-100 p-4"><Printer /></div>
                                     </div>
 
@@ -464,7 +472,6 @@ export default function Session() {
                                 </div>
 
                             </div>
-
 
                         </div>
                     </div>
