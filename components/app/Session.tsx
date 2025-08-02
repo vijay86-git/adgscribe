@@ -47,7 +47,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { Search, Smartphone, IdCard, Folder, Loader2, Info, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Timer, AudioLines, Check } from "lucide-react";
+import { Search, Smartphone, IdCard, Folder, Loader2, Info, Mic, MicOff, CheckCircle, FileText, User, Music4, UserPlus, Timer, AudioLines, Check, Plus } from "lucide-react";
 
 import { useAudioRecorder } from './useAudioRecorder';
 
@@ -56,7 +56,6 @@ import { generateTranscript, generateNotes } from '@/app/actions';
 export default function Session() {
 
     const { startRecording, stopRecording, isRecording, step, uploadFile, percent, progressBar, filename, formatTime, seconds } = useAudioRecorder();
-
     const [transcribe, setTranscribe] = useState<string>("");
     const [uuid, setUuid] = useState<string>("");
     const [notes, setNotes] = useState<string>("");
@@ -110,51 +109,53 @@ export default function Session() {
             <div className="flex flex-1 flex-col gap-3 pt-0">
 
                 <div className="flex items-center justify-center w-full bg-red-100 border border-red-200 text-red-800 rounded-full px-4 py-2">
-                    <span className="text-md flex"><User /><label className="pl-2">Please map the patient with this session to continue !</label></span>
+                    <span className="text-md flex"><User /><label className="pl-2">Please map the patient with this session</label></span>
                     <button className="ml-4 flex items-center tracking-wide gap-2 bg-gray-800 text-white text-md font-bold px-4 py-2 rounded-full shadow">
                         <Search /> Search or Add Patient
                     </button>
                 </div>
 
-                <div className="flex mt-3 border border-dashed border-gray-300 rounded-lg p-4 items-center justify-between space-x-4 w-full bg-white shadow-sm">
+                <div className="mt-3 border border-dashed border-gray-300 rounded-lg p-4 items-center justify-between space-x-4 w-full bg-white shadow-sm">
 
-                    <div className="flex bg-stone-100 border-dashed border-2 border-neutral-400 rounded-sm p-2 items-center space-x-2 flex-1 pl-2">
-                        <div className="text-neural-300 flex items-center">
-                            <User />
+                    <div className="flex justify-end w-full mb-2"><Badge><User /> <Plus /></Badge></div>
+                    <div className="flex gap-5">
+                        <div className="flex bg-stone-100 border-dashed border-2 border-neutral-400 rounded-sm p-2 items-center space-x-2 flex-1 pl-2">
+                            <div className="text-neural-300 flex items-center">
+                                <User />
+                            </div>
+                            <div className="flex flex-col justify-center">
+                                <p className="text-sm text-gray-700">Patient Name</p>
+                                <p className="text-md font-semibold tracking-wider">Alex Michael Holding</p>
+                            </div>
                         </div>
-                        <div className="flex flex-col justify-center">
-                            <p className="text-sm text-gray-500">Patient Name</p>
-                            <p className="text-lg font-semibold">Alex</p>
+
+                        <div className="flex bg-stone-100 border-dashed border-2 border-neutral-400 rounded-sm p-2 items-center space-x-2 flex-1">
+                            <div className="text-neural-300 flex items-center pl-2">
+                                <IdCard />                        </div>
+                            <div className="flex flex-col justify-center">
+                                <p className="text-sm text-gray-700">Personal Health Number</p>
+                                <p className="text-md font-semibold tracking-wider">JSHYBDGAG365463</p>
+                            </div>
+                        </div>
+
+                        <div className="flex bg-stone-100 border-dashed border-2 border-neutral-400 rounded-sm p-2 items-center space-x-2 flex-1">
+                            <div className="text-neural-300 flex items-center pl-2">
+                                <Smartphone />
+                            </div>
+                            <div className="flex flex-col justify-center">
+                                <p className="text-sm text-gray-700">Contact Number</p>
+                                <p className="text-md font-semibold tracking-wider">9090898937</p>
+                            </div>
                         </div>
                     </div>
-
-                    <div className="flex bg-stone-100 border-dashed border-2 border-neutral-400 rounded-sm p-2 items-center space-x-2 flex-1">
-                        <div className="text-neural-300 flex items-center pl-2">
-                            <IdCard />                        </div>
-                        <div className="flex flex-col justify-center">
-                            <p className="text-sm text-gray-500">Personal Health Number</p>
-                            <p className="text-lg font-semibold">JSHYBDGAG365463</p>
-                        </div>
-                    </div>
-
-                    <div className="flex bg-stone-100 border-dashed border-2 border-neutral-400 rounded-sm p-2 items-center space-x-2 flex-1">
-                        <div className="text-neural-300 flex items-center pl-2">
-                            <Smartphone />
-                        </div>
-                        <div className="flex flex-col justify-center">
-                            <p className="text-sm text-gray-500">Contact Number</p>
-                            <p className="text-lg font-semibold">9090898937</p>
-                        </div>
-                    </div>
-
 
                 </div>
 
                 <div className="my-5 flex items-center justify-center w-full max-w-3xl mx-auto">
 
                     <div className="flex flex-col items-center">
-                        <div className="w-10 h-10 rounded-full bg-stone-600 text-white flex items-center justify-center font-semibold z-10"><Check /></div>
-                        <div className="text-sm mt-2 font-bold">Upload/ Record</div>
+                        <div className="w-10 h-10 rounded-full bg-[#0a848e] text-white flex items-center justify-center font-semibold z-10"><Check /></div>
+                        <div className="text-sm mt-2 font-semibold text-[#0a848e]">Upload/ Record</div>
                     </div>
 
                     <div className="flex-1 h-0.5 bg-stone-600"></div>
@@ -172,10 +173,9 @@ export default function Session() {
                     </div>
                 </div>
 
-
-                <audio id="audioTag" style={{ width: "100%", display: "block" }} src="blob:https://adgscribe.companydemo.ca/a8642160-189d-4ae4-9a08-e0f249d68053">
+                {/* <audio id="audioTag" style={{ width: "100%", display: "block" }} src="">
                     Your browser does not support the audio tag.
-                </audio>
+                </audio> */}
 
                 {step == 1 ?
                     <div className="flex w-full">
@@ -264,7 +264,7 @@ export default function Session() {
                                     </div>
                                     <div className="flex flex-col justify-center">
                                         <p className="text-sm text-gray-500">File Name</p>
-                                        <p className="text-lg font-semibold">25ee31f616c44dfd87339f6f8bb80d7c.mp3</p>
+                                        <p className="text-md font-semibold text-[#0a848e]">25ee31f616c44dfd87339f6f8bb80d7c.mp3</p>
                                     </div>
                                 </div>
 
@@ -274,7 +274,7 @@ export default function Session() {
                                     </div>
                                     <div className="flex flex-col justify-center">
                                         <p className="text-sm text-gray-500">File size</p>
-                                        <p className="text-lg font-semibold">0.002274 MB</p>
+                                        <p className="text-md font-semibold text-[#0a848e]">0.002274 MB</p>
                                     </div>
                                 </div>
 
@@ -284,18 +284,18 @@ export default function Session() {
                                     </div>
                                     <div className="flex flex-col justify-center">
                                         <p className="text-sm text-gray-500">Duration</p>
-                                        <p className="text-lg font-semibold">03:40</p>
+                                        <p className="text-md font-semibold text-[#0a848e]">03:40</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="flex mt-5 border border-dashed border-gray-300 rounded-lg p-4 items-center justify-between space-x-4 w-full bg-white shadow-sm">
 
-                                <div className="flex flex-3  bg-stone-100 border-dashed border-2 border-neutral-400 rounded-sm p-2 items-center space-x-2">
+                                <div className="flex flex-3  bg-[stone-100] border-dashed border-2 border-neutral-400 rounded-sm p-2 items-center space-x-2">
                                     <div className="text-neural-300 flex items-center">
                                         <Image src={`/images/countdown.gif`} width={40} height={40} alt={'/'} />
                                     </div>
-                                    <div className="flex flex-col justify-center">
+                                    <div className="flex flex-col justify-center items-center text-center">
                                         <p>Transcription will be generated automatically after 5 seconds, or click <b>Generate Transcription</b></p>
                                     </div>
                                 </div>
@@ -320,7 +320,7 @@ export default function Session() {
 
                             <div className="flex mt-5 border border-dashed border-gray-300 rounded-lg p-4 items-center justify-center w-full bg-white shadow-sm">
                                 <div className="flex flex-col items-center justify-centerrounded-sm text-center space-y-3 w-full">
-                                    <Loader2 className="h-8 w-8 animate-spin text-stone-600 " />
+                                    <Loader2 className="h-10 w-10 animate-spin text-[#0a848e]" />
                                     <p className="text-md text-gray-700 font-semibold">
                                         Just a moment... Transcribing is in progress
                                     </p>
