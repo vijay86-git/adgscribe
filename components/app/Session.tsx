@@ -468,8 +468,6 @@ export default function Session() {
                                                             </TableCell>
                                                         </TableRow>
 
-
-
                                                     </TableBody>
                                                 </Table>
                                             </TabsContent>
@@ -477,8 +475,8 @@ export default function Session() {
                                     </div>
                                     <div className="w-1/2">
                                         <div className="flex w-full mb-3 bg-gray-100 rounded-xl">
-                                            <div className="w-[28%]  p-4 font-semibold">Generate Notes</div>
-                                            <div className="w-[62%]  p-2 text-center">
+                                            <div className="w-[30%] p-4 font-semibold text-sm">Generate Notes</div>
+                                            <div className="w-[60%] p-2 text-center">
                                                 <div className="bg-white shadow rounded-xl p-1 w-full max-w-4xl mx-auto">
                                                     <div className="flex items-center justify-around p-2">
                                                         <span className="text-xs font-bold text-gray-500">#Template</span>
