@@ -428,6 +428,30 @@ export async function generateNotes(uuid: string) {
 }
 
 
+
+export async function storePatientDetails(formData: FormData) {
+
+    try {
+        const resp: Response = await apiFetch(`/store-patient-details`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
+        });
+        const response = await resp.json();
+        if (resp.ok) {
+            return { response: "OK" };
+        } else {
+            return { response: "VALIDATION", msg: response.errors };
+        }
+    } catch {
+        return { response: "ERROR", msg: "Something went wrong! Try again" }
+    };
+
+}
+
+
 // export async function upload(file: any) {
 
 //     //const formData = await req.formData();

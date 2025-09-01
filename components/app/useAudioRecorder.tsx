@@ -3,6 +3,11 @@ import { FileWithPath } from 'react-dropzone';
 
 import { getBearToken } from "@/app/actions";
 
+import { Audio } from "@/components/app/Types";
+
+
+//setUser({ ...user, label: patient_name, personal_health_number, uuid, phone: contact_number });
+
 export function useAudioRecorder() {
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
@@ -11,7 +16,15 @@ export function useAudioRecorder() {
     const [loader, setLoader] = useState<boolean>(false);
     const [percent, setPercent] = useState<number>(0.0);
     const [progressBar, showProgressBar] = useState<boolean>(false);
-    const [filename, setFileName] = useState<string>("");
+    const [audio, isAudio] = useState<boolean>(false);
+    const [stepper, setStepper] = useState<number>(0);
+
+    const [file, setFile] = useState<Audio>({
+        name: '',
+        size: '',
+        duration: ''
+    });
+
     const [seconds, setSeconds] = useState<number>(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -82,7 +95,7 @@ export function useAudioRecorder() {
         formData.append("audio_file", file);
         showProgressBar(true);
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", `${process.env.NEXT_PUBLIC_API_BASE_URL}/upload`, true);
+        xhr.open("POST", `${process.env.NEXT_PUBLIC_API_BASE_URL}/upload`, true);
 
         // Set Bearer token in Authorization header
         xhr.setRequestHeader("Authorization", `Bearer ${await getBearToken()}`); // Replace with your actual token
@@ -98,8 +111,14 @@ export function useAudioRecorder() {
         xhr.onload = function (): void {
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
-                const uploadedFilename: string = response.filename;
-                setFileName(uploadedFilename);
+                const name: string = response.filename;
+                const size: string = response.filesize;
+                const duration: string = response.playtime_string;
+                isAudio(true);
+                setStepper(1);
+                //setFileName(uploadedFilename);
+                setFile({ ...file, name, size, duration });
+                setLoader(false);
                 setStep(2);
             } else {
                 alert("Upload failed: " + xhr.responseText);
@@ -109,8 +128,7 @@ export function useAudioRecorder() {
         xhr.onerror = function (): void {
             alert("Upload failed due to network error.");
         };
-        // xhr.send(formData);
-        xhr.send();
+        xhr.send(formData);
     }
-    return { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, filename, formatTime, seconds };
+    return { startRecording, stopRecording, isRecording, step, loader, uploadFile, percent, progressBar, file, formatTime, seconds, audio, stepper, setStepper };
 }

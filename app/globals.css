@@ -196,3 +196,12 @@ main.bg-background{background:#f8fafc !important}
   padding: 10px;
   border-radius: 10px;
   border: 1px dashed #ddd;}
+
+.SPEAKER-01,.Doctor{background:#ffcbcb;padding:2px 4px}
+.SPEAKER-02,.Patient{background:#ddd;padding:2px 4px}
+.SPEAKER-03{background:#cae2ff;padding:2px 4px}
+.SPEAKER-04{background:#ffe1fb;padding:2px 4px}
+.SPEAKER-05{background:#c8fff0;padding:2px 4px}
+.SPEAKER-06{background:#d9ffc8;padding:2px 4px}
+.SPEAKER-07{background:#fcf7a2;padding:2px 4px}
+.SPEAKER-08{background:#f3e0ff;padding:2px 4px}
