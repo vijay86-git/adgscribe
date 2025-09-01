@@ -11,6 +11,8 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 
+import { Button } from "@/components/ui/button";
+
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 
@@ -104,6 +106,28 @@ export default function Page() {
 							      				<li className="border border-gray-200 rounded-md p-2"><input type="radio" name="slot" value="01:45 PM" />&nbsp;<span>01:45 PM</span></li>
 							      			</ul>
 
+							      			<div class="w-full border border-gray-200 mb-3 rounded-md shadow-sm text-sm">
+											  <table class="w-full text-gray-700">
+											    <tbody>
+											      <tr class="bg-gray-100">
+											        <td class="font-bold px-4 py-2">Doctor:</td>
+											        <td class="px-4 py-2">ankit bisht..</td>
+											      </tr>
+											      <tr>
+											        <td class="font-bold px-4 py-2">Date:</td>
+											        <td class="px-4 py-2">2025-09-18</td>
+											      </tr>
+											      <tr class="bg-gray-100">
+											        <td class="font-bold px-4 py-2">Time:</td>
+											        <td class="px-4 py-2">10:00 AM</td>
+											      </tr>
+											    </tbody>
+											  </table>
+											</div>
+
+
+							      			<Button>Confirm Appointment</Button>
+
 								      	</div>
 							   </div>
                             </TabsContent>
@@ -183,6 +207,63 @@ export default function Page() {
 								                </div>
 								            </TableCell>
 								        </TableRow>
+
+
+								        <TableRow>
+								            <TableCell className="text-left font-medium">
+								                2
+								            </TableCell>
+								            <TableCell className="text-left font-medium">Sam </TableCell>
+								            <TableCell className="text-left font-medium">Sam Alt </TableCell>
+								            <TableCell className="text-left font-medium">Wed, 20 Aug' 25 01:00 PM </TableCell>
+								            <TableCell className="text-left">
+								                <div className="flex items-center gap-2 md:flex-row">
+
+									                	<TooltipProvider>
+													      <Tooltip>
+													        <TooltipTrigger asChild>
+													          <button className="p-2 rounded-full hover:bg-gray-100">
+													            <Play size={18} className="w-5 h-5 text-green-700 cursor-pointer" />
+													          </button>
+													        </TooltipTrigger>
+													        <TooltipContent>
+													          <p>Start Session</p>
+													        </TooltipContent>
+													      </Tooltip>
+													    </TooltipProvider>
+
+													    <TooltipProvider>
+													      <Tooltip>
+													        <TooltipTrigger asChild>
+													          <button className="p-2 rounded-full hover:bg-gray-100">
+													            <CalendarSync size={18} className="w-5 h-5 text-green-700 cursor-pointer" />
+													          </button>
+													        </TooltipTrigger>
+													        <TooltipContent>
+													          <p>Reschedule Appointment</p>
+													        </TooltipContent>
+													      </Tooltip>
+													    </TooltipProvider>
+
+													    <TooltipProvider>
+													      <Tooltip>
+													        <TooltipTrigger asChild>
+													          <button className="p-2 rounded-full hover:bg-gray-100">
+													            <Trash size={18} className="w-5 h-5 text-red-700 cursor-pointer" />
+													          </button>
+													        </TooltipTrigger>
+													        <TooltipContent>
+													          <p>Cancel Appointment</p>
+													        </TooltipContent>
+													      </Tooltip>
+													    </TooltipProvider>
+								                    
+								                </div>
+								            </TableCell>
+								        </TableRow>
+
+
+
 			                            
 			                        </TableBody>
 			                    </Table>
