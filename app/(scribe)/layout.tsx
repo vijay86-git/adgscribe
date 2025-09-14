@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { AppSidebar } from "@/components/sidebar/app-sidebar"
 import { SidebarProvider } from "@/components/ui/sidebar"
-//import { headers } from 'next/headers';
+import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
     title: "ADGScribe | AI Medical Transcription Tool for Healthcare",
@@ -15,12 +15,13 @@ export default async function ScribeLayout({
 }>) {
     //const pathname = (await headers()).get('x-pathname') || '';
     //const hideLayout = pathname.startsWith('/app');
+    const role = (await headers()).get('x-role') || '';
     return (
         <>
             <SidebarProvider
                 style={{ "--sidebar-width": "14rem" } as React.CSSProperties}
             >
-                <AppSidebar />
+                <AppSidebar role={role} />
                 {children}
             </SidebarProvider>
         </>

@@ -21,9 +21,9 @@ import {
 
 import { FormValidationErrors } from "@/lib/types"
 import { Textarea } from "@/components/ui/textarea";
-import html2md from 'html-to-md';
+import html2md from 'html-to-md'
 
-export default function Create() {
+export default function Edit() {
 
     const router = useRouter(); // ✅ Called at the top level
 
@@ -51,9 +51,12 @@ export default function Create() {
         },// Connects Zod schema to React Hook Form
     });
 
+
+
+
     const onSubmit = async (data: TemplateFormSchema) => {
 
-        console.log(data);
+        html2md('<strong><em>strong and italic</em></strong>', options, force)
 
         setIsSubmitting(true);
         setUpdateMsg(false);
@@ -86,7 +89,6 @@ export default function Create() {
                     </Label>
                     <Controller
                         name="name"
-                        autocomplete="off"
                         control={control}
                         render={({ field }) => (
                             <Input {...field} placeholder="Name" disabled={isloading || isSubmitting} />
@@ -130,6 +132,9 @@ export default function Create() {
                                 },
                               },
                             });
+
+                            console.log(converted); 
+
                             setMarkDown(converted);
                           }}
                         />
@@ -166,7 +171,7 @@ export default function Create() {
 
             <div className="flex gap-6 mb-6">
                 <div className="flex-1 w-full items-center gap-2.5">
-                    <Label htmlFor="type" className="mb-1">
+                    <Label htmlFor="email" className="mb-1">
                         Type<sup>*</sup>
                     </Label>
                     <Select value={type} onValueChange={(value) => setType(value)}>
@@ -184,7 +189,7 @@ export default function Create() {
 
             <div className="flex gap-6 mb-6">
                 <div className="flex-1 w-full items-center gap-2.5">
-                    <Label htmlFor="status" className="mb-1">
+                    <Label htmlFor="email" className="mb-1">
                         Status<sup>*</sup>
                     </Label>
                    <Select value={status} onValueChange={(value) => setStatus(value)}>
@@ -207,7 +212,7 @@ export default function Create() {
                     ? "opacity-50 cursor-not-allowed" : ""
                     }`}
             >
-                {(isSubmitting || isloading) ? "just a moment..." : "Submit"}
+                {(isSubmitting || isloading) ? "just a moment..." : "Update"}
             </Button>
         </form>
     )

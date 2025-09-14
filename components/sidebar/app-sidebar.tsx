@@ -56,19 +56,13 @@ const data = {
             title: "Getting Started",
             url: "#",
             items: [
-                // {
-                //     title: "New Session",
-                //     url: "/app",
-                //     icon: "AppWindow",
-                //     className: "size-4",
-                //     isActive: false
-                // },
                 {
                     title: "Dashboard",
                     url: "/dashboard",
                     icon: "Home",
                     className: "size-4",
-                    isActive: false
+                    isActive: false,
+                    visible_role: ['owner','doctor']
                 },
 
                 {
@@ -76,7 +70,8 @@ const data = {
                     url: "/doctors",
                     icon: "Users",
                     className: "size-4",
-                    isActive: false
+                    isActive: false,
+                    visible_role: ['owner', 'doctor']
                 },
 
                 {
@@ -84,7 +79,8 @@ const data = {
                     url: "/patients",
                     icon: "Users",
                     className: "size-4",
-                    isActive: false
+                    isActive: false,
+                    visible_role: ['owner', 'doctor']
                 },
 
                 {
@@ -92,7 +88,8 @@ const data = {
                     url: "/history",
                     icon: "List",
                     className: "size-4",
-                    isActive: false
+                    isActive: false,
+                    visible_role: ['owner', 'doctor']
                 },
 
                 {
@@ -100,7 +97,8 @@ const data = {
                     url: "/logs",
                     icon: "ClipboardList",
                     className: "size-4",
-                    isActive: false
+                    isActive: false,
+                    visible_role: ['owner', 'doctor']
                 },
 
                 // {
@@ -116,7 +114,8 @@ const data = {
                     url: "/user/profile",
                     icon: "Settings",
                     className: "size-4",
-                    isActive: false
+                    isActive: false,
+                    visible_role: ['owner', 'doctor']
                 },
 
                 {
@@ -124,7 +123,8 @@ const data = {
                     url: "/clinic/profile",
                     icon: "Settings",
                     className: "size-4",
-                    isActive: false
+                    isActive: false,
+                    visible_role: ['owner', 'doctor']
                 },
 
                 {
@@ -132,7 +132,8 @@ const data = {
                     url: "/my-templates",
                     icon: "FileText",
                     className: "size-4",
-                    isActive: false
+                    isActive: false,
+                    visible_role: ['owner', 'doctor']
                 },
 
                 {
@@ -140,7 +141,8 @@ const data = {
                     url: "/logout",
                     icon: "LogOut",
                     className: "size-4",
-                    isActive: false
+                    isActive: false,
+                    visible_role: ['owner', 'doctor']
                 },
             ],
         }
@@ -153,6 +155,7 @@ import { cn } from "@/lib/utils";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     const pathname = usePathname();
+    const role: string = props.role;
 
     return (
         <Sidebar {...props}>
@@ -192,7 +195,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     </div>
                                 </div>
 
-                                {item.items.map((item, i) => {
+                                {item.items.filter((item) => item.visible_role.includes(role)).map((item, i) => {
                                     const isActive = pathname === item.url;
                                     return (<SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton asChild isActive={item.isActive}>

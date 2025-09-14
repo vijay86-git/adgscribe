@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 import { SearchPatient } from '@/components/patient/Types'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -8,11 +8,12 @@ import { Badge } from "@/components/ui/badge";
 
 type PatientInfoProps = {
     user: SearchPatient;
+    setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function PatientInfo({ user }: PatientInfoProps) {
+export default function PatientInfo({ user, setOpen }: PatientInfoProps) {
 
-    const [open, setOpen] = useState<boolean>(false);
+    //const [open, setOpen] = useState<boolean>(false);
 
     return (
         <div className="mt-3 border border-dashed border-gray-300 rounded-lg p-4 items-center justify-between space-x-4 w-full bg-white shadow-sm">

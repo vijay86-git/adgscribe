@@ -23,18 +23,17 @@ export async function decrypt(session: string | undefined = '') {
             algorithms: ['HS256'],
         })
         return payload
-    } catch {
-        console.log('Failed to verify session')
+    } catch(error) {
+        console.log('Failed to verify session', error)
+        throw new Error;
     }
 }
 
-export async function createSession(token: string) {
+export async function createSession(token: string, role: string) {
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     const session = await encrypt({ token, expiresAt })
+    const user_role = await encrypt({ role, expiresAt })
     const cookieStore = await cookies();
-
-    console.log(session, "session");
-    console.log(process.env.SESSION_SECRET, "secreto");
 
     cookieStore.set('session', session, {
         httpOnly: true,
@@ -43,4 +42,13 @@ export async function createSession(token: string) {
         sameSite: 'lax',
         path: '/',
     })
+
+     cookieStore.set('role', user_role, {
+        httpOnly: true,
+        secure: true,
+        expires: expiresAt,
+        sameSite: 'lax',
+        path: '/',
+    })
+
 }

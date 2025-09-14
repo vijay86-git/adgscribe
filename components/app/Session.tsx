@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import Patient from "@/components/app/Patient";
+import BookedAction from "@/components/app/BookedAction";
+import Medicines from "@/components/app/Medicines";
 import Image from 'next/image';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import {
@@ -42,17 +44,7 @@ import { Input } from "@/components/ui/input";
 
 import SearchAddPatientModal from "@/components/patient/SearchAddPatientModal"
 
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    DialogDescription
-} from "@/components/ui/dialog"
-
-import { Search, Smartphone, IdCard, Folder, Loader2, Info, Mic, MicOff, CheckCircle, FileText, User, User2, Music4, UserPlus, Timer, AudioLines, Check, Plus, Printer } from "lucide-react";
+import { Download, CircleCheck, Star, Pencil, Share2, Search, Smartphone, IdCard, Folder, Loader2, Info, Mic, MicOff, CheckCircle, FileText, User, User2, Music4, UserPlus, Timer, AudioLines, Check, Plus, Printer, Save } from "lucide-react";
 
 import { useAudioRecorder } from './useAudioRecorder';
 
@@ -64,6 +56,8 @@ import { SearchPatient } from '@/components/patient/Types'
 import PatientInfo from "@/components/app/PatientInfo";
 import Stepper from "@/components/app/Stepper";
 import AudioInfo from "@/components/app/AudioInfo";
+
+import { Medicine } from "@/components/app/Types"
 
 
 interface TranscriptionEvent {
@@ -126,10 +120,12 @@ export default function Session() {
     const [transcribe, setTranscribe] = useState<string>("");
     const [uuid, setUuid] = useState<string>("");
     const [notes, setNotes] = useState<string>("");
+    const [patientSummary, setPatiensSummary] = useState<string>("");
     const [transcribeEnabled, isTranscribeEnabled] = useState<boolean>(false);
     const [transcription, transcriptionLoading] = useState<boolean>(false);
     const [generatingNotes, isGeneratingNotes] = useState<boolean>(false);
     const [lang, setLang] = useState<string>("en"); // set default langauge //
+    const [temp, setTemp] = useState<string>(""); // set default langauge //
 
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -149,6 +145,17 @@ export default function Session() {
     const [segments, setSegments] = useState<Segment[]>([]);
     const [segments2, setSegments2] = useState<Segment[]>([]);
     const [finalTranscript, setFinalTranscript] = useState<boolean>(false);
+
+    const [clinicalNotes, setClinicalNotes] = useState<boolean>(false);
+    const [medications, setMedications] = useState<Medicine[]>([]);
+
+
+    const [finalTranscriptData, setFinalTranscriptData] = useState<string>("");
+    const [notesGenerated, setNotesGenerated] = useState<boolean>(false);
+    const [internalNotes, setInternalNotes] = useState<string>("");
+
+    const [booked, setBooked] = useState<boolean>(false);
+
 
     const counterRef = useRef(0);
 
@@ -172,12 +179,21 @@ export default function Session() {
 
 
     const handleLine = (line: string) => {
+
+
+        console.log(line, "---line")
+
         try {
             const json: JsonMessage = JSON.parse(line);
+            console.log(json, "jsonnnn");
+            console.log(json.type, 'type')
 
             if (json.type === "language") {
-                setTabView(true);
-                setDetectedLanguage(json.data);
+                if (json.data != 'en') {
+                    setTabView(true);
+                    setDetectedLanguage(json.data);
+                }
+
             }
 
             if (json.type === "transcription") {
@@ -204,10 +220,10 @@ export default function Session() {
                     replacement: { speaker: string; text: string; transText?: string }[],
                     speaker: string
                 ) => {
-                        const newText = replacement.map((r) => `<p><span class="${r.speaker}">${r.speaker}</span>: ${r.text}</p><br />`).join(" ");
+                        const newText = replacement.map((r) => `<p><span class="${r.speaker}">${r.speaker}</span> ${r.text}</p><br />`).join(" ");
                         //console.log(newText, 'newText');
                         const newTransText = replacement
-                            .map((r) => `<p><span class="${r.speaker}">${r.speaker}</span>: ${r.transText ?? r.text}</p><br />`)
+                            .map((r) => `<p><span class="${r.speaker}">${r.speaker}</span> ${r.transText ?? r.text}</p><br />`)
                             .join(" ");
                         //console.log(newTransText, 'newTransText');
                         setter((prev) => 
@@ -263,22 +279,35 @@ export default function Session() {
                 const transcript = json.data.transcript;
 
                 // Step 1: Trim segments so length = transcript length
+
+                if (tabview === true)
                 setSegments((prev) => prev.slice(0, transcript.length));
+                  else
+                setSegments2((prev) => prev.slice(0, transcript.length));
+
+                //setClinicalNotes(true);
+
+                const allTexts = transcript.map(seg => seg.text);
+                const fullTranscript = allTexts.join(" "); // or "\n"
+
+                console.log(fullTranscript, 'ftc');
+                setFinalTranscriptData(fullTranscript);
 
                 // Step 2: Replace/update each line with delay
                 transcript.forEach((seg, i) => {
+                    const updateFn = tabview ? setSegments : setSegments2;
                     setTimeout(() => {
-                        setSegments((prev) => {
+                        updateFn((prev) => {
                             const updated = [...prev];
                             updated[i] = {
                                 id: `${i + 1}`, // keep index-based id for final transcript
-                                speaker: `<p><span class='${seg.speaker}'>${seg.speaker}:</span>`,
+                                speaker: `<p><span class='${seg.speaker}'>${seg.speaker}</span>`,
                                 text: seg.text,
                                 transText: seg.text, // or keep undefined if not needed
                             };
                             return updated;
                         });
-                    }, i * 500); // delay for animation
+                    }, i * 100); // delay for animation
                 });
 
                 return;
@@ -448,7 +477,7 @@ export default function Session() {
     },
     "isFinal": true
 }`
-        ];
+];
         sampleLines.forEach((line, i) =>
             setTimeout(() => handleLine(line), i * 1000)
         );
@@ -483,6 +512,18 @@ export default function Session() {
     //     }
     // };
 
+    const saveSession = async() => {
+
+        if (user.uuid === '') {
+            setOpen(true);
+        } else {
+            const obj = {patient_uuid: user.uuid, transcript: finalTranscriptData, notes, summary: patientSummary, internal_notes: internalNotes};
+            console.log(obj, 'obj')
+            //saveSessionContinue(obj);
+            setBooked(true)
+        }
+    }
+
     const generateTranscription = async (filename: string) => {
 
         console.log('click');
@@ -500,12 +541,12 @@ export default function Session() {
         setProgress(0);
 
         try {
-            const response = await fetch(`https://v2.mediscribe.companydemo.ca/transcribe`, {
+            const response = await fetch(`https://v3.mediscribe.companydemo.ca/transcribe`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
                 },
-                body: `filename=sample.mp3&uuid=1234&language_code=en`,
+                body: `filename=4b0ceb3c73e9412d82d728b68a7465e2.mp3&uuid=1234&language_code=en`,
             });
 
             if (!response.body) throw new Error("No response body");
@@ -528,7 +569,11 @@ export default function Session() {
                 const lines = buffer.split("\n");
                 buffer = lines.pop() || ""; // keep incomplete line
 
+                console.log('innnn')
+
                 for (const line of lines) {
+
+                    console.log(line, '[][][][]')
                     handleLine(line);
                 }
 
@@ -543,7 +588,16 @@ export default function Session() {
         }
     };
 
-
+    const changeTemplate = () => {
+        console.log("change emp[")
+        setClinicalNotes(false)
+        setNotesGenerated(false)
+        setNotes("")
+        setPatiensSummary("");
+        setTemp("");
+        setBooked(false);
+        setStepper(2);
+    }
 
 
     //transcriptionLoading(false);
@@ -556,13 +610,24 @@ export default function Session() {
     // }
     //}
 
-    const genNotes = async () => {
-        // isGeneratingNotes(true);
-        // const resp = await generateNotes(uuid);
-        // isGeneratingNotes(false);
-        // if (resp.status == "success") {
-        //     setNotes(notes);
-        // }
+    const genNotesAndPatientSummary = async () => {
+
+        setNotes('Loading....');
+        setPatiensSummary('Loading...');
+
+        setClinicalNotes(true);
+        isGeneratingNotes(true);
+        const notesResp = { status: "success", notes: "Something went wrong! Try again....111" }; //await generateNotes(uuid);
+        const summaryResp = { status: "success", summary: "Something went wrong! Try again....222" }; //await generatePatientSummary(uuid);
+        isGeneratingNotes(false);
+        if (notesResp.status == "success") {
+            setNotes(notesResp.notes);
+            setNotesGenerated(true);
+        }
+        if (summaryResp.status == "success") {
+            setPatiensSummary(summaryResp.summary);
+        }
+        setStepper(3);
     }
 
     const handleChange1 = () => {
@@ -649,7 +714,7 @@ export default function Session() {
                     <span className="text-md flex"><User2 /><label className="pl-2">Let's map a patient</label></span>
                     <SearchAddPatientModal open={open} isPatient={isPatient} fetchPatient={fetchPatient} setOpen={setOpen} user={user} setUser={setUser} />
                 </div>
-                {isPatient ? <PatientInfo user={user} /> : null}
+                {isPatient ? <PatientInfo user={user} setOpen={setOpen} /> : null}
                 <Stepper stepper={stepper} />
                 {/* <audio id="audioTag" style={{ width: "100%", display: "block" }} src="">
                     Your browser does not support the audio tag.
@@ -792,34 +857,50 @@ export default function Session() {
                             </div>)
                             : null}
 
-                        <div className="recArea mt-5 ">
-                            <div className="flex w-full justify-end gap-5 mb-4">
-                                <div className="bg-[#cbebf2] px-[9px] py-[2px] rounded-[5px] text-[12px] text-[#095d71] border border-[#85abb4] ">Selected Template Name</div>
-                            </div>
-                            <div className="flex w-full justify-end gap-5 mb-4">
-                                <div className="">
-                                    <Select>
-                                        <SelectTrigger className="w-full mt-1 py-2 text-gray-900">
-                                            <SelectValue className="text-gray-900" placeholder="Select Template" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="en" className="text-gray-900"> Template 1</SelectItem>
-                                            <SelectItem value="fr" className="text-gray-900">Template 2</SelectItem>
-                                            <SelectItem value="pa" className="text-gray-900">Template 3</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+
+                        { medications.length > 0 ? <Medicines medications={medications} />: null }
+
+                        <div className={`recArea mt-5 ${segments2.length || segments.length ? "" : "hissdden"}`}>
+
+                            { finalTranscriptData ? 
+                            <>
+                                <div className={`flex w-full justify-end gap-5 mb-4 ${temp ? '' : 'hidden'}`}>
+                                    
                                 </div>
-                                <div className="mt-1">
-                                    <Button className="ml-auto w-full h-10 tracking-wide text-md font-semibold" >Generate Notes</Button>
+                                <div className="flex w-full justify-end items-center gap-5 mb-4">
+                                    <div className={`${temp ? '' : 'hidden'} h-[25px] bg-[#cbebf2] px-[9px] py-[2px] rounded-[5px] text-[12px] text-[#095d71] border border-[#85abb4]`}>Selected Template: {temp}
+                                    </div>
+
+                                    {( ! notesGenerated) ? (
+                                    <>
+                                        <div className="">
+                                            <Select value={temp} onValueChange={(value) => setTemp(value)}>
+                                                <SelectTrigger className="w-full mt-1 py-2 text-gray-900">
+                                                    <SelectValue className="text-gray-900" placeholder="Select Template" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="1" className="text-gray-900"> Template 1</SelectItem>
+                                                    <SelectItem value="2" className="text-gray-900">Template 2</SelectItem>
+                                                    <SelectItem value="3" className="text-gray-900">Template 3</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="mt-1">
+                                            <Button disabled={generatingNotes} onClick={() => genNotesAndPatientSummary()} className="ml-auto w-full h-10 tracking-wide text-md font-semibold"><FileText /> Verify and Generate Notes</Button>
+                                        </div>
+                                    </>): null }
+
                                 </div>
-                            </div>
+                            </>
+
+                            : null}
 
                             <div className="flex w-full gap-5">
-                                <div className="w-1/2">
+                                <div className="w-full">
 
                                     {/* {tabview ? */}
                                     {tabview ?
-                                        <Tabs defaultValue="detectedLanguage" className="w-full">
+                                        (<Tabs defaultValue="detectedLanguage" className="w-full">
                                             <TabsList>
                                                 <TabsTrigger value="detectedLanguage">{detectedLanguage}</TabsTrigger>
                                                 <TabsTrigger value="defaultLanguage">{defaultLanguage}</TabsTrigger>
@@ -866,8 +947,9 @@ export default function Session() {
                                                     </TableBody>
                                                 </Table>
                                             </TabsContent>
-                                        </Tabs>
+                                        </Tabs>)
                                         :
+                                        (segments2 && segments2.length > 0 && ( 
                                         <Table>
                                             <TableHeader>
                                                 <TableRow>
@@ -885,12 +967,14 @@ export default function Session() {
                                                     </TableRow>
                                                 ))}
                                             </TableBody>
-                                        </Table>
+                                        </Table>))
                                     }
 
                                 </div>
-                                <div className="w-1/2">
-                                    <div className="absolute right-[50px] p-4"><Printer /></div>
+
+
+                                { clinicalNotes ? 
+                                <div className="w-full">
                                     <div className="flex w-full mb-3 bg-gray-100 rounded-xl p-2">
                                         <Tabs defaultValue="cnotes" className="w-full">
                                             <TabsList>
@@ -898,10 +982,12 @@ export default function Session() {
                                                 <TabsTrigger value="summary"><User /> Patient Visit Summary</TabsTrigger>
                                             </TabsList>
                                             <TabsContent value="cnotes">
-                                                <p className="p-2">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                                                {/*<p className="p-2">{notes}</p>*/}
+                                                <Textarea className="p-2" onChange={(e) => setNotes(e.target.value)}>{notes}</Textarea>
                                             </TabsContent>
                                             <TabsContent value="summary">
-                                                <p className="p-2">pIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                                                {/*<p className="p-2">{patientSummary}</p>*/}
+                                                <Textarea className="p-2" onChange={(e) => setPatiensSummary(e.target.value)}>{patientSummary}</Textarea>
                                             </TabsContent>
                                         </Tabs>
 
@@ -924,13 +1010,18 @@ export default function Session() {
                                     </div>
 
                                     <div className="flex w-full mt-2">
-                                        <Button>Save</Button>
+                                        <Button onClick={saveSession}> <Save />Save and Continue</Button>
                                     </div>
 
                                 </div>
+                                : null }
+
                             </div>
 
                         </div>
+
+                        { booked ? <BookedAction booked={setBooked} changeTemplate={changeTemplate} /> : null }
+
                     </div>
                 </div>
 

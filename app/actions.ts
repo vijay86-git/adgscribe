@@ -96,8 +96,7 @@ export async function signin(formData: SignInFormData) {
         console.log(resp, 'resp');
         if (resp.ok) {
             const data = await resp.json();
-            console.log(data, "data");
-            await createSession(data.access_token);
+            await createSession(data.access_token, data.user.role);
             return { success: true };
         } else {
             const msg = await resp.json();
@@ -110,19 +109,15 @@ export async function signin(formData: SignInFormData) {
 
 export async function social_signin(email: string) {
 
-    console.log('email,,,', email);
-
     try {
         const resp: Response = await apiFetch(`/social_login`, {
             method: 'POST',
             body: JSON.stringify({ email }),
         });
-        console.log(resp, 'resp');
 
         if (resp.ok) {
             const data = await resp.json();
-            console.log(data, "data");
-            await createSession(data.access_token);
+            await createSession(data.access_token, data.user.role);
             return { success: true };
         } else {
             const msg = await resp.json();
@@ -132,9 +127,6 @@ export async function social_signin(email: string) {
         return { success: false, msg: { message: "Something went wrong! Try again" } };
     }
 }
-
-
-
 
 export async function getDoctors(body: SearchRequestBody) {
 
@@ -426,6 +418,32 @@ export async function generateNotes(uuid: string) {
         return { response: "ERROR", msg: "Something went wrong! Try again" }
     };
 }
+
+export async function generatePatientSummary(uuid: string) {
+    try {
+        const resp: Response = await apiFetch(`/summary`, {
+            method: 'POST',
+            body: JSON.stringify({ uuid }),
+            headers: {
+                Authorization: `Bearer ${await getBearToken()}`
+            },
+        });
+
+        if (resp.ok) {
+            const data: {
+                status: string;
+                response: string;
+            } = await resp.json();
+            const { status, response } = data;
+            return { status, response };
+        } else {
+            return { response: "ERROR", msg: "Something went wrong! Try again" };
+        }
+    } catch {
+        return { response: "ERROR", msg: "Something went wrong! Try again" }
+    };
+}
+
 
 
 

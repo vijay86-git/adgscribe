@@ -25,9 +25,19 @@ import {
     TableCell
 } from "@/components/ui/table";
 
-import { Play, CalendarSync, Trash } from "lucide-react";
+import { Play, CalendarSync, Trash, CalendarDays, UserRound, Stethoscope, Clock8 } from "lucide-react";
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogDescription
+} from "@/components/ui/dialog"
 
 export default function Page() {
 
@@ -86,7 +96,7 @@ export default function Page() {
 									      />
 									    </div>
 								      	<div className="w-1/2">
-								      		<h2 className="font-bold mb-2">Available Slots <small className="text-xs text-gray-500">(Wed, 20 Aug' 25)</small></h2>
+								      		<h2 className="font-bold mb-2">Available Slots <small className="text-xs text-gray-800 bg-green-200 px-2 py-1 border border-green-400 rounded-sm">(Wed, 20 Aug' 25)</small></h2>
 								      		<ul className="flex flex-wrap gap-2 mb-3">
 							      				<li className="border border-gray-200 rounded-md p-2"><input type="radio" name="slot" value="10:00 AM" />&nbsp;<span>10:00 AM</span></li>
 							      				<li className="border border-gray-200 rounded-md p-2"><input type="radio" name="slot" value="10:15 AM" />&nbsp;<span>10:15 AM</span></li>
@@ -106,27 +116,140 @@ export default function Page() {
 							      				<li className="border border-gray-200 rounded-md p-2"><input type="radio" name="slot" value="01:45 PM" />&nbsp;<span>01:45 PM</span></li>
 							      			</ul>
 
-							      			<div class="w-full border border-gray-200 mb-3 rounded-md shadow-sm text-sm">
-											  <table class="w-full text-gray-700">
+							      			<div className="w-full border border-gray-200 mb-3 rounded-md shadow-sm text-sm">
+											  <table className="w-full text-gray-700">
 											    <tbody>
-											      <tr class="bg-gray-100">
-											        <td class="font-bold px-4 py-2">Doctor:</td>
-											        <td class="px-4 py-2">ankit bisht..</td>
+											      <tr className="bg-gray-100">
+											        <td className="font-bold px-4 py-2 flex gap-1"><Stethoscope className="mt-1" size={15} />Doctor</td>
+											        <td className="px-4 py-2"><span className="bg-yellow-400 px-2 py-1 rounded-md font-bold">Ankit Bisht</span></td>
 											      </tr>
 											      <tr>
-											        <td class="font-bold px-4 py-2">Date:</td>
-											        <td class="px-4 py-2">2025-09-18</td>
+											        <td className="font-bold px-4 py-2 flex gap-1"><CalendarDays className="mt-1" size={15} /> Date</td>
+											        <td className="px-4 py-2 font-bold">2025-09-18</td>
 											      </tr>
-											      <tr class="bg-gray-100">
-											        <td class="font-bold px-4 py-2">Time:</td>
-											        <td class="px-4 py-2">10:00 AM</td>
+											      <tr className="bg-gray-100">
+											        <td className="font-bold px-4 py-2 flex gap-1"><Clock8 className="mt-1" size={15}  />Time</td>
+											        <td className="px-4 py-2 font-bold">10:00 AM</td>
 											      </tr>
 											    </tbody>
 											  </table>
 											</div>
 
 
-							      			<Button>Confirm Appointment</Button>
+							      			<Dialog open={false}>
+										        <DialogTrigger asChild>
+										            <Button className="ml-4 flex items-center tracking-wide gap-2 bg-[#0f172a] text-white text-sm font-bold px-4 py-2 rounded-full shadow">
+										                 Confirm Appointment
+										            </Button>
+										        </DialogTrigger>
+										        <DialogContent className="sm:max-w-2xl w-full md:max-w-2xl lg:max-w-2xl">
+										            <DialogHeader>
+										                <DialogTitle>Book Appointment</DialogTitle>
+										                <DialogDescription>
+										                </DialogDescription>
+										            </DialogHeader>
+										            <form className="space-y-4 border border-gray-100 rounded-lg p-4">
+
+										            	<div className="mb-4">
+														  <div className="flex justify-center">
+														    <button className="w-full px-3 py-2 text-sm bg-blue-50 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-100">
+														      + Add New Patient
+														    </button>
+														  </div>
+														</div>
+
+														<div className="mb-6">
+													      <label className="block text-sm font-medium mb-2">Doctor</label>
+													      <p className="text-sm text-gray-700 flex gap-2"><Stethoscope size={18} /> <strong>Alex Smith Flemding</strong></p>
+													    </div>
+
+													    <div className="mb-6">
+													      <label className="block text-sm font-medium mb-2">Patient</label>
+													      <p className="text-sm text-gray-700 flex gap-2"><UserRound size={18} /> <strong>Alex Smith Flemding</strong></p>
+													    </div>
+
+
+													    
+
+
+													    <div className="mb-4">
+													      <label className="block text-sm font-medium mb-1">Appointment Date/Time</label>
+													      <div className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm">
+													        <span className="text-gray-500"><CalendarDays size={16} /></span>
+													        <span>22 Aug 2025&nbsp;&nbsp;11:15 AM</span>
+													      </div>
+													    </div>
+
+													    <div className="mb-4">
+													      <label className="block text-sm font-medium mb-1">Note</label>
+													      <textarea
+													        placeholder="Enter reason for visit..."
+													        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
+													      ></textarea>
+													    </div>
+
+										               
+										                <DialogFooter>
+										                    <Button type="submit" disabled={true}>
+										                         Submit
+										                    </Button>
+										                </DialogFooter>
+										            </form>
+										        </DialogContent>
+										    </Dialog>
+
+
+
+
+							      			{/*<div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+											  <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6">
+											    <div className="flex items-center justify-between mb-4">
+											      <h2 className="text-lg font-semibold">Book Appointment</h2>
+											      <button className="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
+											    </div>
+
+											    <div className="mb-4">
+												  <div className="flex justify-center">
+												    <button className="w-full px-3 py-2 text-sm bg-blue-50 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-100">
+												      + Add New Patient
+												    </button>
+												  </div>
+												</div>
+
+											    <div className="mb-6">
+											      <label className="block text-sm font-medium mb-2">Patient Name</label>
+											      <p className="text-sm text-gray-700 flex gap-2"><UserRound size={18} /> <strong>Alex Smith Flemding</strong></p>
+											    </div>
+
+											    <div className="mb-4">
+											      <label className="block text-sm font-medium mb-1">Appointment Date/Time</label>
+											      <div className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm">
+											        <span className="text-gray-500"><CalendarDays size={16} /></span>
+											        <span>22 Aug 2025&nbsp;&nbsp;11:15 AM</span>
+											      </div>
+											    </div>
+
+											    <div className="mb-4">
+											      <label className="block text-sm font-medium mb-1">Note</label>
+											      <textarea
+											        placeholder="Enter reason for visit..."
+											        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
+											      ></textarea>
+											    </div>
+
+											    <div className="flex justify-end gap-2">
+											    	<button className="px-4 py-2 rounded-lg bg-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-300">
+											        Submit
+											      </button>
+											      <button className="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 hover:bg-gray-100">
+											        Close
+											      </button>
+											      
+											    </div>
+
+											  </div>
+											</div>*/}
+
 
 								      	</div>
 							   </div>
