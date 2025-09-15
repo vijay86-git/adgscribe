@@ -24,9 +24,23 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 
-import { medications } from "@/components/app/Types"
+import { Medicine } from "@/components/app/Types"
 
-export default function Medicines({ medications }: { medications: Medicine}) {
+interface MedicationsTableProps {
+  medications: Medicine[];
+  setMedications: Dispatch<SetStateAction<Medicine[]>>;
+}
+
+const add = (setMedications: Dispatch<SetStateAction<Medicine[]>>) => {
+      const emptyRow: Medicine = { name: "", timing: "", dosage: "",duration: "",frequency: "" };
+      setMedications((prev) => [...prev, { ...emptyRow }]);
+}
+
+const removeRow = (index: number, setMedications: Dispatch<SetStateAction<Medicine[]>>) => {
+      setMedications((prev) => prev.filter((_, i) => i !== index));
+};
+
+export default function Medicines({ medications, setMedications }: MedicationsTableProps) {
 
     /*const medications = [
         { name: "amlodipine", dosage: "10mg", frequency: "once daily" },
@@ -35,29 +49,37 @@ export default function Medicines({ medications }: { medications: Medicine}) {
         { name: "gastroprotective medicine", dosage: "", frequency: "" },
       ];
       */
-  
+
 
     return (
                 <div className="overflow-x-auto border border-gray-200 rounded-md my-5">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Timing</TableHead>
-                        <TableHead>Dosage</TableHead>
-                        <TableHead>Duration</TableHead>
-                        <TableHead>Frequency</TableHead>
-                        <TableHead>Action</TableHead>
+                        <TableHead className="font-extrabold text-[#0a848e]">Name</TableHead>
+                        <TableHead className="font-extrabold text-[#0a848e]">Timing</TableHead>
+                        <TableHead className="font-extrabold text-[#0a848e]">Dosage</TableHead>
+                        <TableHead className="font-extrabold text-[#0a848e]">Duration</TableHead>
+                        <TableHead className="font-extrabold text-[#0a848e]">Frequency</TableHead>
+                        <TableHead className="font-extrabold text-[#0a848e]">Action</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {medications.map((med, index) => (
                         <TableRow key={index}>
                           <TableCell>
-                            <Input defaultValue={med.name} />
+                            <Input defaultValue={med.name} onChange={(e) => {
+                                                                              const updated = [...medications];
+                                                                              updated[index].name = e.target.value;
+                                                                              setMedications(updated);
+                                                                            }} />
                           </TableCell>
                           <TableCell>
-                            <Select>
+                            <Select value={med.timing} onValueChange={(value) => {
+                                                                                   const updated = [...medications];
+                                                                                   updated[index].timing = value;
+                                                                                   setMedications(updated);
+                                                                                }}>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select" />
                               </SelectTrigger>
@@ -77,13 +99,25 @@ export default function Medicines({ medications }: { medications: Medicine}) {
                             </Select>
                           </TableCell>
                           <TableCell>
-                            <Input defaultValue={med.dosage} />
+                            <Input defaultValue={med.dosage} onChange={(e) => {
+                                                                                            const updated = [...medications];
+                                                                                            updated[index].dosage = e.target.value;
+                                                                                            setMedications(updated);
+                                                                                  }} />
                           </TableCell>
                           <TableCell>
-                            <Input placeholder="" />
+                            <Input defaultValue={med.duration} placeholder="Duration" onChange={(e) => {
+                                                                                            const updated = [...medications];
+                                                                                            updated[index].duration = e.target.value;
+                                                                                            setMedications(updated);
+                                                                                        }} />
                           </TableCell>
                           <TableCell>
-                            <Select>
+                            <Select value={med.frequency} onValueChange={(value) => {
+                                                                                        const updated = [...medications];
+                                                                                        updated[index].frequency = value;
+                                                                                        setMedications(updated);
+                                                                                    }}>
                               <SelectTrigger>
                                 <SelectValue placeholder={med.frequency || "Select"} />
                               </SelectTrigger>
@@ -101,17 +135,17 @@ export default function Medicines({ medications }: { medications: Medicine}) {
                                     <SelectItem value="every 8 hours">every 8 hours</SelectItem>
                                     <SelectItem value="every 12 hours">every 12 hours</SelectItem>
                                     <SelectItem value="as needed">as needed</SelectItem>
-                                    <SelectItem value="immediately (stat)">immediately (start)</SelectItem>
+                                    <SelectItem value="immediately (start)">immediately (start)</SelectItem>
                               </SelectContent>
                             </Select>
                           </TableCell>
                           <TableCell>
                             {index === 0 ? (
-                              <Button variant="ghost" size="icon">
+                              <Button variant="ghost" size="icon" onClick={() => add(setMedications)}>
                                 <CirclePlus className="h-4 w-4" />
                               </Button>
                             ) : (
-                              <Button variant="ghost" size="icon">
+                              <Button variant="ghost" size="icon" onClick={() => removeRow(index, setMedications)}>
                                 <CircleMinus className="h-4 w-4" />
                               </Button>
                             )}

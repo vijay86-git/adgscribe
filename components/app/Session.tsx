@@ -478,6 +478,15 @@ export default function Session() {
     "isFinal": true
 }`
 ];
+
+const medications = [
+        { name: "amlodipine", timing: "", dosage: "10mg", duration: "", frequency: "once daily" },
+        { name: "aspirin", timing: "", dosage: "81mg", duration: "", frequency: "once daily" },
+        { name: "statin", timing: "", dosage: "", duration: "", frequency: "" },
+        { name: "gastroprotective medicine", timing: "", dosage: "", duration: "", frequency: "" },
+      ];
+
+      setMedications(medications);
         sampleLines.forEach((line, i) =>
             setTimeout(() => handleLine(line), i * 1000)
         );
@@ -513,6 +522,8 @@ export default function Session() {
     // };
 
     const saveSession = async() => {
+
+        console.log(medications);
 
         if (user.uuid === '') {
             setOpen(true);
@@ -858,7 +869,7 @@ export default function Session() {
                             : null}
 
 
-                        { medications.length > 0 ? <Medicines medications={medications} />: null }
+                        { medications.length > 0 ? <Medicines medications={medications} setMedications={setMedications} />: null }
 
                         <div className={`recArea mt-5 ${segments2.length || segments.length ? "" : "hissdden"}`}>
 
@@ -983,11 +994,11 @@ export default function Session() {
                                             </TabsList>
                                             <TabsContent value="cnotes">
                                                 {/*<p className="p-2">{notes}</p>*/}
-                                                <Textarea className="p-2" onChange={(e) => setNotes(e.target.value)}>{notes}</Textarea>
+                                                <Textarea defaultValue={notes} className="p-2" onChange={(e) => setNotes(e.target.value)} />
                                             </TabsContent>
                                             <TabsContent value="summary">
                                                 {/*<p className="p-2">{patientSummary}</p>*/}
-                                                <Textarea className="p-2" onChange={(e) => setPatiensSummary(e.target.value)}>{patientSummary}</Textarea>
+                                                <Textarea defaultValue={patientSummary} className="p-2" onChange={(e) => setPatiensSummary(e.target.value)} />
                                             </TabsContent>
                                         </Tabs>
 
